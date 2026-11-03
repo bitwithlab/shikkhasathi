@@ -19,7 +19,7 @@ App/mobile/
 └── src/
     ├── core/                # designsystem · network (Ktor) · model (DTOs) · datastore · i18n · common
     ├── shared/              # navigation · di (Koin) · ui (App root)
-    └── features/            # auth · home · profile · placeholder (screens not built yet)
+    └── features/            # auth · home · classroom · notifications · profile · placeholder
 ```
 
 Inside each of `src/core`, `src/shared`, `src/features`:

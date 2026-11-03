@@ -3,7 +3,9 @@ package com.shikkhasathi.shared.navigation.ui
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.composables.icons.lucide.Bell
 import com.composables.icons.lucide.BookOpen
+import com.composables.icons.lucide.CalendarDays
 import com.composables.icons.lucide.ClipboardCheck
+import com.composables.icons.lucide.ClipboardList
 import com.composables.icons.lucide.House
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MessageSquarePlus
@@ -35,6 +37,8 @@ val DrawerDestination.icon: ImageVector
             DrawerDestination.MockTests -> Lucide.ClipboardCheck
             DrawerDestination.Notes -> Lucide.NotebookPen
             DrawerDestination.Requests -> Lucide.MessageSquarePlus
+            DrawerDestination.Assignments -> Lucide.ClipboardList
+            DrawerDestination.Calendar -> Lucide.CalendarDays
             DrawerDestination.Notifications -> Lucide.Bell
             DrawerDestination.Settings -> Lucide.Settings
             DrawerDestination.TeacherStudio -> Lucide.Presentation

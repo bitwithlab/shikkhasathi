@@ -24,6 +24,7 @@ import kotlin.time.Instant
  * Every method throws `ApiException` on failure (CLASSROOM_REAUTH, CLASSROOM_WORKSPACE_BLOCKED, CLASSROOM_QUOTA,
  * RATE_LIMITED with `details.retryAfterSec`, NETWORK …).
  */
+@Suppress("TooManyFunctions") // one method per endpoint of contracts.classroom
 interface ClassroomRepository {
     suspend fun status(): ClassroomStatus
 
@@ -75,6 +76,7 @@ interface ClassroomRepository {
     }
 }
 
+@Suppress("TooManyFunctions")
 class ApiClassroomRepository(private val api: ApiClient) : ClassroomRepository {
     override suspend fun status(): ClassroomStatus = api.get("classroom/status")
 

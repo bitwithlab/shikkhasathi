@@ -51,6 +51,7 @@ import kotlinx.serialization.json.Json
  * Refresh is implemented here instead of Ktor's `Auth` plugin so the behaviour is explicit and testable
  * (Ktor only refreshes after a `WWW-Authenticate` challenge and caches tokens across logout).
  */
+@Suppress("TooManyFunctions") // one small inline helper per HTTP verb
 class ApiClient(
     engine: HttpClientEngine,
     private val config: ApiConfig,

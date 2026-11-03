@@ -61,3 +61,10 @@ Spec §5 says "index courses × targets". → One document per course with `inst
 
 ### ADR-018 · 2026-11-03 · Duplicate course request = upvote
 Spec §6.11 "duplicate detection by (institution, subject master, exam type)". → `course_requests.dedupe_key` is unique; creating a duplicate returns the existing request (`duplicate: true`) and records the user's vote.
+
+### ADR-019 · 2026-11-03 · Mobile dashboard & Classroom details
+- `kotlinx-datetime` for Asia/Dhaka day bucketing on device. Calendar weeks start on Sunday so the Fri–Sat weekend sits together.
+- Assignments are fetched once (`status=all`) and filtered on device (instant, works offline).
+- Dashboard offline cache is a JSON file (`DashboardCache`) until Room KMP can be resolved on an SDK machine.
+- Feed / notification mark-read is optimistic with rollback.
+- Android Classroom connect: Identity `AuthorizationClient` + `requestOfflineAccess(serverClientId)` → server auth code → `POST /classroom/connect`; server client id via the `ss.googleServerClientId` Gradle property.

@@ -113,6 +113,8 @@ kotlin {
                     implementation(libs.ktor.client.okhttp)
                     // AuthorizationClient for the Classroom server auth code (GoogleAuthorization.android.kt).
                     implementation(libs.play.services.auth)
+                    // ActivityResultLauncher for the consent screen (GoogleAuthorizationBridge).
+                    implementation(libs.androidx.activity.compose)
                 }
             }
         }

@@ -122,7 +122,6 @@ enum class Str(val key: String, val bn: String, val en: String) {
     TimeMinutesAgo("time.minutesAgo", "{{n}} মিনিট আগে", "{{n}} min ago"),
     TimeHoursAgo("time.hoursAgo", "{{n}} ঘণ্টা আগে", "{{n}} h ago"),
     TimeDaysAgo("time.daysAgo", "{{n}} দিন আগে", "{{n}} days ago"),
-    TimeMonthYear("time.monthYear", "{{month}} {{year}}", "{{month}} {{year}}"),
     DueTodayAt("due.todayAt", "আজ {{time}}", "Today {{time}}"),
     DueTomorrowAt("due.tomorrowAt", "আগামীকাল {{time}}", "Tomorrow {{time}}"),
     DueYesterdayAt("due.yesterdayAt", "গতকাল {{time}}", "Yesterday {{time}}"),
@@ -151,6 +150,7 @@ enum class Str(val key: String, val bn: String, val en: String) {
         "Google এখন একটু অপেক্ষা করতে বলছে। শেষ সিঙ্ক: {{when}} — কিছুক্ষণ পর নিজে থেকেই আবার সিঙ্ক হবে।",
         "Google asked us to wait a little. Last synced {{when}} — we’ll sync again on our own shortly."
     ),
+    GcQuotaTitle("gc.quotaTitle", "Google একটু বিরতি চাইছে", "Google needs a short break"),
     GcConnectBody(
         "gc.connectBody",
         "সব অ্যাসাইনমেন্ট আর নোটিশ এক জায়গায় — ডেডলাইনের আগে রিমাইন্ডারও পাবেন।",
@@ -180,8 +180,16 @@ enum class Str(val key: String, val bn: String, val en: String) {
         "Ask your department’s IT office to allow the ShikkhaSathi (shikkhasathi.com) app. Or, if you joined Classroom with a personal Gmail, connect that account."
     ),
     GcConnectError("gc.connectError", "সংযোগ হয়নি। একটু পরে আবার চেষ্টা করুন।", "Couldn’t connect. Please try again in a moment."),
-    GcConnectedToast("gc.connectedToast", "Google Classroom সংযুক্ত হয়েছে — ক্লাসগুলো সিঙ্ক হচ্ছে", "Google Classroom connected — syncing your classes"),
-    GcDeniedToast("gc.deniedToast", "সংযোগ বাতিল করা হয়েছে। যখন খুশি আবার চেষ্টা করতে পারবেন।", "Connection cancelled. You can try again any time."),
+    GcConnectedToast(
+        "gc.connectedToast",
+        "Google Classroom সংযুক্ত হয়েছে — ক্লাসগুলো সিঙ্ক হচ্ছে",
+        "Google Classroom connected — syncing your classes"
+    ),
+    GcDeniedToast(
+        "gc.deniedToast",
+        "সংযোগ বাতিল করা হয়েছে। যখন খুশি আবার চেষ্টা করতে পারবেন।",
+        "Connection cancelled. You can try again any time."
+    ),
     GcConnectUnavailable(
         "gc.connectUnavailable",
         "এই ডিভাইসে Google সংযোগ চালু করা যায়নি। Google Play সার্ভিস আপডেট করে আবার চেষ্টা করুন।",
@@ -216,7 +224,11 @@ enum class Str(val key: String, val bn: String, val en: String) {
     HomeFeed("home.feed", "নতুন আপডেট", "New from your classes"),
     HomeNewCount("home.newCount", "{{n}}টি নতুন", "{{n}} new"),
     HomeMarkAllRead("home.markAllRead", "সব পড়া হয়েছে", "Mark all read"),
-    HomeFeedEmpty("home.feedEmpty", "এখনো কোনো আপডেট নেই। শিক্ষক কিছু পোস্ট করলে এখানে দেখাবে।", "No updates yet. Posts from your teachers will show up here."),
+    HomeFeedEmpty(
+        "home.feedEmpty",
+        "এখনো কোনো আপডেট নেই। শিক্ষক কিছু পোস্ট করলে এখানে দেখাবে।",
+        "No updates yet. Posts from your teachers will show up here."
+    ),
     HomeAllDone("home.allDone", "সামনে কোনো অ্যাসাইনমেন্ট জমা বাকি নেই", "Nothing due coming up"),
     HomeAllDoneBody("home.allDoneBody", "দারুণ! নতুন কিছু এলে এখানেই দেখাবে।", "Nice! New work will show up right here."),
     HomeWidgetError("home.widgetError", "এই অংশটি লোড হয়নি", "This section didn’t load"),
@@ -282,8 +294,12 @@ enum class Str(val key: String, val bn: String, val en: String) {
     CalendarPrevMonth("calendar.prevMonth", "আগের মাস", "Previous month"),
     CalendarNextMonth("calendar.nextMonth", "পরের মাস", "Next month"),
     CalendarDayEmpty("calendar.dayEmpty", "এই দিনে কোনো ডেডলাইন বা পরীক্ষা নেই", "No deadlines or exams on this day"),
-    CalendarDayEmptyBody("calendar.dayEmptyBody", "অন্য দিনে ট্যাপ করুন, বা পুরো তালিকা দেখতে অ্যাসাইনমেন্টে যান।", "Tap another day, or open Assignments for the full list."),
-    CalendarDayA11y("calendar.dayA11y", "{{date}}: {{summary}}", "{{date}}: {{summary}}"),
+    CalendarDayEmptyBody(
+        "calendar.dayEmptyBody",
+        "অন্য দিনে ট্যাপ করুন, বা পুরো তালিকা দেখতে অ্যাসাইনমেন্টে যান।",
+        "Tap another day, or open Assignments for the full list."
+    ),
+    CalendarDayA11y("calendar.dayLabel", "{{date}}: {{summary}}", "{{date}}: {{summary}}"),
     NotificationsUnreadOnly("notifications.unreadOnly", "শুধু অপঠিত", "Unread only"),
 
     // --- status chips ---

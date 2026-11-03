@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions") // HomeViewModel + the pure DTO → UI mappers of its seven widgets
+
 package com.shikkhasathi.features.home.presentation
 
 import com.shikkhasathi.core.common.SsViewModel
@@ -122,6 +124,7 @@ data class HomeUiState(
     val loading: Boolean get() = dueSoon == Widget.Loading && week == Widget.Loading && error == null
 }
 
+@Suppress("TooManyFunctions")
 class HomeViewModel(
     private val dashboard: DashboardRepository,
     private val classroom: ClassroomRepository,
@@ -236,7 +239,12 @@ class HomeViewModel(
         }
 
     private fun syncFailureText(error: ApiError): UiText {
-        val lastSync = last?.header?.classroom?.lastSyncAt.toInstantOrNull()
+        val lastSync =
+            last
+                ?.header
+                ?.classroom
+                ?.lastSyncAt
+                .toInstantOrNull()
         return when (error.code) {
             ApiError.RATE_LIMITED -> Str.GcSyncRateLimited.asUiText()
             ApiError.CLASSROOM_QUOTA -> quotaText(lastSync, clock.now())

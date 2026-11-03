@@ -9,6 +9,8 @@ plugins {
 
 val apiBaseUrl = providers.gradleProperty("ss.apiBaseUrl").get()
 val apiBaseUrlDebug = providers.gradleProperty("ss.apiBaseUrlDebug").get()
+// Server (Web application) OAuth client id the Classroom auth code is minted for. Empty = connect shows "unavailable".
+val googleServerClientId = providers.gradleProperty("ss.googleServerClientId").getOrElse("")
 
 android {
     namespace = "com.shikkhasathi.app"
@@ -22,6 +24,7 @@ android {
         versionName = "0.1.0"
         // Bangla first, English second; drop every other locale from dependencies' resources.
         resourceConfigurations += listOf("bn", "en")
+        buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID", "\"$googleServerClientId\"")
     }
 
     buildTypes {

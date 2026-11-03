@@ -8,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.composables.icons.lucide.Bell
 import com.composables.icons.lucide.BookOpen
 import com.composables.icons.lucide.CalendarClock
 import com.composables.icons.lucide.ClipboardCheck
@@ -16,7 +15,6 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MessageSquarePlus
 import com.composables.icons.lucide.NotebookPen
 import com.composables.icons.lucide.Presentation
-import com.composables.icons.lucide.School
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.Settings
 import com.shikkhasathi.core.designsystem.SsSpace
@@ -30,9 +28,6 @@ import com.shikkhasathi.shared.ui.ScreenHeader
  * and a specific Bangla empty state — replaced feature by feature (docs/PROGRESS.md).
  */
 object PlaceholderScreens {
-    @Composable
-    fun Classroom() = Placeholder(Str.NavClassroom, Lucide.School, Str.ClassroomEmptyTitle, Str.ClassroomEmptyBody)
-
     @Composable
     fun MyCourses(onExplore: () -> Unit) =
         Placeholder(Str.NavCourses, Lucide.BookOpen, Str.CoursesEmptyTitle, Str.CoursesEmptyBody, action = Str.NavExplore to onExplore)
@@ -53,10 +48,6 @@ object PlaceholderScreens {
     @Composable
     fun Requests(onBack: () -> Unit) =
         Placeholder(Str.NavRequests, Lucide.MessageSquarePlus, Str.RequestsEmptyTitle, Str.RequestsEmptyBody, onBack)
-
-    @Composable
-    fun Notifications(onBack: () -> Unit) =
-        Placeholder(Str.NavNotifications, Lucide.Bell, Str.NotificationsEmptyTitle, Str.NotificationsEmptyBody, onBack)
 
     @Composable
     fun Settings(onBack: () -> Unit) = Placeholder(Str.NavSettings, Lucide.Settings, Str.SettingsEmptyTitle, Str.SettingsEmptyBody, onBack)

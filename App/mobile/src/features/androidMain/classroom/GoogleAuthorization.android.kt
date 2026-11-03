@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.identity.AuthorizationClient
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
 import com.google.android.gms.auth.api.identity.AuthorizationResult
 import com.google.android.gms.auth.api.identity.Identity
@@ -60,8 +61,9 @@ class AndroidGoogleAuthorization(
     private val config: GoogleClientConfig,
 ) : GoogleAuthorization {
     override suspend fun authorize(): GoogleAuthorizationResult {
-        val clientId = config.serverClientId?.takeIf { it.isNotBlank() } ?: return GoogleAuthorizationResult.Unavailable
-        val activity = bridge.current ?: return GoogleAuthorizationResult.Unavailable
+        val clientId = config.serverClientId?.takeIf { it.isNotBlank() }
+        val activity = bridge.current
+        if (clientId == null || activity == null) return GoogleAuthorizationResult.Unavailable
         val client = Identity.getAuthorizationClient(activity)
         val request =
             AuthorizationRequest
@@ -70,14 +72,15 @@ class AndroidGoogleAuthorization(
                 .requestOfflineAccess(clientId, true)
                 .build()
         return try {
-            var result: AuthorizationResult = client.authorize(request).awaitResult()
-            if (result.hasResolution()) {
-                val intentSender = result.pendingIntent?.intentSender ?: return GoogleAuthorizationResult.Failed("no pending intent")
-                val data = bridge.launch(IntentSenderRequest.Builder(intentSender).build()) ?: return GoogleAuthorizationResult.Cancelled
-                result = client.getAuthorizationResultFromIntent(data)
+            val first = client.authorize(request).awaitResult()
+            // Already granted → the result carries the code; otherwise show Google's consent screen first.
+            val final = if (first.hasResolution()) resolve(client, first) else first
+            val code = final?.serverAuthCode
+            when {
+                final == null -> GoogleAuthorizationResult.Cancelled
+                code != null -> GoogleAuthorizationResult.Success(code)
+                else -> GoogleAuthorizationResult.Failed("no server auth code")
             }
-            result.serverAuthCode?.let { GoogleAuthorizationResult.Success(it) }
-                ?: GoogleAuthorizationResult.Failed("no server auth code")
         } catch (e: ApiException) {
             if (e.statusCode == CommonStatusCodes.CANCELED) {
                 GoogleAuthorizationResult.Cancelled
@@ -85,6 +88,16 @@ class AndroidGoogleAuthorization(
                 GoogleAuthorizationResult.Failed("gms ${e.statusCode}")
             }
         }
+    }
+
+    /** Launches the consent screen; null when the student backs out. */
+    private suspend fun resolve(
+        client: AuthorizationClient,
+        pendingResult: AuthorizationResult,
+    ): AuthorizationResult? {
+        val sender = pendingResult.pendingIntent?.intentSender ?: return null
+        val data = bridge.launch(IntentSenderRequest.Builder(sender).build()) ?: return null
+        return client.getAuthorizationResultFromIntent(data)
     }
 }
 

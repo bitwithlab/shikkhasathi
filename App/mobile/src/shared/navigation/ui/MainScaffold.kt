@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -32,15 +33,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.shikkhasathi.core.designsystem.SsShape
 import com.shikkhasathi.core.designsystem.SsSpace
 import com.shikkhasathi.core.designsystem.SsTheme
 import com.shikkhasathi.core.designsystem.t
 import com.shikkhasathi.core.i18n.Str
 import com.shikkhasathi.core.model.Me
+import com.shikkhasathi.features.classroom.ui.AssignmentsScreen
+import com.shikkhasathi.features.classroom.ui.CalendarScreen
+import com.shikkhasathi.features.classroom.ui.ClassStreamScreen
+import com.shikkhasathi.features.classroom.ui.ClassroomScreen
+import com.shikkhasathi.features.home.ui.HomeNavigation
 import com.shikkhasathi.features.home.ui.HomeScreen
+import com.shikkhasathi.features.notifications.ui.NotificationsScreen
 import com.shikkhasathi.features.placeholder.ui.PlaceholderScreens
 import com.shikkhasathi.features.profile.ui.ProfileScreen
+import com.shikkhasathi.shared.navigation.AssignmentsRoute
+import com.shikkhasathi.shared.navigation.CalendarRoute
+import com.shikkhasathi.shared.navigation.ClassStreamRoute
 import com.shikkhasathi.shared.navigation.ClassroomRoute
 import com.shikkhasathi.shared.navigation.DrawerDestination
 import com.shikkhasathi.shared.navigation.ExamModeRoute
@@ -56,6 +67,8 @@ import com.shikkhasathi.shared.navigation.SettingsRoute
 import com.shikkhasathi.shared.navigation.SsRoute
 import com.shikkhasathi.shared.navigation.TeacherStudioRoute
 import com.shikkhasathi.shared.navigation.TopDestination
+import com.shikkhasathi.shared.navigation.WEB_ORIGIN
+import com.shikkhasathi.shared.navigation.routeForLink
 import kotlinx.coroutines.launch
 
 /** Signed-in shell: bottom bar হোম · ক্লাসরুম · কোর্স · Exam · প্রোফাইল + a drawer opened from the home header. */
@@ -160,16 +173,45 @@ private fun SsNavHost(
     onOpenDrawer: () -> Unit,
 ) {
     val back: () -> Unit = { nav.popBackStack() }
+    val uri = LocalUriHandler.current
+    // API links are web paths (`/classroom/assignments?id=…`): open the matching screen, else the website.
+    val openLink: (String) -> Unit = { link ->
+        val route = routeForLink(link)
+        when {
+            route == null -> runCatching { uri.openUri(if (link.startsWith("http")) link else WEB_ORIGIN + link) }
+            route in TopDestination.entries.map { it.route } -> nav.navigateTopLevel(route)
+            else -> nav.navigate(route) { launchSingleTop = true }
+        }
+    }
     NavHost(navController = nav, startDestination = HomeRoute, modifier = Modifier.padding(padding)) {
         composable<HomeRoute> {
             HomeScreen(
-                onOpenDrawer = onOpenDrawer,
-                onOpenNotifications = { nav.navigate(NotificationsRoute) },
-                onConnectClassroom = { nav.navigateTopLevel(ClassroomRoute) },
-                onExploreCourses = { nav.navigate(ExploreRoute) },
+                HomeNavigation(
+                    openDrawer = onOpenDrawer,
+                    openNotifications = { nav.navigate(NotificationsRoute) { launchSingleTop = true } },
+                    openAssignments = { nav.navigate(AssignmentsRoute()) { launchSingleTop = true } },
+                    openCalendar = { nav.navigate(CalendarRoute) { launchSingleTop = true } },
+                    openExamMode = { nav.navigateTopLevel(ExamModeRoute) },
+                    openMyCourses = { nav.navigateTopLevel(MyCoursesRoute) },
+                    exploreCourses = { nav.navigate(ExploreRoute) },
+                ),
             )
         }
-        composable<ClassroomRoute> { PlaceholderScreens.Classroom() }
+        composable<ClassroomRoute> {
+            ClassroomScreen(
+                onOpenClass = { id, name -> nav.navigate(ClassStreamRoute(courseId = id, name = name)) },
+                onOpenAssignments = { nav.navigate(AssignmentsRoute()) },
+                onOpenCalendar = { nav.navigate(CalendarRoute) },
+            )
+        }
+        composable<ClassStreamRoute> { entry ->
+            val route = entry.toRoute<ClassStreamRoute>()
+            ClassStreamScreen(courseId = route.courseId, title = route.name, onBack = back)
+        }
+        composable<AssignmentsRoute> { entry ->
+            AssignmentsScreen(courseId = entry.toRoute<AssignmentsRoute>().courseId, onBack = back)
+        }
+        composable<CalendarRoute> { CalendarScreen(onBack = back, onOpenLink = openLink) }
         composable<MyCoursesRoute> { PlaceholderScreens.MyCourses(onExplore = { nav.navigate(ExploreRoute) }) }
         composable<ExamModeRoute> { PlaceholderScreens.ExamMode() }
         composable<ProfileRoute> { ProfileScreen(user = user) }
@@ -177,7 +219,7 @@ private fun SsNavHost(
         composable<MockTestsRoute> { PlaceholderScreens.MockTests(onBack = back) }
         composable<NotesRoute> { PlaceholderScreens.Notes(onBack = back) }
         composable<RequestsRoute> { PlaceholderScreens.Requests(onBack = back) }
-        composable<NotificationsRoute> { PlaceholderScreens.Notifications(onBack = back) }
+        composable<NotificationsRoute> { NotificationsScreen(onBack = back, onOpenLink = openLink) }
         composable<SettingsRoute> { PlaceholderScreens.Settings(onBack = back) }
         composable<TeacherStudioRoute> { PlaceholderScreens.TeacherStudio(onBack = back) }
     }
