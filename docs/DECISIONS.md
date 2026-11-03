@@ -68,3 +68,13 @@ Spec §6.11 "duplicate detection by (institution, subject master, exam type)". �
 - Dashboard offline cache is a JSON file (`DashboardCache`) until Room KMP can be resolved on an SDK machine.
 - Feed / notification mark-read is optimistic with rollback.
 - Android Classroom connect: Identity `AuthorizationClient` + `requestOfflineAccess(serverClientId)` → server auth code → `POST /classroom/connect`; server client id via the `ss.googleServerClientId` Gradle property.
+
+### ADR-020 · 2026-11-03 · Payments: Fake gateway, server pricing, fulfilment outbox
+- Gateway adapter (`services/payments`): SSLCommerz (bKash/Nagad/Rocket/card), bKash tokenized, Fake. With no gateway configured outside production, checkout uses the Fake gateway: a dev-only hosted page signs each outcome with an HMAC.
+- The client sends only the course/bundle, an optional coupon and an idempotency key. The server prices the order.
+- The payment row with unique (gateway, trx id) is the idempotency key. Callbacks, IPN and reconcile all call one `applyValidation`, and the paid amount must match.
+- Cross-DB fulfilment (CORE enrollments/ledger/invoice + CONTENT counters) runs in the idempotent `payments.fulfil` job. `orders.fulfilled_at` is the outbox marker, and the hourly reconcile re-enqueues paid-but-unfulfilled orders.
+- Invoice PDFs print amounts as "BDT x.xx", because the ৳ glyph isn't in the bundled Latin font. Bangla and Latin text runs are drawn with Hind Siliguri and Inter respectively.
+
+### ADR-021 · 2026-11-03 · PATCH schemas strip defaults (`patchOf`)
+zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field silently reset the others. All update contracts now use `patchOf(schema)`, which unwraps defaults and makes every field optional. A shared test covers it.

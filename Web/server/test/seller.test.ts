@@ -73,6 +73,14 @@ describe('seller application & verification', () => {
     const r = await app.inject({ method: 'POST', url: '/api/v1/seller/verify-email/confirm', headers: auth, payload: { email: 'rakib@metrouni.edu.bd', code } });
     expect(j(r).universityEmailVerified).toBe(true);
   });
+  it('partial PATCH (pricing only) keeps basics — no default injection', async () => {
+    const { app, auth } = await asSeller(true);
+    const c = j(await app.inject({ method: 'POST', url: '/api/v1/seller/courses', headers: auth, payload: { title: 'Operating Systems — Final Prep' } }));
+    await app.inject({ method: 'PATCH', url: `/api/v1/seller/courses/${c.id}`, headers: auth, payload: { shortDescription: 'Process, thread, deadlock — সম্ভাব্য গুরুত্বপূর্ণ টপিক।', learnings: ['Scheduling'], examType: 'final', language: 'mixed' } });
+    const r = j(await app.inject({ method: 'PATCH', url: `/api/v1/seller/courses/${c.id}`, headers: auth, payload: { price: 19900 } }));
+    expect(r).toMatchObject({ price: 19900, shortDescription: 'Process, thread, deadlock — সম্ভাব্য গুরুত্বপূর্ণ টপিক।', learnings: ['Scheduling'], examType: 'final', language: 'mixed' });
+  });
+
   it('non-sellers cannot use Teacher Studio; students cannot see the admin queue', async () => {
     const app = await getApp();
     const s = await createUser();

@@ -38,7 +38,7 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done (real API + seed,
 | Notifications center | `/notifications` | `NotificationsScreen` | 3 | ⬜ |
 | Subjects list / detail (#6) | `/subjects`, `/s/:slug` | `SubjectsScreen` | 5 | ⬜ |
 | Course request board (#14) | `/requests` | `RequestsScreen` | 5 | ⬜ |
-| Checkout + processing/success/failure (#8) | `/checkout/:courseId`, `/checkout/result` | `CheckoutScreen` | 6 | ⬜ |
+| Checkout + processing/success/failure (#8) | `/checkout/:courseId`, `/checkout/result` | `CheckoutScreen` | 6 | ✅ web |
 | Course player (#10) | `/learn/:courseId/:lessonId` | `PlayerScreen` | 7 | ⬜ |
 | My Courses (#9) | `/my-courses` | `MyCoursesScreen` | 7 | ⬜ |
 | Notes & bookmarks | `/notes` | `NotesScreen` | 7 | ⬜ |

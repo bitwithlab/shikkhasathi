@@ -3,7 +3,7 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 7 — Learning (Phases 0–6 are done; the Teacher Studio web UI from Phase 4 is still being finished by a sub-agent in `Web/client/src/features/seller/**`)
+- **Current phase:** 7 — Learning (Phases 0–6 are done)
 - **Next step:** Phase 7 server first: `modules/learning` covering playback (signed URL from the video adapter, enrolled only, device limit, watermark data), `lesson_progress` heartbeat + completion, My Courses (with progress), Q&A, reviews (enrolled only, one per course, rating aggregates), notes/bookmarks. Then web `/learn/:courseId/:lessonId` (hls.js player shell), `/my-courses`, `/notes`. Then wire `continueLearning` into the dashboard provider.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
@@ -48,7 +48,7 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 ### Phase 3 — Home dashboard + Google Classroom ✅
 - [x] OAuth connect/disconnect, full/incremental sync, Pub/Sub + renewal, reminders, notifications center + push, `/home`, `/classroom/*`, calendar, notifications (web + mobile), fake Classroom seed, `docs/CLASSROOM_INTEGRATION.md`
 
-### Phase 4 — Teacher Studio ✅ (server) · web UI finishing
+### Phase 4 — Teacher Studio ✅
 - [x] seller verification, 5-step wizard + live preview, targets, curriculum builder, uploads, Draft→Review→Published
 
 ### Phase 5 — Discovery ✅
@@ -90,3 +90,4 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Phase 1: workspace, shared, server foundation (55 tests green: server 30, client 21, shared 4), client shells/auth/admin integrations, infra, CI, docs. User asked to commit directly on `main` — all work now goes to `main`.
 - **2026-11-03** — Phases 3–5 done: Classroom (connect, sync, push, reminders, notifications), `/home` dashboard, `/classroom/*`; Teacher Studio server (verification, wizard API, curriculum, uploads, review queue); discovery (search + ranking, autocomplete, browse pages, course details, storefront, requests).
 - **2026-11-03** — Phase 6 done: checkout server + web (see checklist). Server 85 tests, client 63 tests green. Landing initial is 146.6 KB gzip after splitting landing i18n out. Next: Phase 7.
+- **2026-11-03** — Teacher Studio web UI done: apply/verification, dashboard, courses list, 5-step wizard with autosave + live preview, curriculum drag & drop, TUS/PDF uploads, storefront. Fixed zod-4 `.partial()` default injection with `patchOf()` (ADR-021). Seller follow-ups: `reviewNote` in the course list, a documents-delete endpoint → Phase 10.

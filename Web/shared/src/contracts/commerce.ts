@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CursorQuery, IdParams, endpoint, page } from './common';
+import { CursorQuery, IdParams, endpoint, page, patchOf } from './common';
 import { COUPON_SCOPES, COUPON_TYPES, LEDGER_TYPES, ORDER_STATUSES, PAYMENT_METHODS, REFUND_STATUSES } from '../types';
 
 export const OrderItem = z.object({ id: z.uuid(), courseId: z.uuid().nullable(), bundleId: z.uuid().nullable(), title: z.string(), price: z.number().int(), discount: z.number().int(), coverColor: z.string().nullable(), slug: z.string().nullable() });
@@ -68,7 +68,7 @@ export const Balance = z.object({ available: z.number().int(), held: z.number().
 export const sellerMoney = {
   coupons: endpoint({ method: 'GET', path: '/seller/coupons', summary: 'My coupons', tag: 'seller', auth: 'seller', response: z.object({ items: z.array(Coupon) }) }),
   createCoupon: endpoint({ method: 'POST', path: '/seller/coupons', summary: 'Create coupon (seller- or course-scoped)', tag: 'seller', auth: 'verified_seller', body: CouponUpsert, response: Coupon, status: 201 }),
-  updateCoupon: endpoint({ method: 'PATCH', path: '/seller/coupons/:id', summary: 'Update / deactivate coupon', tag: 'seller', auth: 'seller', params: IdParams, body: CouponUpsert.partial(), response: Coupon }),
+  updateCoupon: endpoint({ method: 'PATCH', path: '/seller/coupons/:id', summary: 'Update / deactivate coupon', tag: 'seller', auth: 'seller', params: IdParams, body: patchOf(CouponUpsert), response: Coupon }),
   ledger: endpoint({ method: 'GET', path: '/seller/ledger', summary: 'Earnings ledger + balance', tag: 'seller', auth: 'seller', query: CursorQuery, response: page(LedgerEntry).extend({ balance: Balance }) }),
   createBundle: endpoint({ method: 'POST', path: '/seller/bundles', summary: 'Bundle own published courses', tag: 'seller', auth: 'verified_seller', body: z.object({ title: z.string().trim().min(5).max(160), description: z.string().max(1000).optional(), courseIds: z.array(z.uuid()).min(2).max(10), price: z.number().int().min(0) }), response: z.object({ id: z.uuid(), slug: z.string() }), status: 201 }),
 };

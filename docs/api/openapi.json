@@ -6365,7 +6365,6 @@
                     "format": "uri"
                   },
                   "aliases": {
-                    "default": [],
                     "maxItems": 20,
                     "type": "array",
                     "items": {
@@ -7527,7 +7526,6 @@
                     "pattern": "^[a-z0-9-]+$"
                   },
                   "aliases": {
-                    "default": [],
                     "maxItems": 30,
                     "type": "array",
                     "items": {
@@ -7537,7 +7535,6 @@
                     }
                   },
                   "category": {
-                    "default": "general",
                     "type": "string",
                     "maxLength": 40
                   },
@@ -14357,17 +14354,14 @@
                     "maxLength": 160
                   },
                   "shortDescription": {
-                    "default": "",
                     "type": "string",
                     "maxLength": 300
                   },
                   "description": {
-                    "default": "",
                     "type": "string",
                     "maxLength": 10000
                   },
                   "learnings": {
-                    "default": [],
                     "maxItems": 15,
                     "type": "array",
                     "items": {
@@ -14377,7 +14371,6 @@
                     }
                   },
                   "notFor": {
-                    "default": [],
                     "maxItems": 10,
                     "type": "array",
                     "items": {
@@ -14387,7 +14380,6 @@
                     }
                   },
                   "faq": {
-                    "default": [],
                     "maxItems": 15,
                     "type": "array",
                     "items": {
@@ -14427,7 +14419,6 @@
                     "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                   },
                   "language": {
-                    "default": "bn",
                     "type": "string",
                     "enum": [
                       "bn",
@@ -14436,7 +14427,6 @@
                     ]
                   },
                   "examType": {
-                    "default": "midterm",
                     "type": "string",
                     "enum": [
                       "midterm",
@@ -14449,7 +14439,6 @@
                     ]
                   },
                   "courseType": {
-                    "default": "crash",
                     "type": "string",
                     "enum": [
                       "crash",
@@ -14471,7 +14460,6 @@
                     "maximum": 5000000
                   },
                   "accessType": {
-                    "default": "lifetime",
                     "type": "string",
                     "enum": [
                       "lifetime",
@@ -24752,14 +24740,12 @@
                     "maximum": 9007199254740991
                   },
                   "perUserLimit": {
-                    "default": 1,
                     "type": "integer",
                     "minimum": 0,
                     "exclusiveMinimum": true,
                     "maximum": 9007199254740991
                   },
                   "minAmount": {
-                    "default": 0,
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 9007199254740991
@@ -24777,7 +24763,6 @@
                     "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
                   },
                   "active": {
-                    "default": true,
                     "type": "boolean"
                   }
                 }

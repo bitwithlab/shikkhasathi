@@ -93,3 +93,17 @@ export const BdPhone = z
 
 export const Email = z.string().trim().toLowerCase().pipe(z.email('সঠিক ইমেইল দিন'));
 export const Password = z.string().min(8, 'পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে').max(128);
+
+/**
+ * PATCH body from an upsert schema: every field optional and **defaults removed**.
+ * (zod 4 keeps `.default()` inside `.partial()`, which would silently reset omitted fields.)
+ */
+export function patchOf<S extends z.ZodRawShape>(schema: z.ZodObject<S>) {
+  const shape: Record<string, z.ZodType> = {};
+  for (const [k, v] of Object.entries(schema.shape)) {
+    let f = v as z.ZodType;
+    while (f instanceof z.ZodDefault) f = f.unwrap() as z.ZodType;
+    shape[k] = f.optional();
+  }
+  return z.object(shape) as unknown as z.ZodObject<{ [K in keyof S]: z.ZodOptional<S[K] extends z.ZodDefault<infer I> ? I : S[K]> }>;
+}

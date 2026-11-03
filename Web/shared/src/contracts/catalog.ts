@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CursorQuery, IdParams, Ok, SlugParams, endpoint, page } from './common';
+import { CursorQuery, IdParams, Ok, SlugParams, endpoint, page, patchOf } from './common';
 import { AcademicSummary, Me } from './auth';
 import { EXAM_TYPES, INSTITUTION_STATUSES, INSTITUTION_TYPES } from '../types';
 
@@ -150,16 +150,16 @@ export const adminCatalog = {
   decideInstitutionRequest: endpoint({ method: 'PATCH', path: '/admin/institution-requests/:id', summary: 'Approve / merge / reject a request', tag: 'admin', auth: 'admin', params: IdParams, body: InstitutionRequestDecision, response: Ok }),
   institutions: endpoint({ method: 'GET', path: '/admin/catalog/institutions', summary: 'All institutions incl. pending/merged', tag: 'admin', auth: 'admin', query: z.object({ q: z.string().optional(), status: z.enum(INSTITUTION_STATUSES).optional() }), response: z.object({ items: z.array(AdminInstitution) }) }),
   createInstitution: endpoint({ method: 'POST', path: '/admin/catalog/institutions', summary: 'Create institution', tag: 'admin', auth: 'admin', body: InstitutionUpsert, response: AdminInstitution, status: 201 }),
-  updateInstitution: endpoint({ method: 'PATCH', path: '/admin/catalog/institutions/:id', summary: 'Update institution (aliases, logo, status)', tag: 'admin', auth: 'admin', params: IdParams, body: InstitutionUpsert.partial(), response: AdminInstitution }),
+  updateInstitution: endpoint({ method: 'PATCH', path: '/admin/catalog/institutions/:id', summary: 'Update institution (aliases, logo, status)', tag: 'admin', auth: 'admin', params: IdParams, body: patchOf(InstitutionUpsert), response: AdminInstitution }),
   mergeInstitution: endpoint({ method: 'POST', path: '/admin/catalog/institutions/:id/merge', summary: 'Merge duplicate into target', tag: 'admin', auth: 'admin', params: IdParams, body: z.object({ intoId: z.uuid() }), response: Ok }),
   createDepartment: endpoint({ method: 'POST', path: '/admin/catalog/departments', summary: 'Create department', tag: 'admin', auth: 'admin', body: DepartmentUpsert, response: Department, status: 201 }),
-  updateDepartment: endpoint({ method: 'PATCH', path: '/admin/catalog/departments/:id', summary: 'Update department', tag: 'admin', auth: 'admin', params: IdParams, body: DepartmentUpsert.partial(), response: Department }),
+  updateDepartment: endpoint({ method: 'PATCH', path: '/admin/catalog/departments/:id', summary: 'Update department', tag: 'admin', auth: 'admin', params: IdParams, body: patchOf(DepartmentUpsert), response: Department }),
   deleteDepartment: endpoint({ method: 'DELETE', path: '/admin/catalog/departments/:id', summary: 'Delete department', tag: 'admin', auth: 'admin', params: IdParams, response: Ok }),
   createProgram: endpoint({ method: 'POST', path: '/admin/catalog/programs', summary: 'Create program', tag: 'admin', auth: 'admin', body: ProgramUpsert, response: Program, status: 201 }),
   deleteProgram: endpoint({ method: 'DELETE', path: '/admin/catalog/programs/:id', summary: 'Delete program', tag: 'admin', auth: 'admin', params: IdParams, response: Ok }),
   subjects: endpoint({ method: 'GET', path: '/admin/catalog/subjects', summary: 'Subject master incl. proposed', tag: 'admin', auth: 'admin', query: z.object({ q: z.string().optional(), status: z.enum(['approved', 'proposed', 'rejected']).optional() }), response: z.object({ items: z.array(Subject.extend({ status: z.string() })) }) }),
   createSubject: endpoint({ method: 'POST', path: '/admin/catalog/subjects', summary: 'Create subject master', tag: 'admin', auth: 'admin', body: SubjectUpsert, response: Subject, status: 201 }),
-  updateSubject: endpoint({ method: 'PATCH', path: '/admin/catalog/subjects/:id', summary: 'Update / approve subject', tag: 'admin', auth: 'admin', params: IdParams, body: SubjectUpsert.partial().extend({ status: z.enum(['approved', 'proposed', 'rejected']).optional() }), response: Subject }),
+  updateSubject: endpoint({ method: 'PATCH', path: '/admin/catalog/subjects/:id', summary: 'Update / approve subject', tag: 'admin', auth: 'admin', params: IdParams, body: patchOf(SubjectUpsert).extend({ status: z.enum(['approved', 'proposed', 'rejected']).optional() }), response: Subject }),
   createInstitutionSubject: endpoint({ method: 'POST', path: '/admin/catalog/institution-subjects', summary: 'Map subject → institution/dept/semester/course code', tag: 'admin', auth: 'admin', body: InstitutionSubjectUpsert, response: z.object({ id: z.uuid() }), status: 201 }),
   deleteInstitutionSubject: endpoint({ method: 'DELETE', path: '/admin/catalog/institution-subjects/:id', summary: 'Remove mapping', tag: 'admin', auth: 'admin', params: IdParams, response: Ok }),
 };

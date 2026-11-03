@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CursorQuery, Email, IdParams, Ok, endpoint, page } from './common';
+import { CursorQuery, Email, IdParams, Ok, endpoint, page, patchOf } from './common';
 import { ACCESS_TYPES, COURSE_STATUSES, COURSE_TYPES, DOCUMENT_KINDS, EXAM_TYPES, LESSON_TYPES, PAYOUT_METHODS, SELLER_VERIFICATION_METHODS, SELLER_VERIFICATION_STATUSES } from '../types';
 
 // ---------------------------------------------------------------- application & verification
@@ -170,7 +170,7 @@ export const sellerCourses = {
   list: endpoint({ method: 'GET', path: '/seller/courses', summary: 'My courses', tag: 'seller', auth: 'seller', response: z.object({ items: z.array(SellerCourseListItem) }) }),
   create: endpoint({ method: 'POST', path: '/seller/courses', summary: 'Create a draft', tag: 'seller', auth: 'seller', body: z.object({ title: z.string().trim().min(5).max(160) }), response: SellerCourse, status: 201 }),
   get: endpoint({ method: 'GET', path: '/seller/courses/:id', summary: 'Editable course (basics, targets, curriculum, pricing)', tag: 'seller', auth: 'seller', params: IdParams, response: SellerCourse }),
-  update: endpoint({ method: 'PATCH', path: '/seller/courses/:id', summary: 'Autosave basics / pricing', tag: 'seller', auth: 'seller', params: IdParams, body: CourseBasics.partial().extend(CoursePricing.partial().shape), response: SellerCourse }),
+  update: endpoint({ method: 'PATCH', path: '/seller/courses/:id', summary: 'Autosave basics / pricing', tag: 'seller', auth: 'seller', params: IdParams, body: patchOf(CourseBasics).extend(patchOf(CoursePricing).shape), response: SellerCourse }),
   targets: endpoint({ method: 'PUT', path: '/seller/courses/:id/targets', summary: 'Replace targets', tag: 'seller', auth: 'seller', params: IdParams, body: z.object({ targets: z.array(TargetInput).min(1).max(20) }), response: SellerCourse }),
   curriculum: endpoint({ method: 'PUT', path: '/seller/courses/:id/curriculum', summary: 'Replace section → chapter → lesson tree (keeps ids)', tag: 'seller', auth: 'seller', params: IdParams, body: CurriculumBody, response: SellerCourse }),
   checklist: endpoint({ method: 'GET', path: '/seller/courses/:id/checklist', summary: 'Validation before submit', tag: 'seller', auth: 'seller', params: IdParams, response: z.object({ items: z.array(ChecklistItem), canSubmit: z.boolean() }) }),
