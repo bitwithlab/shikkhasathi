@@ -17,6 +17,7 @@ import { videoProvider } from '../../services/video';
 import { notify } from '../notifications/notifications.service';
 import { getBusinessNumber } from '../settings/settings.service';
 import { lookupAcademicNames } from '../catalog/catalog.lookup';
+import { onCoursePublished } from '../requests/requests.service';
 
 type SP = typeof sellerProfiles.$inferSelect;
 type CourseRow = typeof courses.$inferSelect;
@@ -614,6 +615,7 @@ export async function adminDecide(actorId: string, id: string, d: { decision: 'p
     }
     await contentDb.update(courses).set({ status: 'published', publishedAt: c.publishedAt ?? new Date(), reviewNote: d.note ?? null, needsSpotReview: false, sellerVerified: p?.verificationStatus === 'verified', sellerName: p?.displayName ?? c.sellerName }).where(eq(courses.id, id));
     await enqueue('search.indexCourse', { courseId: id });
+    await onCoursePublished(id);
   } else if (isRevision) {
     await contentDb.update(courseRevisions).set({ status: 'rejected', reviewerId: actorId, notes: d.note ?? null }).where(eq(courseRevisions.id, rev!.id));
     await contentDb.update(courses).set({ reviewNote: d.note ?? null }).where(eq(courses.id, id));

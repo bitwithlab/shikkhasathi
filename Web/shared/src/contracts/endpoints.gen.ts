@@ -482,5 +482,76 @@ export const endpoints = {
       "path": "/admin/courses/:id/decision",
       "auth": "admin"
     }
+  },
+  "discovery": {
+    "search": {
+      "method": "GET",
+      "path": "/search",
+      "auth": "optional"
+    },
+    "suggest": {
+      "method": "GET",
+      "path": "/search/suggest",
+      "auth": "optional"
+    },
+    "course": {
+      "method": "GET",
+      "path": "/courses/:slug",
+      "auth": "optional"
+    },
+    "storefront": {
+      "method": "GET",
+      "path": "/teachers/:slug",
+      "auth": "optional"
+    },
+    "recommendations": {
+      "method": "GET",
+      "path": "/recommendations",
+      "auth": "user"
+    },
+    "featured": {
+      "method": "GET",
+      "path": "/featured",
+      "auth": "public"
+    }
+  },
+  "requests": {
+    "list": {
+      "method": "GET",
+      "path": "/course-requests",
+      "auth": "optional"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/course-requests",
+      "auth": "user"
+    },
+    "vote": {
+      "method": "POST",
+      "path": "/course-requests/:id/vote",
+      "auth": "user"
+    },
+    "claim": {
+      "method": "POST",
+      "path": "/course-requests/:id/claim",
+      "auth": "seller"
+    }
+  },
+  "wishlist": {
+    "add": {
+      "method": "POST",
+      "path": "/wishlist/:courseId",
+      "auth": "user"
+    },
+    "remove": {
+      "method": "DELETE",
+      "path": "/wishlist/:courseId",
+      "auth": "user"
+    },
+    "list": {
+      "method": "GET",
+      "path": "/me/wishlist",
+      "auth": "user"
+    }
   }
 } as unknown as typeof C;

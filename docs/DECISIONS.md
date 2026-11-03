@@ -55,3 +55,9 @@ A new connection may import dozens of existing items. → The initial full sync 
 
 ### ADR-016 · 2026-11-03 · Disabled in-app channel still stores the notification (as read)
 Dedupe needs the row even if the user switched the in-app channel off. → The row is inserted with `read_at` set, so it never shows as unread; push/email still follow their own toggles.
+
+### ADR-017 · 2026-11-03 · Meilisearch: one document per course with target arrays
+Spec §5 says "index courses × targets". → One document per course with `institutionIds`, `departmentIds`, `semesters`, `subjectIds`, `courseCodesNorm` arrays (filterable). Meili array filters behave like "any target matches", which is what course × target documents give, without duplicate hits per course. Meili supplies text relevance + typo tolerance + synonyms; the server re-ranks the top 300 with the §6.5 score. Without Meili, a Postgres engine does synonym expansion (Bangla/English/abbreviations), course-code normalisation and weighted text scoring.
+
+### ADR-018 · 2026-11-03 · Duplicate course request = upvote
+Spec §6.11 "duplicate detection by (institution, subject master, exam type)". → `course_requests.dedupe_key` is unique; creating a duplicate returns the existing request (`duplicate: true`) and records the user's vote.

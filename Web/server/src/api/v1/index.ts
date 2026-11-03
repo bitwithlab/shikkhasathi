@@ -8,6 +8,8 @@ import { notificationRoutes } from '../../modules/notifications/notifications.ro
 import { dashboardRoutes } from '../../modules/dashboard/dashboard.routes';
 import { sellerRoutes } from '../../modules/seller/seller.routes';
 import { filesRoutes } from '../../modules/files/files.routes';
+import { courseRoutes } from '../../modules/courses/courses.routes';
+import '../../services/search';
 import '../../modules/seller/seller.jobs';
 
 /** All /api/v1 route modules. Handlers stay thin; logic lives in modules/<m>/<m>.service.ts. */
@@ -22,4 +24,5 @@ export async function apiV1(app: FastifyInstance) {
   await app.register(dashboardRoutes);
   await app.register(sellerRoutes);
   await app.register(filesRoutes);
+  await app.register(courseRoutes);
 }
