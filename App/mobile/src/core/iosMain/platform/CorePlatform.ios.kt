@@ -13,5 +13,5 @@ actual fun corePlatformModule() =
     module {
         single<HttpClientEngine> { Darwin.create() }
         single<TokenStore> { KeychainTokenStore() }
-        single { DeviceInfo(platform = ClientPlatform.Ios, deviceName = UIDevice.currentDevice.model.take(80)) }
+        single { DeviceInfo(platform = ClientPlatform.Ios, deviceName = UIDevice.currentDevice.model.take(DeviceInfo.MAX_NAME_LENGTH)) }
     }

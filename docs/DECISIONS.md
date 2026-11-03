@@ -34,3 +34,15 @@ Web uses httpOnly `ss_rt` refresh cookie (path `/api/v1/auth`, SameSite=Lax, Sec
 
 ### ADR-011 · 2026-11-03 · First launch university = Metropolitan University (Sylhet)
 Spec open question #3. → Seed and landing copy lead with Metropolitan University, CSE; NSU and BRAC also seeded.
+
+### ADR-012 · 2026-11-03 · Mobile: only headless shared code compiles in the cloud container (corrects ADR-006)
+`maven.google.com` redirects to the blocked `dl.google.com`, so no `androidx.*` artifact resolves — and Compose Multiplatform's JVM artifacts depend on them. → `App/mobile` has two Gradle switches: `ss.android` (Android SDK present) and `ss.compose` (SDK present or macOS host). With both off (this container), the `:shared` module compiles and tests the headless code — DTOs, Ktor client, token store, repositories, ViewModels, strings, Koin graph — on `jvm("desktop")`. Compose UI (`ui/` folders + `core/designsystem/`) is written in full and linted, but compiled only on a dev machine with the SDK/Xcode (`docs/MOBILE_NOTES.md`). Kotlin 2.2.21, CMP 1.9.3, Ktor 3.3.3, Koin 4.1.1.
+
+### ADR-013 · 2026-11-03 · Mobile architecture details
+- One `:shared` KMP module reads `App/mobile/src/{core,shared,features}`; platform code sits in `androidMain/`, `iosMain/`, `desktopMain/` subfolders of each layer.
+- ViewModels are framework-free (`SsViewModel`, wrapped in an androidx ViewModel by the UI), so they test on the JVM.
+- Token refresh is a custom single-flight 401 → `POST /auth/refresh` (refresh token in the body) inside `ApiClient`, not Ktor's Auth plugin (that plugin needs a `WWW-Authenticate` header and keeps tokens after logout).
+- Token storage: Android Keystore AES-GCM key (no deprecated security-crypto), iOS Keychain (this-device-only), desktop in memory.
+- Strings: `enum Str` keyed by the web i18n key names; server error messages (already Bangla) are shown verbatim.
+- Icons: Lucide via `com.composables:icons-lucide`. Status chips: Pending amber, Turned in emerald, Graded indigo, Missing red.
+- Hind Siliguri / Inter TTFs are not yet in `assets/fonts` (platform default font until added — see that folder's README).

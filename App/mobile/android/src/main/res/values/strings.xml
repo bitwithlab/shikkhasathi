@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launcher/OS-facing strings only; in-app copy lives in App/mobile/src/core/i18n/Strings.kt. -->
+    <string name="app_name">শিক্ষাসাথী</string>
+    <string name="notification_channel_classroom" translatable="false">classroom</string>
+    <string name="notification_channel_classroom_name">ক্লাসরুম আপডেট</string>
+    <string name="notification_channel_classroom_description">নতুন অ্যাসাইনমেন্ট, ম্যাটেরিয়াল, নোটিশ আর গ্রেড</string>
+</resources>

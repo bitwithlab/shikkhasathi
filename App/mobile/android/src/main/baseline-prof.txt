@@ -1,0 +1,7 @@
+HSPLcom/shikkhasathi/app/MainActivity;->**(**)**
+HSPLcom/shikkhasathi/app/ShikkhaSathiApplication;->**(**)**
+HSPLcom/shikkhasathi/shared/**;->**(**)**
+HSPLcom/shikkhasathi/core/**;->**(**)**
+HSPLcom/shikkhasathi/features/auth/**;->**(**)**
+HSPLcom/shikkhasathi/features/home/**;->**(**)**
+Lcom/shikkhasathi/**;

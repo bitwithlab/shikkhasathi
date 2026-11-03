@@ -13,5 +13,10 @@ actual fun corePlatformModule() =
     module {
         single<HttpClientEngine> { OkHttp.create() }
         single<TokenStore> { KeystoreTokenStore(context = get()) }
-        single { DeviceInfo(platform = ClientPlatform.Android, deviceName = "${Build.MANUFACTURER} ${Build.MODEL}".take(80)) }
+        single {
+            DeviceInfo(
+                platform = ClientPlatform.Android,
+                deviceName = "${Build.MANUFACTURER} ${Build.MODEL}".take(DeviceInfo.MAX_NAME_LENGTH)
+            )
+        }
     }

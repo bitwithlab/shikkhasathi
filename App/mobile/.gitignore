@@ -1,0 +1,10 @@
+# Per-environment Firebase / Google config (download from the Firebase console; see docs/MOBILE_NOTES.md)
+android/google-services.json
+ios/iosApp/GoogleService-Info.plist
+# Xcode
+ios/**/xcuserdata/
+ios/**/DerivedData/
+ios/**/build/
+# Signing
+*.jks
+*.keystore

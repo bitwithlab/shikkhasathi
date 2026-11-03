@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Window background = token `bg`, so there is no white flash before Compose draws. -->
+    <style name="Theme.ShikkhaSathi" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/ss_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    <color name="ss_bg">#F8FAFC</color>
+</resources>

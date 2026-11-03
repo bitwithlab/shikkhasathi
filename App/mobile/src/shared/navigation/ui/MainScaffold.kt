@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -131,7 +132,7 @@ private fun BottomBar(
     onSelect: (TopDestination) -> Unit,
 ) {
     val palette = SsTheme.palette
-    NavigationBar(containerColor = palette.surface, tonalElevation = SsSpace.s1 * 0) {
+    NavigationBar(containerColor = palette.surface, tonalElevation = 0.dp) {
         TopDestination.entries.forEach { item ->
             NavigationBarItem(
                 selected = current.isOn(item.route),

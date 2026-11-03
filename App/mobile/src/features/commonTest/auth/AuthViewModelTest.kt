@@ -94,7 +94,11 @@ class AuthViewModelTest {
             vm.onIntent(AuthIntent.RequestOtp)
             runCurrent()
 
-            assertEquals("সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)", vm.state.value.fieldError?.resolve(AppLocale.Bn))
+            assertEquals(
+                "সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)",
+                vm.state.value.fieldError
+                    ?.resolve(AppLocale.Bn)
+            )
             assertTrue(repo.otpRequests.isEmpty())
             assertEquals(AuthStep.Phone, vm.state.value.step)
         }
@@ -143,13 +147,21 @@ class AuthViewModelTest {
             vm.onIntent(AuthIntent.PhoneChanged("01712345678"))
             vm.onIntent(AuthIntent.RequestOtp)
             runCurrent()
-            assertEquals(Str.ErrorNetwork.bn, vm.state.value.error?.resolve(AppLocale.Bn))
+            assertEquals(
+                Str.ErrorNetwork.bn,
+                vm.state.value.error
+                    ?.resolve(AppLocale.Bn)
+            )
             assertEquals(AuthStep.Phone, vm.state.value.step)
 
             repo.failWith = ApiError(ApiError.RATE_LIMITED, "Too many requests", 429)
             vm.onIntent(AuthIntent.RequestOtp)
             runCurrent()
-            assertEquals("অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।", vm.state.value.error?.resolve(AppLocale.Bn))
+            assertEquals(
+                "অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
+                vm.state.value.error
+                    ?.resolve(AppLocale.Bn)
+            )
         }
 
     @Test
@@ -158,11 +170,19 @@ class AuthViewModelTest {
             vm.onIntent(AuthIntent.ShowEmailLogin)
             vm.onIntent(AuthIntent.EmailChanged("rafi@"))
             vm.onIntent(AuthIntent.EmailLogin)
-            assertEquals(Str.AuthEmailInvalid.bn, vm.state.value.fieldError?.resolve())
+            assertEquals(
+                Str.AuthEmailInvalid.bn,
+                vm.state.value.fieldError
+                    ?.resolve()
+            )
 
             vm.onIntent(AuthIntent.EmailChanged(" Rafi@Example.com "))
             vm.onIntent(AuthIntent.EmailLogin)
-            assertEquals(Str.AuthPasswordRequired.bn, vm.state.value.fieldError?.resolve())
+            assertEquals(
+                Str.AuthPasswordRequired.bn,
+                vm.state.value.fieldError
+                    ?.resolve()
+            )
 
             vm.onIntent(AuthIntent.PasswordChanged("secret-123"))
             vm.onIntent(AuthIntent.EmailLogin)
@@ -178,7 +198,11 @@ class AuthViewModelTest {
         test {
             vm.onIntent(AuthIntent.GoogleLogin)
             runCurrent()
-            assertEquals(Str.AuthGoogleUnavailable.bn, vm.state.value.error?.resolve())
+            assertEquals(
+                Str.AuthGoogleUnavailable.bn,
+                vm.state.value.error
+                    ?.resolve()
+            )
             assertFalse(vm.state.value.isSubmitting)
         }
 

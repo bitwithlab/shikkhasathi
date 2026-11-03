@@ -4,6 +4,7 @@ import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import android.util.Log
 import com.shikkhasathi.core.network.SsJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -68,12 +69,17 @@ class KeystoreTokenStore(context: Context) : TokenStore {
             val plain = cipher.doFinal(blob, IV_BYTES, blob.size - IV_BYTES)
             SsJson.decodeFromString(StoredSession.serializer(), plain.decodeToString())
         } catch (e: GeneralSecurityException) {
-            prefs.edit().remove(KEY_SESSION).apply()
-            null
+            discard(e)
         } catch (e: IllegalArgumentException) {
-            prefs.edit().remove(KEY_SESSION).apply()
-            null
+            discard(e)
         }
+    }
+
+    /** Key invalidated or blob corrupted: drop the session so the user simply signs in again. */
+    private fun discard(cause: Exception): StoredSession? {
+        Log.w(TAG, "Stored session unreadable, clearing it", cause)
+        prefs.edit().remove(KEY_SESSION).apply()
+        return null
     }
 
     private fun key(): SecretKey {
@@ -93,6 +99,7 @@ class KeystoreTokenStore(context: Context) : TokenStore {
     }
 
     private companion object {
+        const val TAG = "SsTokenStore"
         const val PREFS = "ss_secure_session"
         const val KEY_SESSION = "session"
         const val KEY_ALIAS = "ss_session_key"

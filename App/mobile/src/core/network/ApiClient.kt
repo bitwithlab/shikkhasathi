@@ -11,9 +11,9 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.header
@@ -124,6 +124,7 @@ class ApiClient(
         return execute(method, path, refreshed.accessToken, configure)
     }
 
+    @Suppress("TooGenericExceptionCaught", "ThrowsCount")
     @PublishedApi
     internal suspend inline fun <reified T> decode(response: HttpResponse): T {
         if (!response.status.isSuccess()) throw ApiException(errorOf(response))
@@ -132,6 +133,7 @@ class ApiClient(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            // Any decoding failure (SerializationException, IllegalArgumentException…) is a contract mismatch.
             throw ApiException(ApiError(ApiError.UNEXPECTED_RESPONSE, e.message ?: "bad body", response.status.value), e)
         }
     }
@@ -147,6 +149,7 @@ class ApiClient(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught") // transport boundary: every engine failure becomes ApiError.NETWORK
     private suspend fun execute(
         method: HttpMethod,
         path: String,

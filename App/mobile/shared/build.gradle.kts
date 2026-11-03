@@ -114,12 +114,36 @@ kotlin {
     }
 }
 
+if (ssCompose) {
+    extensions.configure<org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension> {
+        // Our @Serializable DTOs are immutable data classes from a non-Compose package: declare them stable.
+        stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose-stability.conf"))
+        // `-Pss.composeReports` writes stability/skippability reports to shared/build/compose (CLAUDE.md §6).
+        if (providers.gradleProperty("ss.composeReports").isPresent) {
+            reportsDestination.set(layout.buildDirectory.dir("compose/reports"))
+            metricsDestination.set(layout.buildDirectory.dir("compose/metrics"))
+        }
+    }
+}
+
 if (ssAndroid) {
     // Configured dynamically so this script compiles without AGP on the classpath.
     extensions.getByName("android").withGroovyBuilder {
         setProperty("namespace", "com.shikkhasathi.shared")
-        setProperty("compileSdk", libs.versions.android.compileSdk.get().toInt())
-        "defaultConfig" { setProperty("minSdk", libs.versions.android.minSdk.get().toInt()) }
+        setProperty(
+            "compileSdk",
+            libs.versions.android.compileSdk
+                .get()
+                .toInt()
+        )
+        "defaultConfig" {
+            setProperty(
+                "minSdk",
+                libs.versions.android.minSdk
+                    .get()
+                    .toInt()
+            )
+        }
         "compileOptions" {
             setProperty("sourceCompatibility", JavaVersion.VERSION_17)
             setProperty("targetCompatibility", JavaVersion.VERSION_17)

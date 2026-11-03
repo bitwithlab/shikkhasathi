@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>শিক্ষাসাথী</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>bn</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>bn</string>
+		<string>en</string>
+	</array>
+	<!-- Read by MainViewController.kt; set per build configuration (Debug → local server). -->
+	<key>SSApiBaseUrl</key>
+	<string>$(SS_API_BASE_URL)</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UILaunchScreen</key>
+	<dict/>
+</dict>
+</plist>

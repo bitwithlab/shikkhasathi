@@ -82,14 +82,32 @@ class AuthViewModel(
     fun onIntent(intent: AuthIntent) {
         when (intent) {
             is AuthIntent.PhoneChanged ->
-                mutableState.update { it.copy(phoneInput = intent.value.filter { c -> c.isDigit() || c == '+' }.take(PHONE_MAX), fieldError = null) }
+                mutableState.update {
+                    it.copy(
+                        phoneInput =
+                            intent.value
+                                .filter { c ->
+                                    c.isDigit() || c == '+'
+                                }.take(PHONE_MAX),
+                        fieldError = null
+                    )
+                }
             AuthIntent.RequestOtp -> requestOtp()
             is AuthIntent.OtpChanged -> onOtpChanged(intent.value)
             AuthIntent.VerifyOtp -> verifyOtp()
             AuthIntent.ResendOtp -> if (state.value.canResend) requestOtp()
             AuthIntent.ChangeNumber -> {
                 timer?.cancel()
-                mutableState.update { it.copy(step = AuthStep.Phone, otp = "", resendInSec = 0, devCode = null, error = null, fieldError = null) }
+                mutableState.update {
+                    it.copy(
+                        step = AuthStep.Phone,
+                        otp = "",
+                        resendInSec = 0,
+                        devCode = null,
+                        error = null,
+                        fieldError = null
+                    )
+                }
             }
             AuthIntent.ShowEmailLogin -> mutableState.update { it.copy(step = AuthStep.Email, error = null, fieldError = null) }
             AuthIntent.ShowPhoneLogin -> mutableState.update { it.copy(step = AuthStep.Phone, error = null, fieldError = null) }

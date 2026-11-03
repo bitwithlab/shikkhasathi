@@ -178,4 +178,9 @@ data class DeviceInfo(
     val platform: ClientPlatform,
     val deviceName: String? = null,
     val deviceId: String? = null,
-)
+) {
+    companion object {
+        /** `Device.deviceName` max length in the auth contract. */
+        const val MAX_NAME_LENGTH = 120
+    }
+}

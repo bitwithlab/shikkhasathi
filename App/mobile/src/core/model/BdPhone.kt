@@ -7,6 +7,8 @@ package com.shikkhasathi.core.model
  */
 object BdPhone {
     private val valid = Regex("^\\+8801[3-9]\\d{8}$")
+    private const val LOCAL_LENGTH = 11
+    private const val PREFIX_LENGTH = 5
 
     fun normalize(input: String): String? {
         val ascii = toAsciiDigits(input.trim()).replace(Regex("[\\s-]"), "")
@@ -23,7 +25,7 @@ object BdPhone {
     /** `+8801712345678` → `01712-345678` for display. */
     fun pretty(e164: String): String {
         val local = e164.removePrefix("+88")
-        return if (local.length == 11) "${local.take(5)}-${local.drop(5)}" else e164
+        return if (local.length == LOCAL_LENGTH) "${local.take(PREFIX_LENGTH)}-${local.drop(PREFIX_LENGTH)}" else e164
     }
 
     fun toAsciiDigits(input: String): String =

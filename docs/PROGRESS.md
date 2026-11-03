@@ -6,7 +6,7 @@ Resumable log. A new session reads **Current state** and continues from **Next s
 - **Current phase:** 1 — Foundation (only the mobile skeleton remains) → then Phase 2 Master data
 - **Next step:** finish/verify `App/mobile` skeleton (`./gradlew :shared:desktopTest`), commit; start Phase 2 (catalog API + admin approval + onboarding screens + seed).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`) and `redis-server --daemonize yes`.
-- **Known blockers:** no Docker daemon (use local Postgres 16 + Redis, ADR-002); Android SDK not downloadable (ADR-006); Meilisearch binary not downloadable (ADR-005).
+- **Known blockers:** no Docker daemon (use local Postgres 16 + Redis, ADR-002); Google Maven/Android SDK unreachable → Compose UI not compiled here (ADR-012); Meilisearch binary not downloadable (ADR-005).
 
 ## Phase checklist
 
@@ -30,7 +30,7 @@ Plan:
 - [x] settings/integrations (AES-256-GCM, admin → env → default, cache, audit, test buttons) + Brevo API/SMTP/Fake + `email.send` queue + email_logs + bn/en templates
 - [x] auth: phone OTP, email+password (argon2id), Google ID token, refresh rotation + reuse detection, web cookie + CSRF, sessions list/revoke
 - [x] client: tokens → Tailwind, i18n (feature-split), API client, shells (Public, Student sidebar, Seller, Admin) + guards, Auth page, Admin Integrations + System health, landing v1
-- [ ] mobile skeleton (in progress — sub-agent)
+- [x] mobile skeleton: Gradle KMP (`:shared` + `:android` + iOS host), theme from tokens, Ktor client with single-flight refresh, token stores, nav (bottom bar + drawer), auth + home placeholder ViewModels — 26 JVM tests green (`cd App/mobile && ./gradlew :shared:desktopTest`); Compose UI/Android/iOS compile only on an SDK machine (ADR-012)
 - [x] infra (docker-compose, Dockerfile, Caddyfile) + CI workflow + `scripts/check-all.sh`
 - [x] docs: RUNBOOK (incl. Brevo SPF/DKIM/DMARC), API, DB_SCHEMA, TESTING, PERFORMANCE
 

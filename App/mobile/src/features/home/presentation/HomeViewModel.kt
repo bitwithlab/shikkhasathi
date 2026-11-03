@@ -28,7 +28,12 @@ class HomeViewModel(repository: AuthRepository) : SsViewModel() {
 
 internal fun Me.toHomeState(): HomeUiState =
     HomeUiState(
-        firstName = name.trim().split(Regex("\\s+")).firstOrNull()?.takeIf { it.isNotEmpty() },
+        firstName =
+            name
+                .trim()
+                .split(Regex("\\s+"))
+                .firstOrNull()
+                ?.takeIf { it.isNotEmpty() },
         academicLine =
             listOfNotNull(
                 academic.institutionShort ?: academic.institutionName,

@@ -35,6 +35,8 @@ class ApiAuthRepository(
     }
 
     override suspend fun restore() {
+        // Only once per process: App() calls this again after an Activity re-creation.
+        if (state.value != SessionState.Restoring) return
         val stored = tokenStore.read()
         if (stored == null) {
             state.value = SessionState.SignedOut
@@ -59,7 +61,13 @@ class ApiAuthRepository(
         signIn(
             api.post(
                 "auth/otp/verify",
-                OtpVerifyBody(phone = phoneE164, code = code, deviceId = device.deviceId, deviceName = device.deviceName, platform = device.platform),
+                OtpVerifyBody(
+                    phone = phoneE164,
+                    code = code,
+                    deviceId = device.deviceId,
+                    deviceName = device.deviceName,
+                    platform = device.platform
+                ),
                 authenticated = false,
             ),
         )
@@ -68,7 +76,13 @@ class ApiAuthRepository(
         signIn(
             api.post(
                 "auth/login",
-                LoginBody(email = email, password = password, deviceId = device.deviceId, deviceName = device.deviceName, platform = device.platform),
+                LoginBody(
+                    email = email,
+                    password = password,
+                    deviceId = device.deviceId,
+                    deviceName = device.deviceName,
+                    platform = device.platform
+                ),
                 authenticated = false,
             ),
         )

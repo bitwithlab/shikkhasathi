@@ -46,10 +46,28 @@ data class SsPalette(
 val SsLightPalette =
     with(SsLightColors) {
         SsPalette(
-            isDark = false, primary = primary, primaryStrong = primaryStrong, primarySoft = primarySoft, primaryFg = primaryFg,
-            onPrimary = onPrimary, violet = violet, success = success, successSoft = successSoft, successFg = successFg,
-            warning = warning, warningSoft = warningSoft, warningFg = warningFg, danger = danger, dangerSoft = dangerSoft,
-            dangerFg = dangerFg, bg = bg, surface = surface, surface2 = surface2, text = text, muted = muted, border = border,
+            isDark = false,
+            primary = primary,
+            primaryStrong = primaryStrong,
+            primarySoft = primarySoft,
+            primaryFg = primaryFg,
+            onPrimary = onPrimary,
+            violet = violet,
+            success = success,
+            successSoft = successSoft,
+            successFg = successFg,
+            warning = warning,
+            warningSoft = warningSoft,
+            warningFg = warningFg,
+            danger = danger,
+            dangerSoft = dangerSoft,
+            dangerFg = dangerFg,
+            bg = bg,
+            surface = surface,
+            surface2 = surface2,
+            text = text,
+            muted = muted,
+            border = border,
             borderStrong = borderStrong,
         )
     }
@@ -57,10 +75,28 @@ val SsLightPalette =
 val SsDarkPalette =
     with(SsDarkColors) {
         SsPalette(
-            isDark = true, primary = primary, primaryStrong = primaryStrong, primarySoft = primarySoft, primaryFg = primaryFg,
-            onPrimary = onPrimary, violet = violet, success = success, successSoft = successSoft, successFg = successFg,
-            warning = warning, warningSoft = warningSoft, warningFg = warningFg, danger = danger, dangerSoft = dangerSoft,
-            dangerFg = dangerFg, bg = bg, surface = surface, surface2 = surface2, text = text, muted = muted, border = border,
+            isDark = true,
+            primary = primary,
+            primaryStrong = primaryStrong,
+            primarySoft = primarySoft,
+            primaryFg = primaryFg,
+            onPrimary = onPrimary,
+            violet = violet,
+            success = success,
+            successSoft = successSoft,
+            successFg = successFg,
+            warning = warning,
+            warningSoft = warningSoft,
+            warningFg = warningFg,
+            danger = danger,
+            dangerSoft = dangerSoft,
+            dangerFg = dangerFg,
+            bg = bg,
+            surface = surface,
+            surface2 = surface2,
+            text = text,
+            muted = muted,
+            border = border,
             borderStrong = borderStrong,
         )
     }
@@ -69,6 +105,7 @@ val SsDarkPalette =
  * Every Material role is assigned explicitly, so no default M3 purple or tonal tint can leak in.
  * Text-bearing roles use the `*-fg` tokens in light mode so emerald/amber/red copy passes WCAG AA.
  */
+@Suppress("LongMethod") // one named argument per Material role, on purpose
 internal fun SsPalette.toColorScheme(): ColorScheme =
     if (isDark) {
         darkColorScheme(

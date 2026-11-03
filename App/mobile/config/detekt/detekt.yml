@@ -4,7 +4,20 @@ naming:
     ignoreAnnotated: ['Composable']
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][_A-Z0-9]*'
+  # Sources follow CLAUDE.md §3 (src/<layer>/<package>/…) with package com.shikkhasathi.<layer>.<package>.
+  # Platform and test folders (androidMain/, iosMain/, desktopMain/, commonTest/, desktopTest/) sit inside the
+  # layer folder, so they are excluded from this check.
+  InvalidPackageDeclaration:
+    rootPackage: 'com.shikkhasathi'
+    requireRootInDeclaration: true
+    excludes: ['**/androidMain/**', '**/iosMain/**', '**/desktopMain/**', '**/commonTest/**', '**/desktopTest/**', '**/android/src/**']
+  # Compose files group a composable with its small helper types (e.g. SsButton.kt holds SsButtonVariant).
+  MatchingDeclarationName:
+    active: false
 complexity:
+  CyclomaticComplexMethod:
+    # `when (intent)` dispatchers in ViewModels are flat by design.
+    ignoreSimpleWhenEntries: true
   LongParameterList:
     functionThreshold: 8
     ignoreDefaultParameters: true
@@ -21,6 +34,7 @@ style:
     excludes: ['**/commonTest/**', '**/desktopTest/**', '**/designsystem/**']
   MaxLineLength:
     maxLineLength: 140
+    excludes: ['**/i18n/Strings.kt', '**/commonTest/**', '**/desktopTest/**']
   UnusedPrivateMember:
     ignoreAnnotated: ['Preview']
   ReturnCount:

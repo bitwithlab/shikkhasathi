@@ -17,11 +17,11 @@ import io.ktor.client.request.HttpResponseData
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
-import kotlinx.io.IOException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.io.IOException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -58,10 +58,22 @@ class ApiClientTest {
                     seen += "${req.method.value} ${req.url.encodedPath} ${req.headers[HttpHeaders.Authorization]}"
                     when (req.url.encodedPath) {
                         "/api/v1/me" ->
-                            if (req.headers[HttpHeaders.Authorization] == "Bearer new-access") json(meJson()) else json(unauthorized, HttpStatusCode.Unauthorized)
+                            if (req.headers[HttpHeaders.Authorization] ==
+                                "Bearer new-access"
+                            ) {
+                                json(meJson())
+                            } else {
+                                json(unauthorized, HttpStatusCode.Unauthorized)
+                            }
                         "/api/v1/auth/refresh" -> {
                             refreshBody = req.body.toByteArray().decodeToString()
-                            json(SsJson.encodeToString(com.shikkhasathi.core.model.AuthTokens.serializer(), sampleTokens("new-access", "rt-2")))
+                            json(
+                                SsJson.encodeToString(
+                                    com.shikkhasathi.core.model.AuthTokens
+                                        .serializer(),
+                                    sampleTokens("new-access", "rt-2")
+                                )
+                            )
                         }
                         else -> error("unexpected ${req.url}")
                     }
@@ -89,10 +101,22 @@ class ApiClientTest {
                     when (req.url.encodedPath) {
                         "/api/v1/auth/refresh" -> {
                             refreshCalls++
-                            json(SsJson.encodeToString(com.shikkhasathi.core.model.AuthTokens.serializer(), sampleTokens("new-access", "rt-2")))
+                            json(
+                                SsJson.encodeToString(
+                                    com.shikkhasathi.core.model.AuthTokens
+                                        .serializer(),
+                                    sampleTokens("new-access", "rt-2")
+                                )
+                            )
                         }
                         else ->
-                            if (req.headers[HttpHeaders.Authorization] == "Bearer new-access") json(meJson()) else json(unauthorized, HttpStatusCode.Unauthorized)
+                            if (req.headers[HttpHeaders.Authorization] ==
+                                "Bearer new-access"
+                            ) {
+                                json(meJson())
+                            } else {
+                                json(unauthorized, HttpStatusCode.Unauthorized)
+                            }
                     }
                 }
 
@@ -109,7 +133,11 @@ class ApiClientTest {
             val api =
                 client(store) { req ->
                     when (req.url.encodedPath) {
-                        "/api/v1/auth/refresh" -> json("""{"error":{"code":"UNAUTHORIZED","message":"সেশন শেষ"}}""", HttpStatusCode.Unauthorized)
+                        "/api/v1/auth/refresh" ->
+                            json(
+                                """{"error":{"code":"UNAUTHORIZED","message":"সেশন শেষ"}}""",
+                                HttpStatusCode.Unauthorized
+                            )
                         else -> json(unauthorized, HttpStatusCode.Unauthorized)
                     }
                 }
@@ -134,7 +162,12 @@ class ApiClientTest {
                     json("""{"sent":true,"expiresInSec":300,"resendInSec":60,"devCode":"123456"}""")
                 }
 
-            val r = api.post<OtpRequestBody, OtpRequestResponse>("auth/otp/request", OtpRequestBody("+8801712345678"), authenticated = false)
+            val r =
+                api.post<OtpRequestBody, OtpRequestResponse>(
+                    "auth/otp/request",
+                    OtpRequestBody("+8801712345678"),
+                    authenticated = false
+                )
 
             assertEquals(60, r.resendInSec)
             assertEquals("123456", r.devCode)
@@ -152,7 +185,14 @@ class ApiClientTest {
                     )
                 }
 
-            val e = assertFailsWith<ApiException> { api.post<OtpRequestBody, OtpRequestResponse>("auth/otp/request", OtpRequestBody("123"), false) }
+            val e =
+                assertFailsWith<ApiException> {
+                    api.post<OtpRequestBody, OtpRequestResponse>(
+                        "auth/otp/request",
+                        OtpRequestBody("123"),
+                        false
+                    )
+                }
 
             assertEquals(ApiError.VALIDATION_FAILED, e.error.code)
             assertEquals("সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)", e.error.message)
