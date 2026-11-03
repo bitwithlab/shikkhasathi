@@ -1,5 +1,6 @@
-import { PagePlaceholder } from '@/components/Placeholder';
+import { LegalPage } from './LegalPage';
+import { REFUND } from './docs';
 
-export default function Page() {
-  return <PagePlaceholder titleKey="footer.refund" />;
+export default function RefundPage() {
+  return <LegalPage doc={REFUND} />;
 }

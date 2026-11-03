@@ -106,5 +106,15 @@
   "examType.lab": "Lab",
   "examType.viva": "Viva",
   "examType.admission": "Admission",
-  "examType.general": "General"
+  "examType.general": "General",
+  "course.verified": "Verified teacher",
+  "course.free": "Free",
+  "exam.today": "Exam today",
+  "exam.daysLeft": "{n} days left",
+  "exam.readiness": "Readiness {p}%",
+  "exam.open": "Open Exam Mode",
+  "due.minutesLeft": "{n} min left",
+  "due.hoursLeft": "{n} h left",
+  "due.daysLeft": "{n} days left",
+  "week.summary": "{d} deadlines, {e} exams"
 }

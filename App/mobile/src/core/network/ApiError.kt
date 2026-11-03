@@ -51,3 +51,13 @@ data class ApiError(
 }
 
 class ApiException(val error: ApiError, cause: Throwable? = null) : Exception("${error.code}: ${error.message}", cause)
+
+/** `details.retryAfterSec` of RATE_LIMITED / CLASSROOM_QUOTA errors, when the server sent it. */
+val ApiError.retryAfterSec: Int?
+    get() =
+        (details as? kotlinx.serialization.json.JsonObject)
+            ?.get("retryAfterSec")
+            ?.let { it as? kotlinx.serialization.json.JsonPrimitive }
+            ?.content
+            ?.toDoubleOrNull()
+            ?.toInt()

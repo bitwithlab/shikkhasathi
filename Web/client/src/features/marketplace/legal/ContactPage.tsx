@@ -1,5 +1,6 @@
-import { PagePlaceholder } from '@/components/Placeholder';
+import { LegalPage } from './LegalPage';
+import { CONTACT } from './docs';
 
-export default function Page() {
-  return <PagePlaceholder titleKey="footer.contact" />;
+export default function ContactPage() {
+  return <LegalPage doc={CONTACT} />;
 }

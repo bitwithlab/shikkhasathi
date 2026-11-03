@@ -46,3 +46,12 @@ Spec open question #3. → Seed and landing copy lead with Metropolitan Universi
 - Strings: `enum Str` keyed by the web i18n key names; server error messages (already Bangla) are shown verbatim.
 - Icons: Lucide via `com.composables:icons-lucide`. Status chips: Pending amber, Turned in emerald, Graded indigo, Missing red.
 - Hind Siliguri / Inter TTFs are not yet in `assets/fonts` (platform default font until added — see that folder's README).
+
+### ADR-014 · 2026-11-03 · No roster scope: teacher names and roster push omitted for real accounts
+Teacher names need `classroom.rosters.readonly`, which is not in the minimal scope list (CLAUDE.md §0A). → We don't request it: `teacher_names` is empty for real Google accounts (the UI shows section/room), and only `COURSE_WORK_CHANGES` push feeds are registered (roster feeds need the roster scope). Class-list changes are picked up by polling/manual sync. The fake dataset includes teacher names for demo only.
+
+### ADR-015 · 2026-11-03 · First full sync is silent
+A new connection may import dozens of existing items. → The initial full sync writes feed items but creates no notifications; only later changes notify. Prevents a notification burst on connect.
+
+### ADR-016 · 2026-11-03 · Disabled in-app channel still stores the notification (as read)
+Dedupe needs the row even if the user switched the in-app channel off. → The row is inserted with `read_at` set, so it never shows as unread; push/email still follow their own toggles.

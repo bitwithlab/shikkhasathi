@@ -1,15 +1,26 @@
 package com.shikkhasathi.core.model
 
 import com.shikkhasathi.core.i18n.Str
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Google Classroom submission status as shown on assignment rows and the home dashboard
- * (CLAUDE.md §0A: Pending / Turned in / Graded / Missing).
+ * (CLAUDE.md §0A: Pending / Turned in / Graded / Missing). Wire values = `ASSIGNMENT_STATUSES` in Web/shared.
+ * DTO properties of this type default to [Pending], so `coerceInputValues` maps an unknown wire value there.
  */
+@Serializable
 enum class AssignmentStatus(val wire: String) {
+    @SerialName("pending")
     Pending("pending"),
+
+    @SerialName("turned_in")
     TurnedIn("turned_in"),
+
+    @SerialName("graded")
     Graded("graded"),
+
+    @SerialName("missing")
     Missing("missing"),
     ;
 

@@ -70,6 +70,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.datetime)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.logging)
@@ -108,7 +109,11 @@ kotlin {
         if (ssAndroid) {
             androidMain {
                 fromLayers("androidMain")
-                dependencies { implementation(libs.ktor.client.okhttp) }
+                dependencies {
+                    implementation(libs.ktor.client.okhttp)
+                    // AuthorizationClient for the Classroom server auth code (GoogleAuthorization.android.kt).
+                    implementation(libs.play.services.auth)
+                }
             }
         }
     }

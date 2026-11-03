@@ -106,5 +106,15 @@
   "examType.lab": "Lab",
   "examType.viva": "Viva",
   "examType.admission": "ভর্তি",
-  "examType.general": "সাধারণ"
+  "examType.general": "সাধারণ",
+  "course.verified": "ভেরিফায়েড শিক্ষক",
+  "course.free": "ফ্রি",
+  "exam.today": "আজ পরীক্ষা",
+  "exam.daysLeft": "{n} দিন বাকি",
+  "exam.readiness": "প্রস্তুতি {p}%",
+  "exam.open": "Exam Mode খুলুন",
+  "due.minutesLeft": "আর {n} মিনিট",
+  "due.hoursLeft": "আর {n} ঘণ্টা",
+  "due.daysLeft": "{n} দিন বাকি",
+  "week.summary": "{d}টি ডেডলাইন, {e}টি পরীক্ষা"
 }

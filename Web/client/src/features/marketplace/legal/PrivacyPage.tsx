@@ -1,5 +1,6 @@
-import { PagePlaceholder } from '@/components/Placeholder';
+import { LegalPage } from './LegalPage';
+import { PRIVACY } from './docs';
 
-export default function Page() {
-  return <PagePlaceholder titleKey="footer.privacy" />;
+export default function PrivacyPage() {
+  return <LegalPage doc={PRIVACY} />;
 }
