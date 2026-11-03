@@ -3,10 +3,11 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 3 — Home dashboard + Google Classroom
-- **Next step:** Classroom contracts + `services/google` (real Classroom REST client + fake dataset), OAuth connect/callback, `google_connections` encryption, sync jobs, notifications module, `/dashboard` aggregate, then web `/home` + `/classroom/*` + notifications, then mobile Home/Classroom.
+- **Current phase:** 7 — Learning (Phases 0–6 are done; the Teacher Studio web UI from Phase 4 is still being finished by a sub-agent in `Web/client/src/features/seller/**`)
+- **Next step:** Phase 7 server first: `modules/learning` covering playback (signed URL from the video adapter, enrolled only, device limit, watermark data), `lesson_progress` heartbeat + completion, My Courses (with progress), Q&A, reviews (enrolled only, one per course, rating aggregates), notes/bookmarks. Then web `/learn/:courseId/:lessonId` (hls.js player shell), `/my-courses`, `/notes`. Then wire `continueLearning` into the dashboard provider.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
-- **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`) and `redis-server --daemonize yes`.
+- **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
+- **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
 - **Known blockers:** no Docker daemon (use local Postgres 16 + Redis, ADR-002); Google Maven/Android SDK unreachable → Compose UI not compiled here (ADR-012); Meilisearch binary not downloadable (ADR-005).
 
 ## Phase checklist
@@ -44,17 +45,20 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] tests: 7 catalog integration tests; endpoint-map sync test
 - Universities directory / university detail / subjects pages are built in Phase 5 together with course grids.
 
-### Phase 3 — Home dashboard + Google Classroom
-- [ ] OAuth connect/disconnect, full/incremental sync, Pub/Sub + renewal, reminders, notifications center + push, `/home`, `/classroom/*`, calendar, notifications (web + mobile), fake Classroom seed, `docs/CLASSROOM_INTEGRATION.md`
+### Phase 3 — Home dashboard + Google Classroom ✅
+- [x] OAuth connect/disconnect, full/incremental sync, Pub/Sub + renewal, reminders, notifications center + push, `/home`, `/classroom/*`, calendar, notifications (web + mobile), fake Classroom seed, `docs/CLASSROOM_INTEGRATION.md`
 
-### Phase 4 — Teacher Studio
-- [ ] seller verification, 5-step wizard + live preview, targets, curriculum builder, uploads, Draft→Review→Published
+### Phase 4 — Teacher Studio ✅ (server) · web UI finishing
+- [x] seller verification, 5-step wizard + live preview, targets, curriculum builder, uploads, Draft→Review→Published
 
-### Phase 5 — Discovery
-- [ ] search + autocomplete, filters, ranking, browse pages, course details, request board
+### Phase 5 — Discovery ✅
+- [x] search + autocomplete, filters, ranking, browse pages, course details, request board
 
-### Phase 6 — Checkout
-- [ ] gateway adapters, idempotent webhook, enrollment, coupons, bundles, invoice PDF + email, refunds, ledger
+### Phase 6 — Checkout ✅
+- [x] gateway adapters (SSLCommerz: bKash/Nagad/Rocket/card · bKash tokenized · Fake), server-priced orders with idempotency key, idempotent callback + IPN (unique trx id, amount check), `payments.fulfil` (enrollment, ledger sale/commission with hold, coupon redemption, invoice PDF → `invoices` bucket, email, notifications), `payments.reconcile` (stuck payments + unfulfilled orders), coupons, bundles, refunds (48 h / <20 % watched → admin approve → gateway/manual refund, ledger reversal, audit), seller coupons/bundles/ledger, admin orders/refunds API
+- [x] web: `/checkout/:courseId` (+ `/checkout/bundle?slug=`), `/checkout/result` (polls the order; server status wins over the URL)
+- [x] tests: 9 server integration (orders.test.ts), 3 client component (checkout.test.tsx)
+- Admin orders/refunds pages and seller earnings/coupons pages → Phase 10 (APIs exist).
 
 ### Phase 7 — Learning
 - [ ] player, progress, My Courses, Q&A, reviews, wishlist, notes/bookmarks
@@ -84,3 +88,5 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 ## Session log
 - **2026-11-03** — Phase 0 done: docs moved, screen map, architecture, design system, decisions.
 - **2026-11-03** — Phase 1: workspace, shared, server foundation (55 tests green: server 30, client 21, shared 4), client shells/auth/admin integrations, infra, CI, docs. User asked to commit directly on `main` — all work now goes to `main`.
+- **2026-11-03** — Phases 3–5 done: Classroom (connect, sync, push, reminders, notifications), `/home` dashboard, `/classroom/*`; Teacher Studio server (verification, wizard API, curriculum, uploads, review queue); discovery (search + ranking, autocomplete, browse pages, course details, storefront, requests).
+- **2026-11-03** — Phase 6 done: checkout server + web (see checklist). Server 85 tests, client 63 tests green. Landing initial is 146.6 KB gzip after splitting landing i18n out. Next: Phase 7.
