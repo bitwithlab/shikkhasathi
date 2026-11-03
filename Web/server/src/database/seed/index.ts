@@ -5,6 +5,7 @@ import { seedUsers, DEMO_PASSWORD } from './users';
 import { seedCatalog } from './catalog';
 import { seedProfiles } from './profiles';
 import { seedCourses } from './courses';
+import { seedExam } from './exam';
 
 export async function seedAll() {
   if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') throw new Error('Refusing to seed production');
@@ -12,6 +13,7 @@ export async function seedAll() {
   const catalog = await seedCatalog();
   await seedProfiles(users, catalog);
   const courses = await seedCourses(users, catalog);
+  await seedExam(users, courses);
   return { users, catalog, courses };
 }
 

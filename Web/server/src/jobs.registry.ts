@@ -5,3 +5,5 @@ import './modules/classroom/classroom.service';
 import './modules/seller/seller.jobs';
 import './services/search';
 import './modules/orders/orders.service';
+import './modules/exam/exam.service';
+import './modules/learning/learning.service';

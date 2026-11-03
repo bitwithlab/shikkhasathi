@@ -95,6 +95,7 @@ describe('course details, storefront, recommendations, wishlist', () => {
     const seeded = await seedAll();
     const s = await login('sadman@demo.shikkhasathi.com');
     const dsId = seeded.courses['data-structures-midterm-crash-cse-2203']!;
+    await coreDb.delete(enrollments).where(eq(enrollments.studentId, s.id)); // seed enrolls the demo student
     const before = j(await app.inject({ url: '/api/v1/recommendations', headers: s.auth }));
     expect(before.items.map((c: { id: string }) => c.id)).toContain(dsId);
     await coreDb.insert(enrollments).values({ studentId: s.id, courseId: dsId });

@@ -753,5 +753,104 @@ export const endpoints = {
       "path": "/seller/reviews/:id/reply",
       "auth": "seller"
     }
+  },
+  "exam": {
+    "plans": {
+      "method": "GET",
+      "path": "/exam-plans",
+      "auth": "user"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/exam-plans",
+      "auth": "user"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/exam-plans/:id",
+      "auth": "user"
+    },
+    "update": {
+      "method": "PATCH",
+      "path": "/exam-plans/:id",
+      "auth": "user"
+    },
+    "remove": {
+      "method": "DELETE",
+      "path": "/exam-plans/:id",
+      "auth": "user"
+    },
+    "flashcards": {
+      "method": "GET",
+      "path": "/exam-plans/:id/flashcards",
+      "auth": "user"
+    },
+    "reviewCard": {
+      "method": "POST",
+      "path": "/flashcards/:id/review",
+      "auth": "user"
+    },
+    "mockTests": {
+      "method": "GET",
+      "path": "/mock-tests",
+      "auth": "user"
+    },
+    "start": {
+      "method": "POST",
+      "path": "/mock-tests/:id/attempts",
+      "auth": "user"
+    },
+    "attempt": {
+      "method": "GET",
+      "path": "/mock-attempts/:id",
+      "auth": "user"
+    },
+    "answer": {
+      "method": "PUT",
+      "path": "/mock-attempts/:id/answers",
+      "auth": "user"
+    },
+    "submit": {
+      "method": "POST",
+      "path": "/mock-attempts/:id/submit",
+      "auth": "user"
+    },
+    "result": {
+      "method": "GET",
+      "path": "/mock-attempts/:id/result",
+      "auth": "user"
+    }
+  },
+  "sellerExam": {
+    "mockTests": {
+      "method": "GET",
+      "path": "/seller/courses/:courseId/mock-tests",
+      "auth": "seller"
+    },
+    "createMock": {
+      "method": "POST",
+      "path": "/seller/courses/:courseId/mock-tests",
+      "auth": "seller"
+    },
+    "updateMock": {
+      "method": "PUT",
+      "path": "/seller/mock-tests/:id",
+      "auth": "seller"
+    },
+    "deleteMock": {
+      "method": "DELETE",
+      "path": "/seller/mock-tests/:id",
+      "auth": "seller"
+    },
+    "flashcards": {
+      "method": "GET",
+      "path": "/seller/courses/:courseId/flashcards",
+      "auth": "seller"
+    },
+    "setFlashcards": {
+      "method": "PUT",
+      "path": "/seller/courses/:courseId/flashcards",
+      "auth": "seller"
+    }
   }
 } as unknown as typeof C;
