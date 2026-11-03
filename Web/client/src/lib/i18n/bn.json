@@ -116,5 +116,12 @@
   "due.minutesLeft": "আর {n} মিনিট",
   "due.hoursLeft": "আর {n} ঘণ্টা",
   "due.daysLeft": "{n} দিন বাকি",
-  "week.summary": "{d}টি ডেডলাইন, {e}টি পরীক্ষা"
+  "week.summary": "{d}টি ডেডলাইন, {e}টি পরীক্ষা",
+  "courseStatus.draft": "খসড়া",
+  "courseStatus.in_review": "রিভিউ চলছে",
+  "courseStatus.changes_requested": "পরিবর্তন দরকার",
+  "courseStatus.rejected": "বাতিল",
+  "courseStatus.published": "প্রকাশিত",
+  "courseStatus.unlisted": "লুকানো",
+  "courseStatus.archived": "আর্কাইভ"
 }

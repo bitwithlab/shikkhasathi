@@ -116,5 +116,12 @@
   "due.minutesLeft": "{n} min left",
   "due.hoursLeft": "{n} h left",
   "due.daysLeft": "{n} days left",
-  "week.summary": "{d} deadlines, {e} exams"
+  "week.summary": "{d} deadlines, {e} exams",
+  "courseStatus.draft": "Draft",
+  "courseStatus.in_review": "In review",
+  "courseStatus.changes_requested": "Changes requested",
+  "courseStatus.rejected": "Rejected",
+  "courseStatus.published": "Published",
+  "courseStatus.unlisted": "Unlisted",
+  "courseStatus.archived": "Archived"
 }
