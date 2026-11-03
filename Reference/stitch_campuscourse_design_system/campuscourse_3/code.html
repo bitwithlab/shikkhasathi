@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>CampusCourse - বিশ্ববিদ্যালয় নির্বাচন করুন</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Bengali and Latin Fonts (Hind Siliguri & Inter) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration Verbatim from Spec -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#dad7ff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#ffb95f",
+            "tertiary-fixed": "#ffddb8",
+            "surface-container-high": "#e2e7ff",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#283044",
+            "surface-container": "#eaedff",
+            "error": "#ba1a1a",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-container": "#00714d",
+            "secondary": "#006c49",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-primary-fixed": "#0f0069",
+            "on-secondary-fixed-variant": "#005236",
+            "on-primary-fixed-variant": "#3323cc",
+            "inverse-primary": "#c3c0ff",
+            "secondary-container": "#6cf8bb",
+            "surface-dim": "#d2d9f4",
+            "surface-tint": "#4d44e3",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-error": "#ffffff",
+            "primary": "#3525cd",
+            "surface-variant": "#dae2fd",
+            "secondary-fixed-dim": "#4edea3",
+            "on-background": "#131b2e",
+            "on-surface-variant": "#464555",
+            "outline": "#777587",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#131b2e",
+            "background": "#faf8ff",
+            "outline-variant": "#c7c4d8",
+            "on-secondary-fixed": "#002113",
+            "error-container": "#ffdad6",
+            "on-primary": "#ffffff",
+            "surface": "#faf8ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "surface-bright": "#faf8ff",
+            "primary-container": "#4f46e5",
+            "inverse-on-surface": "#eef0ff",
+            "primary-fixed": "#e2dfff",
+            "secondary-fixed": "#6ffbbe",
+            "on-tertiary-container": "#ffd4a4",
+            "tertiary": "#684000",
+            "tertiary-container": "#885500"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter-desktop": "1.5rem",
+            "gutter": "1rem",
+            "margin": "1rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter", "Hind Siliguri", "sans-serif"],
+            "label-md": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero-mobile": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "price-currency": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-lg": ["Hind Siliguri", "Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "display-hero-mobile": ["28px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "price-currency": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "27px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "display-hero": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scroll {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex justify-center selection:bg-primary selection:text-on-primary">
+<!-- Mobile Canvas Simulation Wrapper (360px targeted, max-w-sm) -->
+<main class="w-full max-w-sm min-h-screen bg-background relative flex flex-col shadow-2xl overflow-x-hidden pb-28">
+<!-- TopAppBar from Shared Components JSON -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between w-full h-14 px-4 max-w-sm mx-auto bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<button aria-label="ফিরে যান" class="p-2 -ml-2 rounded-full text-primary dark:text-inverse-primary hover:bg-surface-container active:scale-[0.98] transition-transform duration-150 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<span class="text-headline-sm font-headline-sm font-bold text-primary dark:text-inverse-primary tracking-tight">CampusCourse</span>
+<!-- Trailing Action Text from JSON: "এড়িয়ে যান" -->
+<button class="text-label-md font-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary p-2 -mr-2 active:scale-[0.98] transition-transform duration-150 rounded-lg" type="button">
+        এড়িয়ে যান
+      </button>
+</header>
+<!-- Main Scrollable Area -->
+<div class="pt-16 px-4 flex flex-col flex-1">
+<!-- Step Progress Stepper Section -->
+<section class="mt-2 mb-4 bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-1.5">
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm">ধাপ ১</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">/ ৪</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">২৫% সম্পন্ন</span>
+</div>
+<!-- Progress Bar Indicator -->
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden flex">
+<div class="w-1/4 h-full bg-primary-container rounded-full transition-all duration-300"></div>
+<div class="w-3/4 h-full bg-transparent"></div>
+</div>
+<div class="flex justify-between items-center mt-2.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-primary font-medium flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1"></span>ভার্সিটি নির্বাচন
+          </span>
+<span class="opacity-50">বিভাগ</span>
+<span class="opacity-50">সেমিস্টার</span>
+<span class="opacity-50">কোর্সসমূহ</span>
+</div>
+</section>
+<!-- Visual University Badge & Hero Header Cluster -->
+<section class="my-2 text-center flex flex-col items-center">
+<!-- Friendly Minimal SVG Academic Badge -->
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center mb-3 shadow-inner relative border border-primary-fixed">
+<div class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary-container flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[13px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<svg class="w-9 h-9" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 6L4 16L24 26L44 16L24 6Z" fill="#4F46E5"></path>
+<path d="M12 20.5V31.5C12 31.5 16 37 24 37C32 37 36 31.5 36 31.5V20.5L24 26.5L12 20.5Z" fill="#3525CD" fill-opacity="0.25" stroke="#3525CD" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M40 18.5V31" stroke="#00714D" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="40" cy="33" fill="#00714D" r="2"></circle>
+<path d="M20 23.5L24 25.5L28 23.5" stroke="#FFFFFF" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface text-center font-bold tracking-tight">
+          আপনার বিশ্ববিদ্যালয় নির্বাচন করুন
+        </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center mt-1.5 px-2">
+          আপনার ক্যাম্পাসের নির্দিষ্ট সিলেবাস এবং শিক্ষকের কোর্স খুঁজে পেতে বিশ্ববিদ্যালয় নির্বাচন করুন।
+        </p>
+</section>
+<!-- Searchable Input Field -->
+<section class="mt-4 mb-3">
+<label class="sr-only" for="university-search">বিশ্ববিদ্যালয় খুঁজুন</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none">search</span>
+<input class="w-full h-12 pl-10 pr-10 bg-surface-container-lowest border border-outline-variant/80 rounded-xl font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all shadow-sm" id="university-search" placeholder="বিশ্ববিদ্যালয় খুঁজুন (যেমন: Metropolitan, BRAC)..." type="text"/>
+<button aria-label="সার্চ অপশন" class="absolute right-3 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</section>
+<!-- University Radio / Card Selector List -->
+<section aria-label="বিশ্ববিদ্যালয়ের তালিকা" class="flex flex-col space-y-2.5 my-1" role="radiogroup">
+<!-- Selected Item: Metropolitan University (MU) -->
+<div class="relative bg-surface-container-lowest border-2 border-primary-container rounded-2xl p-3.5 shadow-md flex items-center justify-between cursor-pointer transition-all transform active:scale-[0.99] ring-2 ring-primary-container/10">
+<div class="flex items-center space-x-3">
+<!-- Institution Monogram / Badge -->
+<div class="w-11 h-11 rounded-xl bg-surface-container-high text-primary font-price-currency text-price-currency flex items-center justify-center font-bold border border-primary/20 shrink-0">
+              MU
+            </div>
+<div class="flex flex-col">
+<div class="flex items-center space-x-1.5">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface leading-snug">মেট্রোপলিটন ইউনিভার্সিটি</span>
+</div>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Metropolitan University</span>
+<!-- Location Tag -->
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-[10px] font-semibold">
+<span class="material-symbols-outlined text-[10px] mr-0.5" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                  সিলেট
+                </span>
+</div>
+</div>
+</div>
+<!-- Radio Indicator / Green Checkmark -->
+<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-on-secondary shrink-0 ml-2 shadow-sm">
+<span class="material-symbols-outlined text-[16px] font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<!-- Item 2: BRAC University -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              BU
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">ব্র্যাক ইউনিভার্সিটি</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">BRAC University (BRACU)</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 3: North South University -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              NSU
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">নর্থ সাউথ ইউনিভার্সিটি</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">North South University</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 4: AIUB -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              AIUB
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">আমেরিকান ইন্টারন্যাশনাল ইউনিভার্সিটি</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">AIUB Bangladesh</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 5: UIU -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              UIU
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">ইউনাইটেড ইন্টারন্যাশনাল ইউনিভার্সিটি</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">United International Univ.</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 6: SUST -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              SUST
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SUST</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-[10px]">সিলেট</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 7: Dhaka University (DU) -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              DU
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">ঢাকা বিশ্ববিদ্যালয়</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">University of Dhaka</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+<!-- Item 8: BUET -->
+<div class="bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low text-on-surface font-price-currency text-price-currency flex items-center justify-center font-bold border border-outline-variant/30 shrink-0">
+              BUET
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold text-on-surface leading-snug">বুয়েট (BUET)</span>
+<div class="flex items-center space-x-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bangladesh Univ. of Eng. &amp; Tech</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-surface-variant/40 text-on-surface-variant font-label-sm text-[10px]">ঢাকা</span>
+</div>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest"></div>
+</div>
+</section>
+<!-- Bottom Contextual Action (Request University) -->
+<section class="mt-4 mb-6 text-center">
+<a class="inline-flex items-center justify-center space-x-1.5 py-2 px-3 rounded-lg text-primary hover:bg-surface-container active:scale-[0.98] transition-transform text-label-md font-label-md" href="#request-uni">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>আমার ইউনিভার্সিটি তালিকায় নেই? অনুরোধ করুন</span>
+</a>
+</section>
+</div>
+<!-- Sticky Bottom Bar with Elevated Level 3 Shadow -->
+<footer class="fixed bottom-0 left-0 right-0 max-w-sm mx-auto z-40 bg-surface-container-lowest/95 backdrop-blur-md px-4 py-3 border-t border-outline-variant/40 shadow-[0_-4px_16px_rgba(15,23,42,0.08)] flex flex-col space-y-2">
+<!-- Primary Action CTA -->
+<button class="w-full h-12 bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center space-x-2 shadow-md hover:bg-primary active:scale-[0.98] transition-all duration-150" type="button">
+<span>পরবর্তী</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<!-- Secondary Ghost Action -->
+<div class="text-center pt-0.5">
+<button class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface active:scale-[0.98] transition-transform py-0.5" type="button">
+          পরে করব
+        </button>
+</div>
+</footer>
+</main>
+<!-- Interactive State Script for Mobile Onboarding -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const radioCards = document.querySelectorAll('[role="radiogroup"] > div');
+      
+      radioCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Reset all cards to default unselected appearance
+          radioCards.forEach(c => {
+            c.className = "bg-surface-container-lowest border border-outline-variant/60 hover:border-primary-fixed-dim rounded-2xl p-3.5 flex items-center justify-between cursor-pointer transition-all active:scale-[0.99]";
+            const indicator = c.querySelector('.rounded-full:last-child');
+            if (indicator) {
+              indicator.className = "w-5 h-5 rounded-full border border-outline-variant shrink-0 ml-2 bg-surface-container-lowest";
+              indicator.innerHTML = '';
+            }
+          });
+
+          // Mark current clicked card as active/selected
+          card.className = "relative bg-surface-container-lowest border-2 border-primary-container rounded-2xl p-3.5 shadow-md flex items-center justify-between cursor-pointer transition-all transform active:scale-[0.99] ring-2 ring-primary-container/10";
+          const indicator = card.querySelector('.rounded-full:last-child');
+          if (indicator) {
+            indicator.className = "w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-on-secondary shrink-0 ml-2 shadow-sm";
+            indicator.innerHTML = `<span class="material-symbols-outlined text-[16px] font-bold" style="font-variation-settings: 'FILL' 1;">check</span>`;
+          }
+        });
+      });
+    });
+  </script>
+</body></html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusCourse - বিশ্ববিদ্যালয়সমূহ (Universities Directory)</title>
+<!-- Google Fonts: Inter & Hind Siliguri for Bengali typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with CDN plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration Script -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#464555",
+            "surface-bright": "#faf8ff",
+            "tertiary-container": "#885500",
+            "on-tertiary-container": "#ffd4a4",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e2e7ff",
+            "background": "#faf8ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "inverse-surface": "#283044",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "outline": "#777587",
+            "on-surface": "#131b2e",
+            "inverse-primary": "#c3c0ff",
+            "tertiary": "#684000",
+            "surface-container-low": "#f2f3ff",
+            "secondary-container": "#6cf8bb",
+            "on-primary-container": "#dad7ff",
+            "inverse-on-surface": "#eef0ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-variant": "#dae2fd",
+            "primary-container": "#4f46e5",
+            "on-background": "#131b2e",
+            "secondary-fixed": "#6ffbbe",
+            "on-secondary-fixed": "#002113",
+            "on-secondary-fixed-variant": "#005236",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "surface-dim": "#d2d9f4",
+            "on-primary-fixed": "#0f0069",
+            "surface-tint": "#4d44e3",
+            "outline-variant": "#c7c4d8",
+            "tertiary-fixed": "#ffddb8",
+            "on-primary": "#ffffff",
+            "primary": "#3525cd",
+            "surface": "#faf8ff",
+            "surface-container": "#eaedff",
+            "secondary": "#006c49"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-xs": "0.25rem",
+            "gutter-desktop": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "margin-desktop": "2rem"
+          },
+          "fontFamily": {
+            "label-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero-mobile": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "price-currency": ["Hind Siliguri", "Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "18px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "28px",
+                "fontWeight": "600"
+              }
+            ],
+            "display-hero-mobile": [
+              "28px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.04em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-sm": [
+              "13px",
+              {
+                "lineHeight": "22px",
+                "fontWeight": "400"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "27px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-md": [
+              "20px",
+              {
+                "lineHeight": "30px",
+                "fontWeight": "600"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "600"
+              }
+            ],
+            "display-hero": [
+              "36px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-lg": [
+              "24px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "price-currency": [
+              "18px",
+              {
+                "lineHeight": "22px",
+                "fontWeight": "700"
+              }
+            ]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar (Derived directly from Shared Components JSON & Shell Mandate) -->
+<header class="sticky top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
+<!-- Brand Logo & Acronym Indicator -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2 group" href="#">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[24px]">school</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-bold text-primary tracking-tight">CampusCourse</span>
+<span class="text-[10px] font-medium text-on-surface-variant uppercase tracking-wider -mt-1">বাংলাদেশ একাডেমিক প্ল্যাটফর্ম</span>
+</div>
+</a>
+<!-- Desktop Navigation Links (Universities marked ACTIVE as per intent) -->
+<nav class="hidden md:flex items-center gap-7 pt-1">
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors text-label-lg font-label-lg" href="#">Explore</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 text-label-lg font-label-lg" href="#">Universities</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors text-label-lg font-label-lg" href="#">Subjects</a>
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors text-label-lg font-label-lg" href="#">Exam Prep</a>
+</nav>
+</div>
+<!-- Action Cluster: Language switcher, Login, and CTA -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher Pill -->
+<div class="hidden sm:flex items-center bg-surface-container-low px-2 py-1 rounded-xl border border-outline-variant/40">
+<button class="flex items-center gap-1 px-2 py-1 rounded-lg text-label-sm font-label-sm font-semibold text-primary bg-surface-container-lowest shadow-xs">
+<span class="material-symbols-outlined text-[16px]">translate</span>
+<span>বাং</span>
+</button>
+<button class="px-2 py-1 rounded-lg text-label-sm font-label-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
+            EN
+          </button>
+</div>
+<!-- Trailing Secondary Action -->
+<a class="px-4 py-2.5 rounded-xl text-label-lg font-label-lg text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" href="#">
+          লগইন
+        </a>
+<!-- Trailing Primary Action -->
+<a class="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-semibold text-label-lg font-label-lg shadow-sm hover:shadow transition-all duration-150 active:scale-[0.98] flex items-center gap-1.5" href="#">
+<span>শুরু করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Canvas Canvas Container -->
+<main class="min-w-full">
+<!-- Hero & Discovery Filter Section -->
+<section class="bg-gradient-to-b from-surface-container-low/60 via-background to-background pt-8 pb-12 border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto px-4 md:px-8">
+<!-- Breadcrumbs Navigation -->
+<nav class="flex items-center gap-2 text-label-md font-label-md text-on-surface-variant mb-4">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>হোম</span>
+</a>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">বিশ্ববিদ্যালয়সমূহ (Universities)</span>
+</nav>
+<!-- Academic Reassurance Hero Banner -->
+<div class="max-w-3xl mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/40 mb-3">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-label-sm font-label-sm font-semibold text-on-secondary-container">সিলেবাস ও পরীক্ষা ভিত্তিক পোর্টাল</span>
+</div>
+<h1 class="text-display-hero font-display-hero text-on-surface tracking-tight text-slate-900 leading-tight">
+            বাংলাদেশের শীর্ষ বিশ্ববিদ্যালয় ও ক্যাম্পাসসমূহ
+          </h1>
+<p class="mt-3 text-body-lg font-body-lg text-on-surface-variant leading-relaxed">
+            আপনার ক্যাম্পাসের স্পেশাল সিলেবাস, মিডটার্ম ও ফাইনাল পরীক্ষার ক্র্যাশ কোর্স ও হ্যান্ডনোট খুঁজে নিন। অভিজ্ঞ সিনিয়র এবং টপারদের সাথে নিশ্চিত করুন সেরা প্রস্তুতি।
+          </p>
+</div>
+<!-- Live Search, Region and Universal Filter Bar -->
+<div class="bg-surface-container-lowest p-4 md:p-6 rounded-2xl shadow-sm border border-outline-variant/40 flex flex-col gap-4">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+<!-- Live Search Input -->
+<div class="md:col-span-8 relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full pl-11 pr-10 py-3 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="বিশ্ববিদ্যালয়ের নাম বা অ্যাক্রোনিম খুঁজুন (যেমন: DU, BUET, Metropolitan, BRAC)..." type="text"/>
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-outline hover:text-on-surface" title="মুছে ফেলুন">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<!-- Region & Sort Dropdowns -->
+<div class="md:col-span-2 relative">
+<select class="w-full py-3 pl-3 pr-8 bg-surface-container-low border border-outline-variant/50 rounded-xl text-label-md font-label-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer">
+<option value="">বিভাগ/শহর (সকল)</option>
+<option value="dhaka">ঢাকা (Dhaka)</option>
+<option value="sylhet">সিলেট (Sylhet)</option>
+<option value="chattogram">চট্টগ্রাম (Chattogram)</option>
+<option value="rajshahi">রাজশাহী (Rajshahi)</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="md:col-span-2 relative">
+<select class="w-full py-3 pl-3 pr-8 bg-surface-container-low border border-outline-variant/50 rounded-xl text-label-md font-label-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer">
+<option value="courses_desc">সর্বোচ্চ কোর্স সংখ্যা</option>
+<option value="alphabetical">নাম অনুযায়ী (A-Z)</option>
+<option value="rating">রেটিং অনুযায়ী (৪.৫+)</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+</div>
+</div>
+</div>
+<!-- University Type Filter Segmented Pills (Horizontal scrollable on compact devices) -->
+<div class="pt-2 border-t border-outline-variant/20 flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+<span class="text-label-sm font-label-sm font-semibold text-outline uppercase tracking-wider whitespace-nowrap mr-1">ফিল্টার:</span>
+<button class="px-4 py-2 rounded-full text-label-md font-label-md bg-primary text-on-primary whitespace-nowrap shadow-xs font-semibold">
+              সকল বিশ্ববিদ্যালয় (All - ৪৮টি)
+            </button>
+<button class="px-4 py-2 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-primary whitespace-nowrap transition-colors">
+              পাবলিক বিশ্ববিদ্যালয় (Public - ১৬টি)
+            </button>
+<button class="px-4 py-2 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-primary whitespace-nowrap transition-colors">
+              প্রাইভেট বিশ্ববিদ্যালয় (Private - ২২টি)
+            </button>
+<button class="px-4 py-2 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-primary whitespace-nowrap transition-colors">
+              জাতীয় বিশ্ববিদ্যালয় অধিভুক্ত কলেজ (Affiliated Colleges - ৭টি)
+            </button>
+<button class="px-4 py-2 rounded-full text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-primary whitespace-nowrap transition-colors">
+              পলিটেকনিক ইন্সটিটিউট (Polytechnic - ৩টি)
+            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- University Stats Quick Strip -->
+<section class="max-w-7xl mx-auto px-4 md:px-8 -mt-6">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/40 shadow-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface">৪৮+</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">অন্তর্ভুক্ত ক্যাম্পাস</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/40 shadow-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined text-[22px]">menu_book</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface">৫৫০+</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">ভেরিফাইড কোর্স</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/40 shadow-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">co_present</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface">১,২০০+</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও টপার</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/40 shadow-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[22px]">groups</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface">৪৫,০০০+</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষার্থী উপকৃত</div>
+</div>
+</div>
+</div>
+</section>
+<!-- University Directory Grid Section -->
+<section class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+<!-- Section Header with Quick Counter -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 border-b border-outline-variant/30 gap-2">
+<div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">বিশ্ববিদ্যালয় তালিকা</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant">সিলেবাস ও সেমিস্টার ভিত্তিক কোর্স ব্রাউজ করতে যেকোনো বিশ্ববিদ্যালয় নির্বাচন করুন</p>
+</div>
+<div class="flex items-center gap-2 text-label-md font-label-md text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="inline-block w-2 h-2 rounded-full bg-primary"></span>
+<span>১২টি ক্যাম্পাস প্রদর্শিত হচ্ছে</span>
+</div>
+</div>
+<!-- 3-Column Bento Grid Layout of Universities -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+<!-- Card 1: Metropolitan University (Featured / Verified) -->
+<div class="bg-surface-container-lowest rounded-2xl border-2 border-primary/20 p-6 flex flex-col justify-between hover:shadow-lg hover:border-primary/40 transition-all duration-200 relative group">
+<div class="absolute -top-3 right-5 bg-primary text-on-primary text-label-sm font-label-sm font-bold px-3 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>সিলেবাস ভেরিফাইড</span>
+</div>
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                MU
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> সিলেট
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">Metropolitan University</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">মেট্রোপলিটন ইউনিভার্সিটি (MU)</span>
+</div>
+</div>
+<!-- Syllabus Tag Status -->
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>১০০% স্পেশাল সেমিস্টার সিলেবাস সংরক্ষিত</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৪৮টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">২৪ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৯
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">BBA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">English</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 2: BUET -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-red-50 text-red-700 border border-red-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                BUET
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant text-label-sm font-label-sm font-semibold">পাবলিক</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">BUET</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">বাংলাদেশ প্রকৌশল বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<!-- Syllabus Tag Status -->
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>টার্ম ফাইনাল স্পেশাল ক্র্যাশ কোর্স</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৬৫টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">৩২ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৫.০
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">ME</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CE</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 3: Dhaka University (DU) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-800 border border-blue-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                DU
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant text-label-sm font-label-sm font-semibold">পাবলিক</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">Dhaka University</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">ঢাকা বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<!-- Syllabus Tag Status -->
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>ফ্যাকাল্টি অনুযায়ী নোট ও হ্যান্ডবুক</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৫২টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">২৮ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৮
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Physics</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">IBA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Pharmacy</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 4: BRAC University (BRACU) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-blue-100/70 text-blue-900 border border-blue-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                BRACU
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">BRAC University</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">ব্র্যাক বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>কোর্স কারিকুলাম ও মিডটার্ম ব্যাঙ্ক</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৪২টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">২০ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৮
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">BBS</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">English</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 5: North South University (NSU) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                NSU
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">North South University</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">নর্থ সাউথ ইউনিভার্সিটি</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>ক্লাউড ও বিবিএ মক কুইজ সংযোজিত</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৩৮টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১৮ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৭
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">BBA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Pharmacy</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 6: SUST -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                SUST
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant text-label-sm font-label-sm font-semibold">পাবলিক</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> সিলেট
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">SUST</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>সায়েন্স ও ইঞ্জিনিয়ারিং স্পেশালাইজড</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৩৪টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১৬ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৯
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">SWE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Physics</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Chemistry</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 7: AIUB -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-indigo-50 text-indigo-800 border border-indigo-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                AIUB
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">AIUB</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">আমেরিকান ইন্টারন্যাশনাল ইউনিভার্সিটি</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>মিডটার্ম প্র্যাকটিস প্রশ্ন ও ল্যাব গাইড</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">৩০টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১৫ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৭
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">BBA</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 8: United International University (UIU) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-800 border border-orange-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                UIU
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">United International Univ.</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">ইউনাইটেড ইন্টারন্যাশনাল ইউনিভার্সিটি</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>ট্রাই-সেমিস্টার ভিত্তিক রিভিশন প্ল্যান</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">২৬টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১৪ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৬
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Data Science</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">BBA</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 9: Dhaka Polytechnic Institute -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-teal-50 text-teal-800 border border-teal-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                DPI
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-tertiary text-label-sm font-label-sm font-semibold">পলিটেকনিক</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">Dhaka Polytechnic Inst.</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">ঢাকা পলিটেকনিক ইন্সটিটিউট</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>ডিপ্লোমা ইঞ্জিনিয়ারিং বোর্ড প্রশ্ন সমাধান</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">১৬টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">৯ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৫
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CST</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Electrical</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Civil</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 10: Dhaka College -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-purple-50 text-purple-800 border border-purple-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                DC
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm font-semibold">জাতীয় বিশ্ববিদ্যালয়</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">Dhaka College</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">ঢাকা কলেজ (অধিভুক্ত ৭ কলেজ)</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>অনার্স কোর্স এবং বিগত সালের প্রশ্নব্যাংক</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">১৪টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">৮ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৬
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Physics</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Chemistry</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Math</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 11: RUET -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-cyan-50 text-cyan-800 border border-cyan-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                RUET
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant text-label-sm font-label-sm font-semibold">পাবলিক</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> রাজশাহী
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">RUET</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">রাজশাহী প্রকৌশল ও প্রযুক্তি বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>ইঞ্জিনিয়ারিং সেমিস্টার ফাইনাল প্রিপারেশন</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">২২টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১২ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৮
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Civil</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 12: AUST -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 p-6 flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all duration-200 group">
+<div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-14 h-14 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 flex items-center justify-center font-bold text-headline-sm flex-shrink-0 group-hover:scale-105 transition-transform">
+                AUST
+              </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap mb-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-primary text-label-sm font-label-sm font-semibold">প্রাইভেট</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant text-label-sm font-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">location_on</span> ঢাকা
+                  </span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-snug truncate">AUST</h3>
+<span class="text-body-sm font-body-sm text-on-surface-variant">আহছানউল্লা বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়</span>
+</div>
+</div>
+<div class="mb-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-secondary text-label-sm font-label-sm font-semibold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>স্ট্যান্ডার্ড ইঞ্জিনিয়ারিং সিলেবাস অ্যালাইনড</span>
+</div>
+<!-- Metrics -->
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-outline-variant/30 text-center mb-4">
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-primary">২৪টি</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">মোট কোর্স</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-on-surface">১১ জন</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">শিক্ষক ও মেন্টর</span>
+</div>
+<div>
+<span class="block text-headline-sm font-headline-sm font-bold text-amber-600 flex items-center justify-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span> ৪.৭
+                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">রেটিং</span>
+</div>
+</div>
+<!-- Top Departments -->
+<div class="mb-6">
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1.5 font-semibold">টপ ডিপার্টমেন্ট:</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">CSE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">EEE</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm">Arch</span>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-primary hover:text-on-primary text-primary font-semibold text-label-lg font-label-lg text-center flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" href="#">
+<span>কোর্স ব্রাউজ করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Pagination / Load More Bar -->
+<div class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 py-4 px-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/40">
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+          ৪৮টির মধ্যে ১ম থেকে ১২টি বিশ্ববিদ্যালয় দেখানো হচ্ছে
+        </p>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant hover:text-primary hover:bg-surface-container-low text-label-md font-label-md transition-colors disabled:opacity-40" disabled="">
+            পূর্ববর্তী
+          </button>
+<span class="px-3 py-1 rounded-lg bg-primary text-on-primary text-label-md font-label-md font-bold">১</span>
+<a class="px-3 py-1 rounded-lg hover:bg-surface-container-low text-on-surface text-label-md font-label-md transition-colors" href="#">২</a>
+<a class="px-3 py-1 rounded-lg hover:bg-surface-container-low text-on-surface text-label-md font-label-md transition-colors" href="#">৩</a>
+<a class="px-3 py-1 rounded-lg hover:bg-surface-container-low text-on-surface text-label-md font-label-md transition-colors" href="#">৪</a>
+<a class="px-3.5 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface hover:text-primary hover:bg-surface-container-low text-label-md font-label-md transition-colors" href="#">
+            পরবর্তী
+          </a>
+</div>
+</div>
+</section>
+<!-- Request Missing Campus Interactive Banner -->
+<section class="max-w-7xl mx-auto px-4 md:px-8 pb-16">
+<div class="bg-gradient-to-r from-primary via-indigo-700 to-indigo-900 rounded-3xl p-8 md:p-12 text-on-primary shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+<!-- Background subtle geometric glow circles -->
+<div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+<div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
+<div class="max-w-2xl relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-label-sm font-label-sm font-medium mb-4">
+<span class="material-symbols-outlined text-[16px]">campaign</span>
+<span>ক্যাম্পাস রিকোয়েস্ট সাপোর্ট</span>
+</div>
+<h2 class="text-headline-lg font-headline-lg md:text-3xl font-bold tracking-tight text-white mb-3">
+            আপনার বিশ্ববিদ্যালয় কি তালিকায় খুঁজে পাচ্ছেন না?
+          </h2>
+<p class="text-body-lg font-body-lg text-primary-fixed leading-relaxed">
+            আমাদের জানান! আমাদের একাডেমিক টিম মাত্র ২ দিনের মধ্যে আপনার ডিপার্টমেন্টের স্পেশাল সিলেবাস বিশ্লেষণ করে টপ ইন্সট্রাক্টর ও নোট যুক্ত করবে।
+          </p>
+</div>
+<div class="relative z-10 flex-shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+<button class="px-6 py-3.5 rounded-xl bg-surface-container-lowest hover:bg-surface-bright text-primary font-bold text-label-lg font-label-lg shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>বিশ্ববিদ্যালয় অনুরোধ করুন</span>
+</button>
+<a class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-label-lg font-label-lg border border-white/20 text-center transition-colors" href="#">
+            যোগাযোগ কেন্দ্র
+          </a>
+</div>
+</div>
+</section>
+</main>
+<!-- Global Footer (Derived from Shared Components JSON with Semantic Shell Layout) -->
+<footer class="w-full bg-surface-container-low border-t border-outline-variant/40">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col gap-12">
+<!-- Top Grid of Footer -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Brand & Description Column -->
+<div class="md:col-span-5 flex flex-col gap-4">
+<a class="flex items-center gap-2" href="#">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[22px]">school</span>
+</div>
+<span class="text-headline-lg font-headline-lg font-bold text-primary tracking-tight">CampusCourse</span>
+</a>
+<p class="text-body-sm font-body-sm text-on-surface-variant max-w-sm leading-relaxed">
+            বাংলাদেশের শীর্ষ বিশ্ববিদ্যালয় ও কলেজ শিক্ষার্থীদের জন্য নিবেদিতপ্রাণ লার্নিং প্ল্যাটফর্ম। মিডটার্ম ও ফাইনাল পরীক্ষার নির্ভরযোগ্য প্রস্তুতি, হ্যান্ডনোট এবং ক্যাম্পাস ভিত্তিক কোর্স।
+          </p>
+<div class="flex items-center gap-3 pt-2">
+<a class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#" title="Facebook">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+<a class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#" title="YouTube">
+<span class="material-symbols-outlined text-[20px]">smart_display</span>
+</a>
+<a class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#" title="Community">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+</a>
+</div>
+</div>
+<!-- Links Columns directly respecting Shared Components JSON -->
+<div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6">
+<div class="flex flex-col gap-3">
+<span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider">নীতিমালা ও শর্ত</span>
+<ul class="flex flex-col gap-2.5">
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  শর্তাবলী ও নীতিমালা
+                </a>
+</li>
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  গোপনীয়তা নীতি
+                </a>
+</li>
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  রিফান্ড পলিসি
+                </a>
+</li>
+</ul>
+</div>
+<div class="flex flex-col gap-3">
+<span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider">সহায়তা ও সেবা</span>
+<ul class="flex flex-col gap-2.5">
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  যোগাযোগ
+                </a>
+</li>
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  সহায়তা কেন্দ্র
+                </a>
+</li>
+<li>
+<a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                  শিক্ষক হিসেবে যোগ দিন
+                </a>
+</li>
+</ul>
+</div>
+<div class="flex flex-col gap-3 col-span-2 sm:col-span-1">
+<span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider">নিরাপদ পেমেন্ট</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+              বিকাশ, নগদ ও কার্ডের মাধ্যমে তাৎক্ষণিক কোর্স অ্যাক্টিভেশন
+            </p>
+<div class="flex items-center gap-2 pt-1">
+<span class="px-2.5 py-1 rounded bg-surface-container font-bold text-[12px] text-pink-700 border border-outline-variant/30">bKash</span>
+<span class="px-2.5 py-1 rounded bg-surface-container font-bold text-[12px] text-orange-700 border border-outline-variant/30">Nagad</span>
+<span class="px-2.5 py-1 rounded bg-surface-container font-bold text-[12px] text-slate-800 border border-outline-variant/30">Cards</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Copyright Row as defined in JSON -->
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="text-body-sm font-body-sm text-on-surface-variant text-center sm:text-left">
+          © 2025 CampusCourse Ltd. সর্বস্বত্ব সংরক্ষিত। বাংলাদেশ ও আন্তর্জাতিক কপিরাইট আইন দ্বারা সুরক্ষিত।
+        </p>
+<div class="flex items-center gap-4 text-body-sm font-body-sm text-on-surface-variant">
+<span>ঢাকা, বাংলাদেশ</span>
+<span>•</span>
+<span class="flex items-center gap-1 text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">verified_user</span> সিকিউরড প্ল্যাটফর্ম
+          </span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

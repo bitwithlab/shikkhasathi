@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusCourse - Explore &amp; Search</title>
+<!-- Material Symbols Outlined font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface-variant": "#464555",
+            "on-primary-fixed": "#0f0069",
+            "outline": "#777587",
+            "surface-dim": "#d2d9f4",
+            "background": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "on-primary-fixed-variant": "#3323cc",
+            "error": "#ba1a1a",
+            "on-primary-container": "#dad7ff",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#6ffbbe",
+            "primary": "#3525cd",
+            "primary-container": "#4f46e5",
+            "tertiary-fixed": "#ffddb8",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-variant": "#dae2fd",
+            "surface-container": "#eaedff",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "on-tertiary-container": "#ffd4a4",
+            "primary-fixed-dim": "#c3c0ff",
+            "secondary-container": "#6cf8bb",
+            "surface": "#faf8ff",
+            "surface-container-high": "#e2e7ff",
+            "tertiary-container": "#885500",
+            "surface-tint": "#4d44e3",
+            "tertiary": "#684000",
+            "on-surface": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            "inverse-primary": "#c3c0ff",
+            "inverse-on-surface": "#eef0ff",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#4edea3",
+            "on-secondary-fixed-variant": "#005236",
+            "outline-variant": "#c7c4d8",
+            "on-tertiary-fixed": "#2a1700",
+            "inverse-surface": "#283044",
+            "on-background": "#131b2e",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#653e00",
+            "secondary": "#006c49"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "2rem",
+            "space-xl": "2rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "1rem",
+            "gutter-desktop": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-lg": ["Inter", "Hind Siliguri", "sans-serif"],
+            "display-hero": ["Inter", "Hind Siliguri", "sans-serif"],
+            "headline-md": ["Inter", "Hind Siliguri", "sans-serif"],
+            "label-lg": ["Inter", "Hind Siliguri", "sans-serif"],
+            "display-hero-mobile": ["Inter", "Hind Siliguri", "sans-serif"],
+            "label-sm": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-md": ["Inter", "Hind Siliguri", "sans-serif"],
+            "price-currency": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-sm": ["Inter", "Hind Siliguri", "sans-serif"],
+            "headline-lg": ["Inter", "Hind Siliguri", "sans-serif"],
+            "label-md": ["Inter", "Hind Siliguri", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-lg": ["16px", {"lineHeight": "27px", "fontWeight": "400"}],
+            "display-hero": ["36px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-md": ["20px", {"lineHeight": "30px", "fontWeight": "600"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "display-hero-mobile": ["28px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "price-currency": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+            "body-sm": ["13px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "headline-lg": ["24px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-md": ["12px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', 'Hind Siliguri', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex justify-center selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+<!-- Mobile Viewport Container (Fixed 390px baseline for authentic presentation) -->
+<div class="w-full max-w-[390px] min-h-screen bg-background relative flex flex-col shadow-2xl overflow-x-hidden pb-24">
+<!-- TopAppBar (Mapped directly from Shared Component Specification) -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between w-full h-14 px-4 max-w-sm mx-auto bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<div class="flex items-center gap-2">
+<button aria-label="Back" class="w-9 h-9 rounded-full flex items-center justify-center text-primary dark:text-inverse-primary hover:bg-surface-container active:scale-[0.98] transition-transform duration-150">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<span class="text-headline-sm font-headline-sm font-bold text-primary dark:text-inverse-primary tracking-tight">CampusCourse</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- University Badge & Semester -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container border border-outline-variant rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">MU · 5th Sem</span>
+</div>
+<!-- Notification action -->
+<button aria-label="Notifications" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-[0.98] relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</button>
+<!-- JSON Trailing Text Item: এড়িয়ে যান -->
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors active:scale-[0.98] duration-150 pl-0.5">
+          এড়িয়ে যান
+        </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 pt-16 flex flex-col">
+<!-- Sticky Search & Filter Header Cluster -->
+<section class="sticky top-14 z-40 bg-surface/95 backdrop-blur-md px-4 pt-3 pb-2 border-b border-outline-variant/60 shadow-sm">
+<!-- Search Input with Active Counter Filter Button -->
+<div class="relative flex items-center gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">search</span>
+<input class="w-full h-12 pl-10 pr-9 bg-surface-container-lowest border border-outline-variant rounded-xl font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" placeholder="ইউনিভার্সিটি, বিষয় বা কোর্স কোড..." type="search" value="CSE-2203 Data Structures"/>
+<button aria-label="Clear Search" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface active:scale-95">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<!-- Filter Trigger Button with Badge (৩) -->
+<button aria-label="Open Filters" class="h-12 px-3.5 bg-primary-container text-on-primary rounded-xl flex items-center gap-1.5 shadow-sm hover:opacity-95 active:scale-[0.98] transition-transform flex-shrink-0" id="filterTriggerBtn">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="w-5 h-5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center justify-center">৩</span>
+</button>
+</div>
+<!-- Horizontal Quick Filter Chips & Sort Trigger -->
+<div class="flex items-center gap-2 mt-2.5 overflow-x-auto no-scrollbar py-1">
+<!-- Main Filter Dropdown Pill with Active State -->
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex-shrink-0 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+<span>ফিল্টার (৩)</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+<!-- Quick Active Tag 1 -->
+<div class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-high border border-outline-variant text-on-surface font-label-md text-label-md flex-shrink-0">
+<span>Metropolitan Univ.</span>
+<button class="hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<!-- Quick Active Tag 2 -->
+<div class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-high border border-outline-variant text-on-surface font-label-md text-label-md flex-shrink-0">
+<span>Midterm</span>
+<button class="hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<!-- Quick Active Tag 3 -->
+<div class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-high border border-outline-variant text-on-surface font-label-md text-label-md flex-shrink-0">
+<span>CSE-2203</span>
+<button class="hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<!-- Price filter chip -->
+<button class="inline-flex items-center px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md flex-shrink-0 transition-colors">
+<span>৳৩৯৯ এর নিচে</span>
+</button>
+<!-- Sort Button -->
+<button class="inline-flex items-center gap-0.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md flex-shrink-0 active:scale-95">
+<span>সেরা মিল</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+</section>
+<!-- Results Count & Context Metadata Header -->
+<section class="px-4 pt-3.5 pb-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">২৪টি কোর্স পাওয়া গেছে</h1>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-1 bg-secondary-container/30 border border-secondary/30 rounded-full">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">সিলেবাস ভেরিফাইড</span>
+</div>
+</section>
+<!-- Vertical Course Card Feed (Realistic Exam Prep Cards) -->
+<section class="px-4 py-2 space-y-4">
+<!-- Course Card 1: Primary Search Target -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<!-- Thumbnail & Aspect Container (16:9) -->
+<div class="relative w-full aspect-[16/9] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An organized, academic study workspace featuring an open computer science data structures algorithm notebook alongside an illuminated laptop displaying code graphs, bathed in clean soft Scandinavian blue and indigo ambient university library lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAICkEcdkG7gp5pqTM2_LTfjaniGwHfzwKZxHOuR81x3JAC3iKv1P3noHJ_McXxtMZTsFs3q4cdnAnD0h_1uL5tfsPmrzyzWLnc-mowcHBSMetRwf7FB1Md_J1lqnS--pYn8hLuw-5pXMv2FXdbTJQjr5O4DRlQ158g5kYeeo-dHuQhoS9-VeXJTZEz-DYtZA1i-n0WouiUWPmXOcCGYjtzB71mt0X9jl58D3psBgvq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent"></div>
+<!-- Top Header Badges -->
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-inverse-surface/90 text-surface-bright backdrop-blur-sm rounded-md font-label-sm text-label-sm font-bold tracking-wide">
+                MU • Sylhet
+              </span>
+<span class="px-2 py-0.5 bg-primary-container text-on-primary rounded-md font-label-sm text-label-sm font-semibold">
+                CSE-2203
+              </span>
+</div>
+<!-- Exam Mode Tag -->
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2.5 py-0.5 bg-error text-on-error font-label-sm text-label-sm font-bold rounded-full shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                Midterm Special
+              </span>
+</div>
+<!-- Bottom Left of image: Duration & Chapter metrics -->
+<div class="absolute bottom-2 left-2.5 text-surface-bright flex items-center gap-2 font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">schedule</span> ৮.৫ ঘণ্টা</span>
+<span>•</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">description</span> ১২টি লেকচার শিট</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-3.5 space-y-2.5">
+<!-- Syllabus Compatibility Pill -->
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#ECFDF5] border border-secondary/20 rounded-md text-secondary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>আপনার সিলেবাস সমর্থিত (Spring 2025)</span>
+</div>
+<!-- Course Title -->
+<h2 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2 leading-snug">
+              CSE-2203 ডাটা স্ট্রাকচার্স &amp; অ্যালগরিদম মিডটার্ম প্রস্তুতি
+            </h2>
+<!-- Verified Instructor & Reviews Row -->
+<div class="flex items-center justify-between pt-0.5 border-t border-surface-container-high">
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed font-label-sm text-label-sm">
+                  ত
+                </div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">তানভীর আহমেদ (BUET '21)</span>
+<span class="material-symbols-outlined text-secondary text-[16px]" title="ভেরিফাইড মেন্টর">check_circle</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface font-label-sm text-label-sm font-bold">
+<span class="text-tertiary-container">⭐</span>
+<span>৪.৯</span>
+<span class="text-outline font-normal font-body-sm text-body-sm">(৪২০)</span>
+</div>
+</div>
+<!-- Pricing & Action Row -->
+<div class="flex items-center justify-between pt-1">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-price-currency text-headline-md text-primary font-bold">৳২৯৯</span>
+<span class="font-body-sm text-body-sm text-outline line-through">৳৪৯৯</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">৪০% ছাড়</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary font-medium">bKash/Nagad তাৎক্ষণিক অ্যাক্সেস</p>
+</div>
+<button class="h-11 px-4 bg-primary-container text-on-primary font-label-lg text-label-lg rounded-xl flex items-center gap-1.5 shadow-md hover:bg-primary active:scale-[0.98] transition-all">
+<span>এনরোল করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Course Card 2: Secondary Syllabus Match -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<!-- Thumbnail & Aspect Container (16:9) -->
+<div class="relative w-full aspect-[16/9] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean top-down perspective of university mathematics graph theory notes with neat diagrams, mechanical pencil, calculator, and a steaming ceramic mug on a modern minimalist desk with natural morning daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW4JYN5HO9STkyc3y_3wouz2F0wR8uiE1-0FDivUalEf9OvCCzujByLAl6-1iXEFW89_Yx6bwB7pZjOX-0lfGYM7Ks-rgWNjhx1Ainbp6pT7Cm10rLwAi00TjxqyG1Jw1-nfSqXNXUkaTb64QE8trJRlCwRzhv-W98Qy4QmEP6mJC_UVpKuIX73RAJseruE252VojWC6SENulJEApcl4YCf7fSox3JLxDkptNlQjeX"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent"></div>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-inverse-surface/90 text-surface-bright backdrop-blur-sm rounded-md font-label-sm text-label-sm font-bold">
+                MU • Sylhet
+              </span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface rounded-md font-label-sm text-label-sm font-semibold">
+                CSE-2201
+              </span>
+</div>
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2.5 py-0.5 bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold rounded-full shadow-sm">
+                Final Crash Course
+              </span>
+</div>
+<div class="absolute bottom-2 left-2.5 text-surface-bright flex items-center gap-2 font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">schedule</span> ৬.০ ঘণ্টা</span>
+<span>•</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">quiz</span> ৮টি কুইজ সলভ</span>
+</div>
+</div>
+<div class="p-3.5 space-y-2.5">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#ECFDF5] border border-secondary/20 rounded-md text-secondary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>আপনার সিলেবাস সমর্থিত (Spring 2025)</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface line-clamp-2 leading-snug">
+              CSE-2201 ডিসক্রিট ম্যাথমেটিক্স বিগত ৫ বছরের সলভড প্রশ্ন
+            </h2>
+<div class="flex items-center justify-between pt-0.5 border-t border-surface-container-high">
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center font-bold text-on-secondary-fixed font-label-sm text-label-sm">
+                  র
+                </div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">ড. রিয়াজ মোর্শেদ</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface font-label-sm text-label-sm font-bold">
+<span class="text-tertiary-container">⭐</span>
+<span>৪.৮</span>
+<span class="text-outline font-normal font-body-sm text-body-sm">(৩১০)</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-price-currency text-headline-md text-primary font-bold">৳২৪৯</span>
+<span class="font-body-sm text-body-sm text-outline line-through">৳৩৯৯</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">৩৮% ছাড়</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary font-medium">ইনস্ট্যান্ট লেকচার অ্যাক্সেস</p>
+</div>
+<button class="h-11 px-4 bg-primary-container text-on-primary font-label-lg text-label-lg rounded-xl flex items-center gap-1.5 shadow-md hover:bg-primary active:scale-[0.98] transition-all">
+<span>এনরোল করুন</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Course Card 3: Free High Yield Topic -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-3.5 space-y-2">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold rounded-md flex items-center gap-1">
+                ⭐ গুরুত্বপূর্ণ টপিক (High-Yield)
+              </span>
+<span class="font-label-sm text-label-sm text-secondary font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">lock_open</span> ফ্রি প্রিভিউ
+              </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              ট্রি অ্যান্ড গ্রাফ ট্রাভার্সাল (Tree &amp; Graph Traversal) ওয়ান-শট সেশন
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              মিডটার্মের অন্তত ২টি ব্রড প্রশ্নের শতভাগ নিশ্চিত সলিউশন ও লাইভ কোডিং ডেমো।
+            </p>
+<div class="flex items-center justify-between pt-2">
+<span class="font-price-currency text-headline-sm text-secondary font-bold">বিনামূল্যে</span>
+<button class="h-9 px-3.5 bg-surface-container-high text-primary border border-primary/20 rounded-lg font-label-md text-label-md font-semibold flex items-center gap-1 active:scale-95">
+<span class="material-symbols-outlined text-[16px]">play_circle</span> দেখুন এখনই
+              </button>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- Visual Interactive Preview: Mobile Filter Bottom Sheet Sliding Up -->
+<!-- The backdrop blur overlay -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-[2px] max-w-[390px] mx-auto flex flex-col justify-end transition-opacity duration-300" id="filterBackdrop">
+<!-- The Sheet Container with Elevation Level 3 -->
+<div class="w-full bg-surface-container-lowest rounded-t-3xl shadow-2xl border-t border-outline-variant flex flex-col max-h-[724px] overflow-hidden animate-in slide-in-from-bottom duration-300">
+<!-- Drag Handle Area -->
+<div class="w-full pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full"></div>
+</div>
+<!-- Sheet Header -->
+<div class="px-5 py-2.5 flex items-center justify-between border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">tune</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">ফিল্টার করুন (Filters)</h2>
+<p class="font-label-sm text-label-sm text-outline">আপনার ভার্সিটি ও সিলেবাস অনুযায়ী সাজান</p>
+</div>
+</div>
+<button aria-label="Reset Filters" class="font-label-md text-label-md text-primary font-bold hover:underline px-2 py-1 active:scale-95">
+            রিসেট (Reset)
+          </button>
+</div>
+<!-- Sheet Scrollable Filter Criteria Options -->
+<div class="flex-1 overflow-y-auto px-5 py-4 space-y-5 no-scrollbar text-left">
+<!-- Criterion 1: University Selection -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-outline">account_balance</span>
+                ইউনিভার্সিটি (University)
+              </label>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">১টি নির্বাচিত</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<!-- Selected Chip -->
+<button class="px-3 py-1.5 rounded-full bg-primary-container text-on-primary font-label-md text-label-md font-semibold flex items-center gap-1 shadow-sm">
+<span>Metropolitan Univ.</span>
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md text-label-md font-medium hover:bg-surface-container-high">
+                NSU
+              </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md text-label-md font-medium hover:bg-surface-container-high">
+                BUET
+              </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md text-label-md font-medium hover:bg-surface-container-high">
+                SUST
+              </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant font-label-md text-label-md font-medium hover:bg-surface-container-high">
+                BRACU
+              </button>
+<button class="px-2.5 py-1.5 rounded-full bg-surface-container-lowest border border-dashed border-outline text-outline font-label-md text-label-md flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">add</span> আরও ৫টি
+              </button>
+</div>
+</div>
+<!-- Criterion 2: Department & Semester -->
+<div class="grid grid-cols-2 gap-3">
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">ডিপার্টমেন্ট</label>
+<div class="relative">
+<select class="w-full h-11 px-3 pr-8 bg-surface-container-lowest border border-outline-variant rounded-xl font-body-sm text-body-sm text-on-surface appearance-none focus:outline-none focus:border-primary">
+<option selected="">CSE</option>
+<option>EEE</option>
+<option>BBA</option>
+<option>Civil</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">সেমিস্টার</label>
+<div class="relative">
+<select class="w-full h-11 px-3 pr-8 bg-surface-container-lowest border border-outline-variant rounded-xl font-body-sm text-body-sm text-on-surface appearance-none focus:outline-none focus:border-primary">
+<option selected="">৫ম সেমিস্টার</option>
+<option>১ম সেমিস্টার</option>
+<option>৩য় সেমিস্টার</option>
+<option>৭ম সেমিস্টার</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Criterion 3: Exam Type Selection -->
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-outline">history_edu</span>
+              পরীক্ষার ধরন (Exam Type)
+            </label>
+<div class="grid grid-cols-3 gap-2">
+<!-- Selected Midterm -->
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="p-2.5 rounded-xl border border-primary bg-primary/5 text-center peer-checked:border-primary peer-checked:bg-primary-fixed/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[20px] text-primary">assignment_turned_in</span>
+<span class="font-label-md text-label-md font-bold text-primary">মিডটার্ম (Mid)</span>
+</div>
+</label>
+<!-- Final -->
+<label class="cursor-pointer">
+<input class="hidden peer" type="checkbox"/>
+<div class="p-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-center peer-checked:border-primary peer-checked:bg-primary-fixed/40 transition-all flex flex-col items-center gap-1 hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px] text-outline">school</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">ফাইনাল (Final)</span>
+</div>
+</label>
+<!-- Quiz / Class Test -->
+<label class="cursor-pointer">
+<input class="hidden peer" type="checkbox"/>
+<div class="p-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-center peer-checked:border-primary peer-checked:bg-primary-fixed/40 transition-all flex flex-col items-center gap-1 hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px] text-outline">quiz</span>
+<span class="font-label-md text-label-md font-medium text-on-surface">কুইজ/সিটি</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Criterion 4: Price Range Filter -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-outline">payments</span>
+                সর্বোচ্চ বাজেট (Price Range)
+              </label>
+<span class="font-label-md text-label-md font-bold text-primary">৳৩Action এর নিচে</span>
+</div>
+<!-- Price Range Segmented Pills -->
+<div class="flex gap-2">
+<button class="flex-1 py-1.5 rounded-lg border border-outline-variant bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold">সকল</button>
+<button class="flex-1 py-1.5 rounded-lg border border-primary bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm">≤ ৳৩৯৯</button>
+<button class="flex-1 py-1.5 rounded-lg border border-outline-variant bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold">≤ ৳৭৯৯</button>
+<button class="flex-1 py-1.5 rounded-lg border border-outline-variant bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold">ফ্রি ক্লাস</button>
+</div>
+</div>
+<!-- Syllabus Assurance Checkbox -->
+<div class="p-3 bg-[#ECFDF5] border border-secondary/20 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">verified</span>
+<div class="flex-1 text-left">
+<span class="font-label-md text-label-md font-bold text-secondary block">শুধুমাত্র ভেরিফাইড সিলেবাস কোর্স</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">আপনার ইউনিভার্সিটির প্রশ্নের প্যাটার্নের সাথে ১০০% মিল থাকা কোর্স ফিল্টার হবে।</span>
+</div>
+<input checked="" class="mt-1 rounded text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+</div>
+</div>
+<!-- Sticky Bottom Action Tray in Bottom Sheet -->
+<div class="p-4 bg-surface border-t border-outline-variant/60 flex items-center gap-3">
+<button aria-label="Close Bottom Sheet" class="h-12 px-4 rounded-xl border border-outline-variant text-on-surface font-label-lg text-label-lg hover:bg-surface-container active:scale-95 transition-transform" id="closeSheetBtn">
+            বন্ধ করুন
+          </button>
+<button class="flex-1 h-12 bg-primary-container text-on-primary font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary-container/25 hover:bg-primary active:scale-[0.98] transition-all" id="applyFiltersBtn">
+<span>২৪টি কোর্স দেখুন (Apply Filters)</span>
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro Interaction Script for Bottom Sheet Toggle and Preview Control -->
+<script>
+    const filterTriggerBtn = document.getElementById('filterTriggerBtn');
+    const closeSheetBtn = document.getElementById('closeSheetBtn');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const filterBackdrop = document.getElementById('filterBackdrop');
+
+    function toggleSheet(open) {
+      if (open) {
+        filterBackdrop.classList.remove('hidden');
+        filterBackdrop.classList.add('flex');
+      } else {
+        filterBackdrop.classList.add('hidden');
+        filterBackdrop.classList.remove('flex');
+      }
+    }
+
+    if (filterTriggerBtn) {
+      filterTriggerBtn.addEventListener('click', () => toggleSheet(true));
+    }
+    if (closeSheetBtn) {
+      closeSheetBtn.addEventListener('click', () => toggleSheet(false));
+    }
+    if (applyFiltersBtn) {
+      applyFiltersBtn.addEventListener('click', () => {
+        // Quick visual confirm ripple
+        applyFiltersBtn.innerText = "ফিল্টার প্রয়োগ হচ্ছে...";
+        setTimeout(() => {
+          applyFiltersBtn.innerHTML = `<span>২৪টি কোর্স দেখুন (Apply Filters)</span><span class="material-symbols-outlined text-[20px]">check_circle</span>`;
+          toggleSheet(false);
+        }, 300);
+      });
+    }
+
+    // Dismiss bottom sheet when clicking outer gray backdrop
+    filterBackdrop.addEventListener('click', (e) => {
+      if (e.target === filterBackdrop) {
+        toggleSheet(false);
+      }
+    });
+  </script>
+</body></html>

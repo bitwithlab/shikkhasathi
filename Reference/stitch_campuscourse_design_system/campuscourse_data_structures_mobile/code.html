@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusCourse — Data Structures Midterm Crash Course</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#dae2fd",
+            "primary-fixed": "#e2dfff",
+            "outline": "#777587",
+            "on-primary-fixed": "#0f0069",
+            "primary": "#3525cd",
+            "inverse-surface": "#283044",
+            "secondary-fixed-dim": "#4edea3",
+            "outline-variant": "#c7c4d8",
+            "tertiary-container": "#885500",
+            "surface-container-low": "#f2f3ff",
+            "on-background": "#131b2e",
+            "tertiary": "#684000",
+            "surface-container": "#eaedff",
+            "inverse-primary": "#c3c0ff",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-tertiary": "#ffffff",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#eef0ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-variant": "#dae2fd",
+            "on-tertiary-fixed": "#2a1700",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "tertiary-fixed-dim": "#ffb95f",
+            "secondary-fixed": "#6ffbbe",
+            "background": "#faf8ff",
+            "on-surface": "#131b2e",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#ffd4a4",
+            "on-secondary-fixed-variant": "#005236",
+            "surface-tint": "#4d44e3",
+            "tertiary-fixed": "#ffddb8",
+            "on-primary-container": "#dad7ff",
+            "on-secondary": "#ffffff",
+            "primary-container": "#4f46e5",
+            "secondary": "#006c49",
+            "on-secondary-container": "#00714d",
+            "surface-dim": "#d2d9f4",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-surface-variant": "#464555",
+            "surface-container-high": "#e2e7ff",
+            "error-container": "#ffdad6",
+            "on-primary": "#ffffff",
+            "secondary-container": "#6cf8bb",
+            "surface": "#faf8ff",
+            "surface-bright": "#faf8ff",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-desktop": "1.5rem",
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin-desktop": "2rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-lg": ["Inter", "Hind Siliguri", "sans-serif"],
+            "display-hero-mobile": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero": ["Hind Siliguri", "Inter", "sans-serif"],
+            "price-currency": ["Inter", "Hind Siliguri", "sans-serif"],
+            "label-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-sm": ["Hind Siliguri", "Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "display-hero-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "display-hero": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "price-currency": ["22px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-lg": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scroll-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scroll-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Mobile Viewport Frame (Strict 390px canvas standard) -->
+<div class="w-full max-w-[390px] min-h-screen bg-surface flex flex-col relative pb-32">
+<!-- Top Bar Component Anchor (Matches Shared TopAppBar logic with back navigation & course context) -->
+<header class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 px-3 h-14 flex items-center justify-between transition-all">
+<div class="flex items-center gap-2">
+<button aria-label="Go Back" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform text-on-surface" type="button">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<span class="bg-surface-container-high px-2.5 py-1 rounded-full text-primary font-label-md text-label-md tracking-wider border border-outline-variant/40">
+          CSE-2203
+        </span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Share Course" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button aria-label="Bookmark Course" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-4 pt-3 flex flex-col gap-4">
+<!-- Video Preview Hero Card -->
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden bg-inverse-surface shadow-md group cursor-pointer border border-outline-variant/20">
+<!-- Thumbnail Placeholder Image -->
+<img class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-300" data-alt="A cinematic educational computer science lecture backdrop with sleek dark mode code editor showing binary tree algorithms in vibrant indigo and cyan syntax on a modern glass desk setup in high key academic studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdLACubxlfUeZelHZLyZhq6gYQTBkxO8FH4MjM6OIFH_xS2kMZnsuS_jV2T9qgxFw2nfTAdcl0ASayyepKDUjRDsRHZCc0UugqgUy6pJFcu51Ugo4WIO5obJMkdWYXSw4CGQx3Uw6Wkl-Xhb-MSRzUSnRWVlrXuIMnBteldLTNnsiE9PzkthrOPWwy7EnwShHrnvTiPQOsGr5zZnkWzgt-NGGcS68u0-grIwUvvANe"/>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-between p-3.5">
+<!-- Top Badges in Video -->
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 bg-black/60 backdrop-blur-md text-white text-label-sm font-label-sm px-2.5 py-1 rounded-full border border-white/20">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+              মিডটার্ম ক্র্যাশ কোর্স
+            </span>
+<span class="bg-primary-container text-white text-label-sm font-label-sm px-2 py-0.5 rounded-md">
+              ১০৮০p HD
+            </span>
+</div>
+<!-- Play Center Button -->
+<div class="flex flex-col items-center justify-center gap-1.5 my-auto">
+<div class="w-13 h-13 w-12 h-12 rounded-full bg-white/95 text-primary flex items-center justify-center shadow-lg group-hover:scale-110 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[30px] ml-0.5" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<span class="text-white text-label-md font-label-md drop-shadow font-medium bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full">
+              ফ্রি প্রিভিউ দেখুন (২টি ক্লাস উন্মুক্ত)
+            </span>
+</div>
+<!-- Video Duration Bottom Right -->
+<div class="flex justify-end">
+<span class="text-white/90 text-label-sm font-label-sm bg-black/70 px-2 py-0.5 rounded">
+              ১৬:৪৫ মিনিট ডেমো
+            </span>
+</div>
+</div>
+</section>
+<!-- Breadcrumbs & Academic Classification -->
+<section class="flex flex-col gap-2 pt-1">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="bg-surface-container text-on-surface-variant px-2.5 py-1 rounded-md text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">account_balance</span>
+            Metropolitan University
+          </span>
+<span class="text-outline text-label-sm font-label-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">CSE ডিপার্টমেন্ট</span>
+<span class="text-outline text-label-sm font-label-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">৫ম সেমিস্টার</span>
+</div>
+<!-- Course Title -->
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight">
+          Data Structures — Midterm Crash Course <span class="text-primary font-label-lg font-semibold">(CSE-2203)</span>
+</h1>
+</section>
+<!-- Exam Countdown Pill (Urgency & Relevance) -->
+<section class="bg-tertiary-fixed/30 border border-tertiary-fixed-dim/50 rounded-xl p-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-tertiary text-on-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+</div>
+<div>
+<div class="text-on-tertiary-fixed text-label-md font-label-md">মিডটার্ম পরীক্ষা: ১৫ এপ্রিল</div>
+<div class="text-tertiary font-body-sm text-body-sm">সিলেবাস শেষ করতে সময় বাকি মাত্র ১২ দিন</div>
+</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary text-label-sm font-label-sm px-2.5 py-1 rounded-full font-bold">
+          ১২ দিন বাকি
+        </span>
+</section>
+<!-- Syllabus Verification Badge -->
+<section class="bg-[#ECFDF5] border border-secondary/20 rounded-xl p-3 flex items-start gap-2.5 shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[22px] mt-0.5" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div>
+<div class="text-secondary font-label-lg text-label-lg flex items-center gap-1">
+            ১০০% আপনার ভার্সিটির সিলেবাস অনুযায়ী সাজানো
+          </div>
+<p class="text-on-secondary-fixed-variant text-body-sm font-body-sm mt-0.5">
+            Metropolitan University-এর CSE-2203 স্প্রিং ২০২৪ লেটেস্ট কারিকুলাম ও প্রশ্ন প্যাটার্ন অনুযায়ী তৈরি।
+          </p>
+</div>
+</section>
+<!-- Quick Metrics Chips Grid -->
+<section class="grid grid-cols-4 gap-2">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mb-1">schedule</span>
+<span class="font-label-md text-label-md text-on-surface">২ঘ ৩০মি</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">মোট ডিউরেশন</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mb-1">play_circle</span>
+<span class="font-label-md text-label-md text-on-surface">১৩ লেকচার</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">৪টি মডিউল</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mb-1">description</span>
+<span class="font-label-md text-label-md text-on-surface">৪টি শিট</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">হ্যান্ডনোট PDF</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-amber-500 text-[20px] mb-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md text-on-surface">4.9 ⭐</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">৯২৪ জন রিভিউ</span>
+</div>
+</section>
+<!-- Verified Instructor Profile Card -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm flex items-center gap-3">
+<div class="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-primary/20 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up portrait photograph of an intelligent Bangladeshi male university topper in an engineering campus library, soft smiling wearing smart casual spectacles with warm daylight and blurred bookshelves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkzEX2xZDEs5OHsqvukl4z9lOPqKeMmgAHIyLLyNhr-uiOxBfBsjw3aVE-zTdEp540NtkuR-ppREnos2j-AhU5MXr5MuIcWuDMINJ49meGoipZAry8_cycDUxnvkgepWtiSML3cpPGM8G6nIo57rgMQ82JvreKhpnHuZJ9xKs3Mz_3GeAb4yBspwyLlQM8rZNq6lfIO_eu-Vr-7W8fk4k54WqbCrk-rtf-pJ1UuMHs"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-secondary text-white flex items-center justify-center text-[10px]">
+            ✓
+          </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">রাকিবুল হাসান</h3>
+<span class="bg-secondary/10 text-secondary text-[11px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              MU Topper
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Metropolitan University (Batch 49) • CGPA 3.98/4.00
+          </p>
+<div class="flex items-center gap-2 mt-1 text-[11px] text-primary font-medium">
+<span>🎓 ৩+ বছর মেন্টরিং</span>
+<span>•</span>
+<span>২,৪০০+ স্টুডেন্ট পড়িয়েছেন</span>
+</div>
+</div>
+</section>
+<!-- Learning Outcomes: 'কী কী শিখবেন' Bento/Checklist -->
+<section class="bg-surface-container-low/60 border border-outline-variant/25 rounded-2xl p-4 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">school</span>
+            কোর্সে কী কী শিখবেন
+          </h2>
+<span class="text-label-sm font-label-sm text-primary bg-primary-fixed px-2 py-0.5 rounded-full">পরীক্ষা ফোকাসড</span>
+</div>
+<div class="grid grid-cols-1 gap-2 pt-1">
+<div class="flex items-start gap-2 bg-surface-container-lowest p-2.5 rounded-xl border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface">অ্যাসিম্পটোটিক নোটেশন (Big-O, Omega, Theta) সহজে ক্যালকুলেশন</span>
+</div>
+<div class="flex items-start gap-2 bg-surface-container-lowest p-2.5 rounded-xl border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface">Stack ও Queue এর রিয়েল-লাইফ এক্সাম ট্রিকস ও ইনফিক্স টু পোস্টফিক্স রূপান্তর</span>
+</div>
+<div class="flex items-start gap-2 bg-surface-container-lowest p-2.5 rounded-xl border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface">Binary Search Tree (BST) ইনসার্ট, ডিলিট এবং ৩টি ট্রাভার্সাল স্টেপ বাই স্টেপ</span>
+</div>
+<div class="flex items-start gap-2 bg-surface-container-lowest p-2.5 rounded-xl border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface">বিগত ৩ সেমিস্টারের মিডটার্ম প্রশ্ন সমাধান ও ফুল মার্কস সিকিউর টেকনিক</span>
+</div>
+</div>
+</section>
+<!-- Curriculum Accordion Section -->
+<section class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[22px]">format_list_bulleted</span>
+            সিলেবাস ও লেকচার সমূহ
+          </h2>
+<span class="text-body-sm font-body-sm text-on-surface-variant">১৩টি ক্লাস</span>
+</div>
+<div class="space-y-2.5">
+<!-- Module 1 (Free Preview Active) -->
+<div class="bg-surface-container-lowest border border-primary/30 rounded-2xl p-3.5 shadow-sm transition-all">
+<div class="flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-primary-fixed text-primary font-bold text-label-md flex items-center justify-center">১</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Time &amp; Space Complexity</h4>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span>৩টি লেকচার</span>
+<span>•</span>
+<span>৩৫ মিনিট</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_less</span>
+</div>
+<!-- Lessons inside Module 1 -->
+<div class="mt-3 pt-3 border-t border-outline-variant/20 space-y-2">
+<div class="flex items-center justify-between bg-surface-container-low/50 p-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<div>
+<div class="text-body-md font-body-md text-on-surface font-medium">১.১ টাইম কমপ্লেক্সিটি ধারণা ও Big-O</div>
+<div class="text-body-sm text-[11px] text-on-surface-variant">১০:৪৫ মিনিট</div>
+</div>
+</div>
+<span class="bg-secondary/10 text-secondary text-label-sm font-label-sm px-2.5 py-0.5 rounded-full font-semibold">
+                  ফ্রি দেখুন
+                </span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low/50 p-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<div>
+<div class="text-body-md font-body-md text-on-surface font-medium">১.২ রিকার্সন ট্রি মেথড &amp; স্পেস কমপ্লেক্সিটি</div>
+<div class="text-body-sm text-[11px] text-on-surface-variant">১২:৩০ মিনিট</div>
+</div>
+</div>
+<span class="bg-secondary/10 text-secondary text-label-sm font-label-sm px-2.5 py-0.5 rounded-full font-semibold">
+                  ফ্রি দেখুন
+                </span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low/30 p-2 rounded-xl opacity-75">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+<div>
+<div class="text-body-md font-body-md text-on-surface">১.৩ প্র্যাকটিস প্রবলেম সেট সলভিং</div>
+<div class="text-body-sm text-[11px] text-on-surface-variant">১১:৪৫ মিনিট</div>
+</div>
+</div>
+<span class="text-outline text-label-sm font-label-sm">লকড</span>
+</div>
+</div>
+</div>
+<!-- Module 2 (Exam Special) -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container text-on-surface font-bold text-label-md flex items-center justify-center">২</span>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Stack &amp; Queue Exam Special</h4>
+</div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span>৪টি লেকচার</span>
+<span>•</span>
+<span class="text-tertiary-container font-semibold flex items-center gap-0.5">
+                      ⭐ গুরুত্বপূর্ণ অধ্যায়
+                    </span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Module 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container text-on-surface font-bold text-label-md flex items-center justify-center">৩</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Binary Search Tree &amp; Traversals</h4>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span>৩টি লেকচার</span>
+<span>•</span>
+<span>BST Insertion, Deletion &amp; DFS</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Module 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container text-on-surface font-bold text-label-md flex items-center justify-center">৪</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">বিগত বছরের মিডটার্ম প্রশ্ন সমাধান</h4>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span>৩টি সলভিং ক্লাস</span>
+<span>•</span>
+<span>২০২২, ২০২৩ ও ২০২৪ প্রশ্ন</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Downloadable Handnotes & Formula Sheet Preview Banner -->
+<section class="bg-gradient-to-r from-primary-fixed/50 to-surface-container border border-primary/20 rounded-2xl p-4 flex items-center justify-between gap-3 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="w-11 h-11 rounded-xl bg-primary text-white flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">৪টি এক্সাম-রেডি হ্যান্ডনোট PDF</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              ফর্মুলা চিটশিট, অ্যালগরিদম কমপ্লেক্সিটি টেবিল এবং পরিচ্ছন্ন কোড স্নিপেট।
+            </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 text-primary border border-outline-variant/30" type="button">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</section>
+<!-- 'এই কোর্স কাদের জন্য নয়' Honesty Box -->
+<section class="bg-[#FFFBEB] border border-amber-300/60 rounded-2xl p-4 flex flex-col gap-2">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">info</span>
+<h3 class="font-headline-sm text-headline-sm font-bold">এই কোর্সটি কাদের জন্য নয়?</h3>
+</div>
+<ul class="text-body-sm font-body-sm text-on-surface space-y-1.5 pl-1">
+<li class="flex items-start gap-2">
+<span class="text-tertiary font-bold text-sm">✕</span>
+<span>যারা সি বা সি++ এর বেসিক সিনট্যাক্স একেবারেই জানেন না।</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-tertiary font-bold text-sm">✕</span>
+<span>যারা ফুল সেমিস্টার লং ডিপ থিওরি পড়তে চান (এটি মূলত ফাস্ট-ট্র্যাক ক্র্যাশ কোর্স)।</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-tertiary font-bold text-sm">✕</span>
+<span>অন্যান্য ডিপার্টমেন্ট যাদের সিলেবাসে ডেটা স্ট্রাকচার মিডটার্মে নেই।</span>
+</li>
+</ul>
+</section>
+<!-- Academic Responsibility Gentle Disclaimer -->
+<section class="bg-surface-container-low/70 border border-outline-variant/30 rounded-xl p-3 flex items-start gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-outline mt-0.5">warning</span>
+<p class="font-body-sm text-[12px] leading-relaxed">
+<strong>সতর্কতা:</strong> এটি বিগত বছরের ট্রেন্ড ও সিলেবাস বিশ্লেষণে তৈরি সম্ভাব্য গুরুত্বপূর্ণ টপিকের সহায়িকা — পরীক্ষায় হুবহু কী আসবে তার প্রাতিষ্ঠানিক নিশ্চয়তা নয়।
+        </p>
+</section>
+<!-- Student Reviews / Social Proof -->
+<section class="flex flex-col gap-3 pt-1">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-amber-500 text-[22px]" style="font-variation-settings: 'FILL' 1;">star</span>
+            শিক্ষার্থীদের মতামত
+          </h2>
+<span class="text-label-md font-label-md text-primary font-medium">সব দেখুন (৯২৪)</span>
+</div>
+<!-- Student Review Snippet -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-label-md">
+                স
+              </div>
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold">সাদমান সাকিব</div>
+<div class="text-[11px] text-on-surface-variant">CSE, MU • ব্যাচ ৪৮</div>
+</div>
+</div>
+<div class="flex text-amber-400 text-sm">
+              ★★★★★
+            </div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface">
+            “লাস্ট সেমিস্টারে রাকিব ভাইয়ের গাইডলাইন না পেলে ডাটা স্ট্রাকচারে A পাওয়া অসম্ভব হতো। মেট্রোপলিটন ইউনিভার্সিটির কোশ্চেন মেকিং স্টাইল সুন্দরভাবে ক্লিয়ার করেছেন।”
+          </p>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="flex flex-col gap-2.5 pb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">সাধারণ জিজ্ঞাসা (FAQ)</h2>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-3 flex items-center justify-between">
+<span class="text-body-md font-body-md text-on-surface">কোর্সটির মেয়াদ কতদিন থাকবে?</span>
+<span class="material-symbols-outlined text-outline text-[18px]">add</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-3 flex items-center justify-between">
+<span class="text-body-md font-body-md text-on-surface">পেমেন্ট করার কতক্ষণ পর অ্যাক্সেস পাব?</span>
+<span class="material-symbols-outlined text-outline text-[18px]">add</span>
+</div>
+</section>
+</main>
+<!-- STICKY BOTTOM BAR (Optimized for bKash/Nagad Instant Checkout & Urgency Conversion) -->
+<aside class="fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-lg border-t border-outline-variant/40 px-4 py-3 shadow-[0_-8px_20px_rgba(0,0,0,0.06)]">
+<div class="max-w-[390px] mx-auto flex items-center justify-between gap-3">
+<!-- Left: Pricing Breakdown -->
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-price-currency text-price-currency text-primary">৳২৯৯</span>
+<span class="text-on-surface-variant line-through text-body-sm font-body-sm">৳৪৯৯</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="bg-error/10 text-error text-[10px] font-bold px-1.5 py-0.2 rounded">
+              ৪০% ছাড়
+            </span>
+<span class="text-[10px] text-on-surface-variant font-medium">মিডটার্ম অফার</span>
+</div>
+</div>
+<!-- Right: Primary CTA with Mobile Wallet Instant Pay Styling -->
+<button class="flex-1 max-w-[210px] h-12 bg-primary hover:bg-primary-container active:scale-[0.98] transition-all rounded-xl text-white font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md shadow-primary/25 cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span>এখনই কিনুন</span>
+<span class="text-[11px] opacity-80 font-normal">| bKash/Nagad</span>
+</button>
+</div>
+</aside>
+</div>
+</body></html>

@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>কোর্স খুঁজুন (Explore Courses) - CampusCourse</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter & Hind Siliguri for authentic Bangla typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config directly from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface-variant": "#464555",
+            "on-primary-fixed": "#0f0069",
+            "outline": "#777587",
+            "surface-dim": "#d2d9f4",
+            "background": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "on-primary-fixed-variant": "#3323cc",
+            "error": "#ba1a1a",
+            "on-primary-container": "#dad7ff",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#6ffbbe",
+            "primary": "#3525cd",
+            "primary-container": "#4f46e5",
+            "tertiary-fixed": "#ffddb8",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-variant": "#dae2fd",
+            "surface-container": "#eaedff",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "on-tertiary-container": "#ffd4a4",
+            "primary-fixed-dim": "#c3c0ff",
+            "secondary-container": "#6cf8bb",
+            "surface": "#faf8ff",
+            "surface-container-high": "#e2e7ff",
+            "tertiary-container": "#885500",
+            "surface-tint": "#4d44e3",
+            "tertiary": "#684000",
+            "on-surface": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            "inverse-primary": "#c3c0ff",
+            "inverse-on-surface": "#eef0ff",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#4edea3",
+            "on-secondary-fixed-variant": "#005236",
+            "outline-variant": "#c7c4d8",
+            "on-tertiary-fixed": "#2a1700",
+            "inverse-surface": "#283044",
+            "on-background": "#131b2e",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#653e00",
+            "secondary": "#006c49"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "2rem",
+            "space-xl": "2rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "1rem",
+            "gutter-desktop": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "display-hero-mobile": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "body-md": ["Hind Siliguri", "Inter", "sans-serif"],
+            "price-currency": ["Inter", "Hind Siliguri", "sans-serif"],
+            "body-sm": ["Hind Siliguri", "Inter", "sans-serif"],
+            "headline-lg": ["Hind Siliguri", "Inter", "sans-serif"],
+            "label-md": ["Hind Siliguri", "Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-lg": ["16px", {"lineHeight": "27px", "fontWeight": "400"}],
+            "display-hero": ["36px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-md": ["20px", {"lineHeight": "30px", "fontWeight": "600"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "display-hero-mobile": ["28px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "price-currency": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+            "body-sm": ["13px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "headline-lg": ["24px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-md": ["12px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      background-color: #faf8ff;
+      color: #131b2e;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f2f3ff;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c7c4d8;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
+<!-- ================= TOP NAVIGATION BAR (Shared Component: TopNavBar) ================= -->
+<!-- Contextual lock: We are on Explore page, so 'Explore' is active -->
+<header class="sticky top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
+<!-- Brand Logo Cluster -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2.5" href="#">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[24px]">school</span>
+</div>
+<span class="text-headline-md font-headline-md font-bold text-primary tracking-tight">CampusCourse</span>
+</a>
+<!-- Desktop Navigation Links -->
+<nav class="hidden md:flex items-center gap-7">
+<!-- Explore (ACTIVE STATE MATCHING PROTOCOL) -->
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-lg text-label-lg" href="#">
+            Explore
+          </a>
+<!-- Universites -->
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors font-label-lg text-label-lg pb-1" href="#">
+            Universities
+          </a>
+<!-- Subjects -->
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors font-label-lg text-label-lg pb-1" href="#">
+            Subjects
+          </a>
+<!-- Exam Prep -->
+<a class="text-on-surface-variant hover:text-primary font-medium transition-colors font-label-lg text-label-lg pb-1" href="#">
+            Exam Prep
+          </a>
+</nav>
+</div>
+<!-- Action Items & Language -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher Trailing Icon Action -->
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">translate</span>
+<span class="font-medium">বাংলা</span>
+</button>
+<!-- Secondary Action: লগইন -->
+<button class="px-4 py-2.5 rounded-xl font-label-lg text-label-lg font-semibold text-on-surface hover:text-primary hover:bg-surface-container-low transition-colors">
+          লগইন
+        </button>
+<!-- Primary Action: শুরু করুন -->
+<button class="px-5 py-2.5 rounded-xl font-label-lg text-label-lg font-bold bg-primary text-on-primary shadow-md shadow-primary/25 hover:bg-primary-container active:scale-[0.98] transition-all">
+          শুরু করুন
+        </button>
+</div>
+</div>
+</header>
+<!-- ================= MAIN LAYOUT AREA ================= -->
+<main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+<!-- ================= LEFT SIDEBAR (STICKY FILTER PANEL) ================= -->
+<aside class="w-full lg:w-[320px] lg:sticky lg:top-28 bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm p-5 space-y-6 flex-shrink-0">
+<!-- Filter Header -->
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">tune</span>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">ফিল্টার (Filters)</h2>
+</div>
+<button class="text-label-md font-label-md text-primary font-semibold hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+            রিসেট করুন
+          </button>
+</div>
+<div class="space-y-5 max-h-[calc(100vh-220px)] overflow-y-auto pr-1 custom-scrollbar">
+<!-- 1. বিশ্ববিদ্যালয় (University) -->
+<div class="space-y-3">
+<label class="text-label-lg font-label-lg text-on-surface flex items-center justify-between cursor-pointer">
+<span class="flex items-center gap-1.5 font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary">account_balance</span>
+                বিশ্ববিদ্যালয় (University)
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_less</span>
+</label>
+<div class="space-y-2 pt-1 pl-1">
+<label class="flex items-center justify-between text-body-md font-body-md text-on-surface cursor-pointer select-none">
+<span class="flex items-center gap-2.5">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="font-medium text-primary">Metropolitan University</span>
+</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-semibold">14</span>
+</label>
+<label class="flex items-center justify-between text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<span class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>BRAC University</span>
+</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-outline">8</span>
+</label>
+<label class="flex items-center justify-between text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<span class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>North South University</span>
+</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-outline">6</span>
+</label>
+<label class="flex items-center justify-between text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<span class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>AIUB</span>
+</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-outline">4</span>
+</label>
+<label class="flex items-center justify-between text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<span class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>UIU</span>
+</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-outline">3</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 2. বিভাগ ও প্রোগ্রাম (Department) -->
+<div class="space-y-3">
+<label class="text-label-lg font-label-lg text-on-surface flex items-center justify-between cursor-pointer">
+<span class="flex items-center gap-1.5 font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary">menu_book</span>
+                বিভাগ ও প্রোগ্রাম
+              </span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_less</span>
+</label>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-primary/40 bg-surface-container-low cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-label-md font-label-md font-bold text-primary">CSE</span>
+</label>
+<label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-label-md font-label-md text-on-surface">EEE</span>
+</label>
+<label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-label-md font-label-md text-on-surface">SWE</span>
+</label>
+<label class="flex items-center gap-2 px-3 py-2 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-label-md font-label-md text-on-surface">BBA</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 3. সেমিস্টার ও ব্যাচ (Semester & Batch) -->
+<div class="space-y-3">
+<label class="text-label-lg font-label-lg text-on-surface flex items-center justify-between">
+<span class="flex items-center gap-1.5 font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary">date_range</span>
+                সেমিস্টার ও ব্যাচ
+              </span>
+</label>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">১ম</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">২য়</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">৩য়</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">৪র্থ</button>
+<!-- 5th Selected -->
+<button class="px-3 py-1 text-label-sm font-label-sm rounded-md bg-primary text-on-primary font-bold shadow-sm">৫ম সেমিস্টার (Selected)</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">৬ষ্ঠ</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">৭ম</button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded-md border border-outline-variant/40 hover:border-primary text-on-surface">৮ম</button>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 4. পরীক্ষার ধরন (Exam Type) -->
+<div class="space-y-2.5">
+<label class="text-label-lg font-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">assignment</span>
+              পরীক্ষার ধরন
+            </label>
+<div class="space-y-2 pl-1">
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="font-medium text-primary">Midterm Crash Course</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Final Exam Prep</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Quiz / CT Sprint</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Lab Exam &amp; Viva Prep</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 5. কোর্স টাইপ (Course Type) -->
+<div class="space-y-2.5">
+<label class="text-label-lg font-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">category</span>
+              কোর্স টাইপ
+            </label>
+<div class="space-y-2 pl-1">
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Complete Syllabus</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="font-semibold text-primary">Night-Before Crash ⚡</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Problem Solving</span>
+</label>
+<label class="flex items-center gap-2.5 text-body-md font-body-md text-on-surface-variant cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span>Formula &amp; Cheat-sheet</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 6. কোর্স ফি (Price Range) -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<label class="text-label-lg font-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
+                কোর্স ফি (Price Range)
+              </label>
+<span class="text-label-md font-label-md text-primary font-bold">৳০ - ৳৫০০</span>
+</div>
+<!-- Dual Slider Simulation -->
+<div class="relative w-full h-2 bg-surface-container rounded-full my-2">
+<div class="absolute left-0 right-1/4 h-2 bg-primary rounded-full"></div>
+<div class="absolute -top-1.5 left-0 w-5 h-5 bg-white border-2 border-primary rounded-full shadow cursor-pointer"></div>
+<div class="absolute -top-1.5 right-1/4 w-5 h-5 bg-white border-2 border-primary rounded-full shadow cursor-pointer"></div>
+</div>
+<!-- Quick Radio Buttons -->
+<div class="grid grid-cols-2 gap-2 pt-1 text-label-sm font-label-sm">
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="price" type="radio"/>
+<span>বিনামূল্যে</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary" name="price" type="radio"/>
+<span class="font-bold text-primary">৳১৯৯ - ৳৩৯৯</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="price" type="radio"/>
+<span>৳১৯৯ এর নিচে</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="price" type="radio"/>
+<span>৳৩৯৯+</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 7. রেটিং (Rating) -->
+<div class="space-y-2">
+<label class="text-label-lg font-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container">star</span>
+              রেটিং
+            </label>
+<div class="space-y-1.5 pl-1">
+<label class="flex items-center gap-2 text-body-sm font-body-sm text-on-surface cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary" name="rating" type="radio"/>
+<span class="flex items-center gap-1">
+<span class="text-amber-500 font-bold">★ 4.5+</span> ওপরে (জনপ্রিয়)
+                </span>
+</label>
+<label class="flex items-center gap-2 text-body-sm font-body-sm text-on-surface-variant cursor-pointer">
+<input class="text-primary focus:ring-primary" name="rating" type="radio"/>
+<span class="flex items-center gap-1">
+<span class="text-amber-500">★ 4.0+</span> ওপরে
+                </span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-outline-variant/30"></div>
+<!-- 8. ভাষা ও সময়কাল -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-label-md font-label-md font-bold text-on-surface">ভাষা</label>
+<div class="space-y-1 text-label-sm font-label-sm">
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span>বাংলা</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer text-on-surface-variant">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span>English mix</span>
+</label>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-label-md font-bold text-on-surface">সময়কাল</label>
+<div class="space-y-1 text-label-sm font-label-sm">
+<label class="flex items-center gap-1.5 cursor-pointer text-on-surface-variant">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span>১-৩ ঘণ্টা</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-bold text-primary">৩-৬ ঘণ্টা</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT AREA (RIGHT SIDE) ================= -->
+<section class="flex-1 w-full space-y-6">
+<!-- 1. SEARCH BAR & LIVE AUTOCOMPLETE DROPDOWN CONTAINER -->
+<div class="relative w-full">
+<div class="relative flex items-center w-full bg-surface-container-lowest rounded-xl border-2 border-primary shadow-md shadow-primary/10 overflow-hidden">
+<div class="pl-4.5 pr-2 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">search</span>
+</div>
+<input class="w-full py-4 px-2 text-headline-sm font-headline-sm text-on-surface bg-transparent border-0 focus:ring-0 placeholder:text-outline" placeholder="কোর্স কোড, বিষয় বা বিশ্ববিদ্যালয়ের নাম লিখুন..." type="text" value="CSE-2203 Data Structures"/>
+<button class="mr-3 px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm flex items-center gap-1 hover:bg-surface-container">
+<span>মুছুন</span>
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+<button class="mr-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-label-lg font-bold shadow hover:bg-primary-container transition-all">
+              অনুসন্ধান
+            </button>
+</div>
+<!-- Autocomplete Dropdown actively open showing grouped suggestions -->
+<div class="absolute left-0 right-0 top-full mt-2 bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-2xl z-40 overflow-hidden">
+<div class="p-3 bg-surface-container-low border-b border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>সরাসরি সম্পর্কিত ফলাফল এবং দ্রুত সাজেশন</span>
+<span class="flex items-center gap-1 text-primary font-semibold">
+<span class="material-symbols-outlined text-[14px]">bolt</span> স্মার্ট এআই সার্চ
+              </span>
+</div>
+<div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Group 1: 🎓 বিশ্ববিদ্যালয় (Universities) -->
+<div class="space-y-2">
+<div class="flex items-center gap-1.5 text-label-md font-label-md text-on-surface-variant font-bold border-b border-outline-variant/20 pb-1">
+<span>🎓</span> বিশ্ববিদ্যালয় (Universities)
+                </div>
+<div class="space-y-1">
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-body-sm font-body-sm text-on-surface font-semibold group-hover:text-primary">Metropolitan University (CSE)</span>
+<span class="text-label-sm text-outline group-hover:text-primary">১২টি কোর্স →</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-body-sm font-body-sm text-on-surface font-medium group-hover:text-primary">BRAC University (CS)</span>
+<span class="text-label-sm text-outline group-hover:text-primary">৮টি কোর্স →</span>
+</a>
+</div>
+</div>
+<!-- Group 2: 📚 বিষয় (Subjects) -->
+<div class="space-y-2">
+<div class="flex items-center gap-1.5 text-label-md font-label-md text-on-surface-variant font-bold border-b border-outline-variant/20 pb-1">
+<span>📚</span> বিষয় (Subjects)
+                </div>
+<div class="space-y-1">
+<a class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group" href="#">
+<span class="text-body-sm font-body-sm text-primary font-bold">Data Structures &amp; Algorithms (CSE-2203)</span>
+<span class="px-2 py-0.5 text-[10px] rounded bg-secondary-fixed text-on-secondary-fixed font-bold">ম্যাচিং</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-body-sm font-body-sm text-on-surface font-medium group-hover:text-primary">Database Management Systems (CSE-2201)</span>
+<span class="text-label-sm text-outline group-hover:text-primary">৫টি কোর্স →</span>
+</a>
+</div>
+</div>
+<!-- Group 3: 🔢 কোর্স কোড (Course Code) -->
+<div class="space-y-2">
+<div class="flex items-center gap-1.5 text-label-md font-label-md text-on-surface-variant font-bold border-b border-outline-variant/20 pb-1">
+<span>🔢</span> কোর্স কোড (Course Code)
+                </div>
+<div class="flex gap-2">
+<span class="px-3 py-1.5 rounded-lg bg-primary-fixed text-on-primary-fixed text-label-md font-label-md font-bold flex items-center gap-1 cursor-pointer hover:bg-primary-fixed-dim">
+                    CSE-2203 <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface text-label-md font-label-md font-semibold flex items-center gap-1 cursor-pointer hover:bg-surface-container-high">
+                    CSE-2201 <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</span>
+</div>
+</div>
+<!-- Group 4: 👨‍🏫 শিক্ষক (Teachers) -->
+<div class="space-y-2">
+<div class="flex items-center gap-1.5 text-label-md font-label-md text-on-surface-variant font-bold border-b border-outline-variant/20 pb-1">
+<span>👨‍🏫</span> শিক্ষক ও টপার মেন্টর
+                </div>
+<div class="space-y-1">
+<a class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-surface-container-low transition-colors" href="#">
+<div class="w-6 h-6 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center">রা</div>
+<span class="text-body-sm font-body-sm font-semibold text-on-surface">রাকিবুল হাসান (MU Topper, CGPA 3.98)</span>
+</a>
+<a class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-surface-container-low transition-colors" href="#">
+<div class="w-6 h-6 rounded-full bg-slate-600 text-white text-[11px] font-bold flex items-center justify-center">তা</div>
+<span class="text-body-sm font-body-sm text-on-surface">ড. তানভীর রহমান (NSU Guest Lecturer)</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Footer of Autocomplete -->
+<div class="p-2.5 bg-surface-container-low/70 border-t border-outline-variant/30 text-center">
+<span class="text-label-sm font-label-sm text-primary font-semibold hover:underline cursor-pointer">
+                "CSE-2203 Data Structures" সম্পর্কিত মোট ২৪টি কোর্স দেখতে এন্টার চাপুন ↵
+              </span>
+</div>
+</div>
+</div>
+<!-- 2. ACTIVE FILTER BAR & RESULTS HEADER -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-4 space-y-4 shadow-sm">
+<!-- Active Filter Tags / Chips -->
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-label-md font-label-md text-outline font-semibold">সক্রিয় ফিল্টার:</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-label-md font-label-md font-semibold">
+              Metropolitan University
+              <button class="hover:text-error ml-0.5">✕</button>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-label-md font-label-md font-semibold">
+              CSE
+              <button class="hover:text-error ml-0.5">✕</button>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-label-md font-label-md font-semibold">
+              5th Semester
+              <button class="hover:text-error ml-0.5">✕</button>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-label-md font-label-md font-semibold">
+              Midterm
+              <button class="hover:text-error ml-0.5">✕</button>
+</span>
+<!-- Clear All -->
+<button class="text-label-md font-label-md text-error font-bold hover:underline ml-2">
+              সব মুছুন (Clear All)
+            </button>
+</div>
+<!-- Result summary bar and Sort/View toggles -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-outline-variant/30">
+<!-- Result count & profile compatibility indicator -->
+<div class="flex items-center gap-3">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">
+                ২৪টি কোর্স পাওয়া গেছে
+              </span>
+<span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-label-md font-label-md font-bold border border-secondary/20">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                আপনার প্রোফাইলের সাথে ৮৫% মিল
+              </span>
+</div>
+<!-- Sort dropdown and View Mode Toggle -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-outline hidden sm:inline">সর্ট করুন:</span>
+<select class="py-2 pl-3 pr-8 rounded-lg border border-outline-variant text-label-md font-label-md font-semibold text-on-surface bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
+<option selected="">সেরা মিল (Best Match)</option>
+<option>নতুন কোর্স</option>
+<option>সর্বোচ্চ রেটিং</option>
+<option>ফি: কম থেকে বেশি</option>
+<option>ফি: বেশি থেকে কম</option>
+</select>
+</div>
+<!-- Grid / List toggle -->
+<div class="flex items-center rounded-lg border border-outline-variant/50 p-0.5 bg-surface-container-low">
+<button class="p-1.5 rounded-md bg-white text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-1.5 rounded-md text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">view_list</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. GRID OF COURSE CARDS (3-Column Desktop Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- CARD 1: Exact Match (Metropolitan Univ.) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<!-- 16:9 Thumbnail -->
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Modern educational digital setup showing algorithms and data structure trees on a dark modern monitor, softly lit by purple and indigo neon ambience. Clean high tech study room atmosphere with notes and coffee beside laptop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRoyOFIHlnXm6YWYYjlBo6o1L5Dj8HAJS9WM-8qj6VzO7QUiO9rLkRxCcatRXypKeHtVisimgsMpBja8LvazCX_9U2-jZt0QMXi4bL1zzB_rc9G-quGPFnjdkzkyS48s4DSjWjzMkezt02PirRVAP9Uqecnq9rOfV17vofUMsxEbUh4IthTnUBUbENHXUAF2aPN6OKcFscMbLZ6Zq8kQs-f4EKnD9eEAIhck1e04dq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<!-- Floating Top Badges -->
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-primary shadow">
+                  Metropolitan Univ.
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-amber-500 text-white shadow">
+                  Midterm Crash Course
+                </span>
+</div>
+<!-- Course Code Chip bottom-left -->
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-2203
+                </span>
+</div>
+</div>
+<!-- Content Area -->
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<!-- Syllabus Compatibility Badge -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#ECFDF5] text-secondary border border-secondary/20 mb-2">
+<span>✅ আপনার ইউনিভার্সিটির সিলেবাস</span>
+</div>
+<!-- 2-line Bangla Title -->
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  CSE-2203: ডাটা স্ট্রাকচার্স মিডটার্ম ক্র্যাশ কোর্স (Trees &amp; Graphs ফোকাস)
+                </h3>
+</div>
+<!-- Teacher Info -->
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-xs">
+                  রাহ
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">রাকিবুল হাসান</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">Dept Topper (MU CSE)</p>
+</div>
+</div>
+<!-- Metrics: Rating and Duration -->
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+<span class="text-outline text-label-sm font-normal">(১২৪)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>৪.৫ ঘণ্টা · ৮ লেকচার</span>
+</div>
+</div>
+<!-- Pricing & bKash/Nagad instant pay badge -->
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳২৯৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳৫৯৯</span>
+<span class="text-[10px] font-bold px-1 rounded bg-error-container text-on-error-container">৫০% ছাড়</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<!-- CTA -->
+<button class="px-3.5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md font-bold shadow-sm transition-all active:scale-95">
+                  এনরোল করুন
+                </button>
+</div>
+</div>
+</div>
+<!-- CARD 2: Final Exam Prep (Metropolitan Univ.) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Digital representation of complex binary search trees, hash tables and linked lists glowing on university workstation with sleek modern typography overlays and clean slate ambient light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7zWQ3NR9rTGjCmWRg0vIplmKtBGowj2p4trkOZAPmCdeuf6xr2tgdNN522jI9cxz3oH4aZBp5ms0qkLhvM25H45vVmrQX4hnx21IS4QfBWyb7ByGyDiJVls56ktHghKey8YkfWb_LRsHkRbk9PIuXQ53W79WNU9FTXztvb1DlHcZQhM-Umfbk55L4_GXvwDQ5qT3vNiBapxnExMUFRyVRTsfC_qXudsIBRL8bg47u"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-primary shadow">
+                  Metropolitan Univ.
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-primary text-white shadow">
+                  Final Exam Prep
+                </span>
+</div>
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-2203
+                </span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#ECFDF5] text-secondary border border-secondary/20 mb-2">
+<span>✅ আপনার ইউনিভার্সিটির সিলেবাস</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  ডাটা স্ট্রাকচার্স বিগত ৫ বছরের প্রশ্ন সমাধান ও কনসেপ্ট রিভিশন
+                </h3>
+</div>
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/50 border border-secondary flex items-center justify-center font-bold text-secondary text-xs">
+                  সাবা
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">সাদিয়া আফরিন সাবা</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">Lecturer Assistant, MU</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.8</span>
+<span class="text-outline text-label-sm font-normal">(৯৮)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>৬.০ ঘণ্টা · ১২ লেকচার</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳৩৪৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳৬৯৯</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md font-bold shadow-sm transition-all active:scale-95">
+                  এনরোল করুন
+                </button>
+</div>
+</div>
+</div>
+<!-- CARD 3: Night-Before Crash Course (Syllabus Divergence Warning) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="High stakes late night coding revision session with glowing code snippets, highlighted notes, dynamic study schedule boards, in an empathetic calm high-trust Scandinavian academic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0osM3XAABwfZZbm00bevFq45Opcp_BTwASfTxlpuRrY8f6eQ3uv01AH6GHfQU29gvWyvqvMCJMBk80-yqp0GO42aMrcJmfcgOsGHZqAWvR5WB4e1VtU8aSd8m3fQOMWZTgfr39E5Qi4Ec1Rne13sWW8ThRowWjN08V8OuzOJnJETMvja7uLCfilTObY1TPd2wnx7iiJvE0PUzb0p7tv73ooQPGCwfNtiivScG-KjZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-on-surface shadow">
+                  BRAC University
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-amber-600 text-white shadow">
+                  Night-Before Sprint
+                </span>
+</div>
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-220
+                </span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<!-- Warning pill for different university syllabus -->
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#FFFBEB] text-tertiary-container border border-amber-300 mb-2">
+<span>⚠️ ভিন্ন সিলেবাস হতে পারে (BRACU)</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  এক রাতের শেষ প্রস্তুতি: Data Structures One-Shot Formula &amp; Algorithm
+                </h3>
+</div>
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-on-surface text-xs">
+                  তা
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">তানজিম আহমেদ</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">Competitive Programmer (ICPC)</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+<span class="text-outline text-label-sm font-normal">(২১৫)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>৩.২ ঘণ্টা · ৫ লেকচার</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳১৯৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳৩৯৯</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-white text-on-surface font-label-md font-bold transition-all">
+                  কোর্সটি দেখুন
+                </button>
+</div>
+</div>
+</div>
+<!-- CARD 4: Problem Solving & Lab Exam -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Close up of student hands typing dynamic programming algorithms in C++ on backlit mechanical keyboard with dual screens showing test case pass checkers in deep indigo tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR1XqUkI2-2PNQmpeBsWMhfFMCFcU3fmXQkqorZOwqZ1kZKcHwpxHiLUEi5bxRban-XKX5mbAesZojqYSLZMHZQ2pbCNShl43Ro32SaVg_Nm1LDEabsUqHtR0ggN5BRbh4VaKG3hyhv_roYtnzh0c8DBEdVKIGWdWRmxhfEbOVwPXTq5ugnVJLb2RHUvo7fmqjDWn8YXtyEvsmems4G-bFi7qFHfq1BBZv4w6IhbRv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-primary shadow">
+                  Metropolitan Univ.
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-secondary text-white shadow">
+                  Lab &amp; Viva Sprint
+                </span>
+</div>
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-2204
+                </span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#ECFDF5] text-secondary border border-secondary/20 mb-2">
+<span>✅ আপনার ইউনিভার্সিটির সিলেবাস</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  ডাটা স্ট্রাকচার্স ল্যাব পরীক্ষা ও ভাইভা প্রস্তুতি (C++ STL &amp; Implementation)
+                </h3>
+</div>
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-xs">
+                  মি
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">মিজানুর রহমান</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">Ex-Lead Lab Proctor</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+<span class="text-outline text-label-sm font-normal">(৮৯)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>৩.৫ ঘণ্টা · ৬ লেকচার</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳২৪৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳৪৯৯</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md font-bold shadow-sm transition-all active:scale-95">
+                  এনরোল করুন
+                </button>
+</div>
+</div>
+</div>
+<!-- CARD 5: Complete Formula & Cheat-sheet -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Organized study notes, hand drawn flowchart diagrams of sorting algorithms, time complexity Big-O cheatsheets on desk with gentle morning daylight in quiet university library." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxgmWfxlLZeANn50K6nfGyTxnft564UQOgU_4_2YfhTXzmGNJp9QLlFrtHBVrI_dm6hlBTvbzniI3ArArWdoTACYZ5qEIB0txar5cRyMFNuEnHmDMASI9Sq9h0B6O5KW051y9e8yXWOL4SgVkDPSD3fd6kDOyBiQehs26eSb5_hiP0DuoluloBqXPGli2ds01-mug17nw8AVlyYHdWioSVLSegYtTTW2gYepqHXbR-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-primary shadow">
+                  Metropolitan Univ.
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-indigo-600 text-white shadow">
+                  Cheat-sheet &amp; Notes
+                </span>
+</div>
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-2203
+                </span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#ECFDF5] text-secondary border border-secondary/20 mb-2">
+<span>✅ আপনার ইউনিভার্সিটির সিলেবাস</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  ডাটা স্ট্রাকচার্স হ্যান্ডনোট, টাইম কমপ্লেক্সিটি চার্ট ও মেমোরি চিটশিট
+                </h3>
+</div>
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-xs">
+                  ফার
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">ফারহানা করিম</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">MU Dean's List Awardee</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.7</span>
+<span class="text-outline text-label-sm font-normal">(৬২)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span>৫০+ পৃষ্ঠা PDF নোট</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳১৪৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳২৯৯</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-white text-on-surface font-label-md font-bold transition-all">
+                  কোর্সটি দেখুন
+                </button>
+</div>
+</div>
+</div>
+<!-- CARD 6: North South University Variant -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex flex-col group">
+<div class="relative aspect-video w-full overflow-hidden bg-slate-900">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Modern lecture theater screen showing dynamic graph traversal demonstrations in a prestigious private university lecture setting with warm architectural accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHCnw3hs5PeoCE8o0XwiQDJ8eAryqJWKww_3cyWxN7fp-R91aX5wcROrkzdO8aTYAlrqpwIbSbAWrv3KcEGoWixelTuweCwx5k0zcxIfVdmsHuKOKTNDqn6F1Du7dDQLX-66tLe_exjovdmrDRN-0PNQM-ZRsYnLwpeJqI0PHXIFF7AeW6hLyX9_oUrC7-9S75mSs8lIAcz7RIB16IHsayRqE5H_BWaonkJtqZTatA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-white text-on-surface shadow">
+                  North South Univ.
+                </span>
+</div>
+<div class="absolute top-3 right-3">
+<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-bold bg-amber-500 text-white shadow">
+                  Midterm Prep
+                </span>
+</div>
+<div class="absolute bottom-2.5 left-3">
+<span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold tracking-wider border border-white/20">
+                  CSE-215
+                </span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+<div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-[#FFFBEB] text-tertiary-container border border-amber-300 mb-2">
+<span>⚠️ ভিন্ন সিলেবাস হতে পারে (NSU)</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                  ডাটা স্ট্রাকচার্স এবং অ্যালগরিদম ফাউন্ডেশন: মিডটার্ম হাই-স্কোরিং টেকনিক
+                </h3>
+</div>
+<div class="flex items-center gap-2 pt-1 border-t border-outline-variant/20">
+<div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs">
+                  তান
+                </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1">
+<p class="text-label-md font-label-md font-bold text-on-surface truncate">ড. তানভীর রহমান</p>
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline truncate">Guest Faculty, NSU</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9</span>
+<span class="text-outline text-label-sm font-normal">(১৭২)</span>
+</div>
+<div class="flex items-center gap-1 text-outline text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>৫.২ ঘণ্টা · ১০ লেকচার</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="text-price-currency font-price-currency text-primary">৳৩৯৯</span>
+<span class="text-label-sm font-label-sm text-outline line-through">৳৭৯৯</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[10px] font-semibold text-secondary flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1"></span>
+                      bKash / Nagad ইনস্ট্যান্ট
+                    </span>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-white text-on-surface font-label-md font-bold transition-all">
+                  কোর্সটি দেখুন
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. PAGINATION -->
+<div class="pt-6 pb-2 flex items-center justify-center gap-2">
+<button class="w-10 h-10 rounded-xl border border-outline-variant/40 flex items-center justify-center text-outline hover:text-primary hover:border-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-xl bg-primary text-on-primary font-bold shadow-sm flex items-center justify-center text-label-lg font-label-lg">
+            ১
+          </button>
+<button class="w-10 h-10 rounded-xl border border-outline-variant/40 text-on-surface hover:text-primary hover:border-primary font-bold flex items-center justify-center text-label-lg font-label-lg transition-colors">
+            ২
+          </button>
+<button class="w-10 h-10 rounded-xl border border-outline-variant/40 text-on-surface hover:text-primary hover:border-primary font-bold flex items-center justify-center text-label-lg font-label-lg transition-colors">
+            ৩
+          </button>
+<span class="px-1 text-outline">...</span>
+<button class="px-4 h-10 rounded-xl border border-outline-variant/40 text-on-surface hover:text-primary hover:border-primary font-semibold flex items-center gap-1 text-label-md font-label-md transition-colors">
+            পরবর্তী
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- ================= FOOTER (Shared Component: Footer) ================= -->
+<footer class="w-full bg-surface-container-low border-t border-outline-variant/40 mt-16">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col gap-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Brand Info -->
+<div class="space-y-4 md:col-span-1">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[22px]">school</span>
+</div>
+<span class="text-headline-lg font-headline-lg font-bold text-primary tracking-tight">CampusCourse</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+            বিশ্ববিদ্যালয়ের মিডটার্ম ও ফাইনাল পরীক্ষার জন্য বাংলাদেশের সবচেয়ে বিশ্বস্ত ও নির্ভরযোগ্য একাডেমিক লার্নিং প্ল্যাটফর্ম।
+          </p>
+</div>
+<!-- Links Column 1 -->
+<div class="space-y-3">
+<h4 class="text-headline-sm font-headline-sm text-on-surface">পলিসি ও নীতি</h4>
+<ul class="space-y-2.5">
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">
+                শর্তাবলী ও নীতিমালা
+              </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">
+                গোপনীয়তা নীতি
+              </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">
+                রিফান্ড পলিসি
+              </a>
+</li>
+</ul>
+</div>
+<!-- Links Column 2 -->
+<div class="space-y-3">
+<h4 class="text-headline-sm font-headline-sm text-on-surface">সহায়তা</h4>
+<ul class="space-y-2.5">
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">
+                যোগাযোগ
+              </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">
+                সহায়তা কেন্দ্র
+              </a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md font-semibold text-primary" href="#">
+                শিক্ষক হিসেবে যোগ দিন
+              </a>
+</li>
+</ul>
+</div>
+<!-- Localized Payment Trust Badge -->
+<div class="space-y-3">
+<h4 class="text-headline-sm font-headline-sm text-on-surface">নিরাপদ পেমেন্ট পার্টনার</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+            bKash, Nagad ও কার্ডের মাধ্যমে তাৎক্ষণিক কোর্স অ্যাক্টিভেশন।
+          </p>
+<div class="flex items-center gap-2 pt-2">
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-highest font-bold text-xs text-[#d12053]">bKash</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-highest font-bold text-xs text-[#f7941d]">Nagad</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-highest font-bold text-xs text-primary">Rocket</span>
+</div>
+</div>
+</div>
+<!-- Copyright Bottom -->
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+          © 2025 CampusCourse Ltd. সর্বস্বত্ব সংরক্ষিত। বাংলাদেশ ও আন্তর্জাতিক কপিরাইট আইন দ্বারা সুরক্ষিত।
+        </p>
+<div class="flex items-center gap-4 text-outline">
+<span class="text-label-sm font-label-sm">Dhaka, Bangladesh</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
