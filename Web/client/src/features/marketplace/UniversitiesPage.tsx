@@ -42,7 +42,7 @@ export default function UniversitiesPage() {
         ) : !items.length ? (
           <EmptyState title={t('uni.none')} action={<Link to="/onboarding" className="text-sm font-semibold text-primary-fg hover:underline">{t('onb.uni.notListed')}</Link>} />
         ) : (
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 [&>*]:min-w-0">
             {items.map((i) => (
               <li key={i.id}>
                 <Link to={`/u/${i.slug}`} className="surface-card flex h-full gap-4 p-4 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-e2">

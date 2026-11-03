@@ -19,3 +19,5 @@ App/mobile/.kotlin/
 .idea/
 .DS_Store
 dump.rdb
+test-results/
+playwright-report/

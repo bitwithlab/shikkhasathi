@@ -16,6 +16,8 @@ export const Order = z.object({
   paidAt: z.string().nullable(),
   invoiceNumber: z.string().nullable(),
   refund: z.object({ status: z.enum(REFUND_STATUSES), amount: z.number().int(), reason: z.string() }).nullable(),
+  /** enrollment + ledger + invoice done (course is unlocked) */
+  fulfilled: z.boolean(),
   refundEligible: z.boolean(),
   firstLessonPath: z.string().nullable(),
 });

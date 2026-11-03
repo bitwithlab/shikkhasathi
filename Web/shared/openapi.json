@@ -23037,6 +23037,9 @@
                       ],
                       "additionalProperties": false
                     },
+                    "fulfilled": {
+                      "type": "boolean"
+                    },
                     "refundEligible": {
                       "type": "boolean"
                     },
@@ -23058,6 +23061,7 @@
                     "paidAt",
                     "invoiceNumber",
                     "refund",
+                    "fulfilled",
                     "refundEligible",
                     "firstLessonPath"
                   ],
@@ -23271,6 +23275,9 @@
                       ],
                       "additionalProperties": false
                     },
+                    "fulfilled": {
+                      "type": "boolean"
+                    },
                     "refundEligible": {
                       "type": "boolean"
                     },
@@ -23292,6 +23299,7 @@
                     "paidAt",
                     "invoiceNumber",
                     "refund",
+                    "fulfilled",
                     "refundEligible",
                     "firstLessonPath"
                   ],
@@ -23632,6 +23640,9 @@
                             ],
                             "additionalProperties": false
                           },
+                          "fulfilled": {
+                            "type": "boolean"
+                          },
                           "refundEligible": {
                             "type": "boolean"
                           },
@@ -23653,6 +23664,7 @@
                           "paidAt",
                           "invoiceNumber",
                           "refund",
+                          "fulfilled",
                           "refundEligible",
                           "firstLessonPath"
                         ],
@@ -23983,6 +23995,9 @@
                       ],
                       "additionalProperties": false
                     },
+                    "fulfilled": {
+                      "type": "boolean"
+                    },
                     "refundEligible": {
                       "type": "boolean"
                     },
@@ -24004,6 +24019,7 @@
                     "paidAt",
                     "invoiceNumber",
                     "refund",
+                    "fulfilled",
                     "refundEligible",
                     "firstLessonPath"
                   ],
@@ -25415,6 +25431,9 @@
                             ],
                             "additionalProperties": false
                           },
+                          "fulfilled": {
+                            "type": "boolean"
+                          },
                           "refundEligible": {
                             "type": "boolean"
                           },
@@ -25451,6 +25470,7 @@
                           "paidAt",
                           "invoiceNumber",
                           "refund",
+                          "fulfilled",
                           "refundEligible",
                           "firstLessonPath",
                           "studentName",

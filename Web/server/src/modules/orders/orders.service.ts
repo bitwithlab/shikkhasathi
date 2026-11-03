@@ -102,6 +102,7 @@ async function toOrder(o: OrderRow): Promise<Order> {
     paidAt: o.paidAt?.toISOString() ?? null,
     invoiceNumber: inv[0]?.number ?? null,
     refund: ref[0] ? { status: ref[0].status as 'requested', amount: ref[0].amount, reason: ref[0].reason } : null,
+    fulfilled: !!o.fulfilledAt,
     refundEligible: o.status === 'paid' && o.total > 0 && !ref[0] && !!o.paidAt && (await refundCheck(o)).ok,
     firstLessonPath: items[0]?.courseId && first ? `/learn/${items[0].courseId}/${first.id}` : null,
   };
@@ -206,7 +207,13 @@ export async function applyValidation(gateway: string, v: ValidateResult) {
     return true;
   });
   if (flipped) await audit({ actorId: null, action: 'payment.succeeded', entity: 'payments', entityId: p.id, after: { orderId: p.orderId, gateway, trxId: v.trxId, amount: v.amount } });
-  await enqueue('payments.fulfil', { orderId: p.orderId }, { jobId: `fulfil-${p.orderId}` });
+  // fulfil right away so the student lands on an unlocked course; the job (and hourly reconcile) retry on failure
+  try {
+    await fulfil({ orderId: p.orderId });
+  } catch (err) {
+    logger.error({ err: (err as Error).message, orderId: p.orderId }, 'inline fulfilment failed — queued for retry');
+    await enqueue('payments.fulfil', { orderId: p.orderId }, { jobId: `fulfil-${p.orderId}` });
+  }
   return p.orderId;
 }
 

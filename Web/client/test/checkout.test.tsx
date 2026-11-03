@@ -12,7 +12,7 @@ const course = {
   id: CID, slug: 'ds', title: 'Data Structures Midterm', courseCode: 'CSE-2203', price: 34900, compareAtPrice: 54900, coverColor: '#4F46E5', accessType: 'lifetime', accessDays: null,
   seller: { name: 'রাকিব হাসান' }, viewer: { enrolled: false, wishlisted: false, firstLessonId: null, resumeLessonId: null, isOwner: false },
 };
-const order = (o: Record<string, unknown> = {}) => ({ id: OID, status: 'pending', items: [{ id: OID, courseId: CID, bundleId: null, title: course.title, price: 34900, discount: 0, coverColor: null, slug: 'ds' }], subtotal: 34900, discount: 0, total: 34900, couponCode: null, paymentMethod: null, createdAt: new Date().toISOString(), paidAt: null, invoiceNumber: null, refund: null, refundEligible: false, firstLessonPath: null, ...o });
+const order = (o: Record<string, unknown> = {}) => ({ id: OID, status: 'pending', items: [{ id: OID, courseId: CID, bundleId: null, title: course.title, price: 34900, discount: 0, coverColor: null, slug: 'ds' }], subtotal: 34900, discount: 0, total: 34900, couponCode: null, paymentMethod: null, createdAt: new Date().toISOString(), paidAt: null, invoiceNumber: null, refund: null, refundEligible: false, firstLessonPath: null, fulfilled: false, ...o });
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { 'content-type': 'application/json' } });
 
 function wrap(path: string) {
@@ -69,7 +69,7 @@ describe('Checkout', () => {
   });
 
   it('result: paid order shows unlock + receipt; failed shows reassurance and retry', async () => {
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue(json(order({ status: 'paid', paidAt: new Date().toISOString(), invoiceNumber: 'SS-2026-000001', firstLessonPath: '/learn/a/b' })));
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(json(order({ status: 'paid', paidAt: new Date().toISOString(), invoiceNumber: 'SS-2026-000001', firstLessonPath: '/learn/a/b', fulfilled: true })));
     const { unmount } = wrap(`/checkout/result?order=${OID}&status=paid`);
     expect(await screen.findByText('কোর্স আনলক হয়েছে')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'শেখা শুরু করুন' })).toHaveAttribute('href', '/learn/a/b');

@@ -26,7 +26,7 @@ export default function CheckoutResultPage() {
     enabled: !!orderId,
     refetchInterval: (query) => {
       const o = query.state.data;
-      const waiting = !o || o.status === 'pending' || (o.status === 'paid' && !o.invoiceNumber && o.total > 0);
+      const waiting = !o || o.status === 'pending' || (o.status === 'paid' && !o.fulfilled);
       if (!waiting) return false;
       polls.current += 1;
       if (polls.current > MAX_POLLS) {
@@ -48,7 +48,7 @@ export default function CheckoutResultPage() {
   }, [q.data?.status, qc]);
 
   const o = q.data;
-  const status = !orderId ? 'failed' : o ? (o.status === 'paid' ? 'paid' : o.status === 'pending' ? (hint === 'cancelled' ? 'cancelled' : hint === 'failed' ? 'failed' : 'pending') : o.status === 'failed' ? (hint === 'cancelled' ? 'cancelled' : 'failed') : o.status) : q.isError ? 'failed' : 'loading';
+  const status = !orderId ? 'failed' : o ? (o.status === 'paid' ? (o.fulfilled ? 'paid' : 'pending') : o.status === 'pending' ? (hint === 'cancelled' ? 'cancelled' : hint === 'failed' ? 'failed' : 'pending') : o.status === 'failed' ? (hint === 'cancelled' ? 'cancelled' : 'failed') : o.status) : q.isError ? 'failed' : 'loading';
   const retryTo = o?.items[0]?.courseId ? `/checkout/${o.items[0].courseId}` : '/my-courses';
 
   return (
