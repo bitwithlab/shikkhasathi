@@ -4,7 +4,8 @@ import { closeRedis } from '../../common/redis';
 import { seedUsers, DEMO_PASSWORD } from './users';
 import { seedCatalog } from './catalog';
 import { seedProfiles } from './profiles';
-import { seedCourses } from './courses';
+import { COURSES, seedCourses } from './courses';
+import { seedReviews } from './reviews';
 import { seedExam } from './exam';
 
 export async function seedAll() {
@@ -14,6 +15,7 @@ export async function seedAll() {
   await seedProfiles(users, catalog);
   const courses = await seedCourses(users, catalog);
   await seedExam(users, courses);
+  await seedReviews(Object.fromEntries(COURSES.map((c) => [c.slug, c.rating])), courses);
   return { users, catalog, courses };
 }
 

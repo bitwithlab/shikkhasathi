@@ -96,4 +96,4 @@ zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field 
 - **Moderation:** hiding a target resolves every open report on it. Hiding a review recomputes the course rating. Hiding a course unlists it, and hiding a user suspends them. Restore reverses the change.
 - **Broadcasts:** delivered through `notify` (dedupe key per broadcast). Email is on by default for that broadcast unless the user has explicitly switched broadcast email off. History is kept in `audit_logs` (`broadcast.send`).
 - **Audit log API** redacts keys that look like secrets (`*key*`, `*secret*`, `*token*`, `*password*`, `*otp*`).
-- **Known demo gap:** seeded courses carry demo rating totals without review rows. The first real review recomputes the totals from rows, so a seeded course can drop from "4.8 (340)" to "(1)". Phase 12 seeds real review rows.
+- Seed creates real review rows from 16 demo reviewer accounts (4–14 per course), and course rating totals are computed from those rows. No fake aggregates (CLAUDE.md §7: realistic numbers, no fake stats).
