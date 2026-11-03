@@ -10,6 +10,7 @@ import { sellerRoutes } from '../../modules/seller/seller.routes';
 import { filesRoutes } from '../../modules/files/files.routes';
 import { courseRoutes } from '../../modules/courses/courses.routes';
 import { orderRoutes } from '../../modules/orders/orders.routes';
+import { learningRoutes } from '../../modules/learning/learning.routes';
 import '../../services/search';
 import '../../modules/seller/seller.jobs';
 
@@ -27,4 +28,5 @@ export async function apiV1(app: FastifyInstance) {
   await app.register(filesRoutes);
   await app.register(courseRoutes);
   await app.register(orderRoutes);
+  await app.register(learningRoutes);
 }

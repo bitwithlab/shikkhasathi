@@ -639,5 +639,114 @@ export const endpoints = {
       "path": "/admin/refunds/:id",
       "auth": "admin"
     }
+  },
+  "learning": {
+    "myCourses": {
+      "method": "GET",
+      "path": "/me/courses",
+      "auth": "user"
+    },
+    "outline": {
+      "method": "GET",
+      "path": "/learn/:courseId",
+      "auth": "user"
+    },
+    "lesson": {
+      "method": "GET",
+      "path": "/lessons/:id",
+      "auth": "user"
+    },
+    "playback": {
+      "method": "POST",
+      "path": "/lessons/:id/playback",
+      "auth": "user"
+    },
+    "progress": {
+      "method": "POST",
+      "path": "/lessons/:id/progress",
+      "auth": "user"
+    },
+    "complete": {
+      "method": "POST",
+      "path": "/lessons/:id/complete",
+      "auth": "user"
+    },
+    "notes": {
+      "method": "GET",
+      "path": "/notes",
+      "auth": "user"
+    },
+    "createNote": {
+      "method": "POST",
+      "path": "/notes",
+      "auth": "user"
+    },
+    "updateNote": {
+      "method": "PATCH",
+      "path": "/notes/:id",
+      "auth": "user"
+    },
+    "deleteNote": {
+      "method": "DELETE",
+      "path": "/notes/:id",
+      "auth": "user"
+    },
+    "bookmarks": {
+      "method": "GET",
+      "path": "/bookmarks",
+      "auth": "user"
+    },
+    "createBookmark": {
+      "method": "POST",
+      "path": "/bookmarks",
+      "auth": "user"
+    },
+    "deleteBookmark": {
+      "method": "DELETE",
+      "path": "/bookmarks/:id",
+      "auth": "user"
+    },
+    "questions": {
+      "method": "GET",
+      "path": "/lessons/:id/questions",
+      "auth": "user"
+    },
+    "ask": {
+      "method": "POST",
+      "path": "/lessons/:id/questions",
+      "auth": "user"
+    },
+    "answer": {
+      "method": "POST",
+      "path": "/questions/:id/answers",
+      "auth": "user"
+    },
+    "reviews": {
+      "method": "GET",
+      "path": "/courses/:courseId/reviews",
+      "auth": "optional"
+    },
+    "review": {
+      "method": "PUT",
+      "path": "/courses/:courseId/review",
+      "auth": "user"
+    }
+  },
+  "sellerLearning": {
+    "questions": {
+      "method": "GET",
+      "path": "/seller/questions",
+      "auth": "seller"
+    },
+    "reviews": {
+      "method": "GET",
+      "path": "/seller/reviews",
+      "auth": "seller"
+    },
+    "replyReview": {
+      "method": "PUT",
+      "path": "/seller/reviews/:id/reply",
+      "auth": "seller"
+    }
   }
 } as unknown as typeof C;
