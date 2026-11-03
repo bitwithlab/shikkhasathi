@@ -107,3 +107,93 @@ an SDK machine.
 **Verify on a dev machine:** compile (`-Pss.compose=true` / `:android:assembleDebug`), then on a device: connect →
 consent → classes appear; revoke access in Google account settings → home shows "আবার সংযুক্ত করুন"; pull twice
 within a minute → the rate-limit message.
+
+## Phase 11 — mobile parity (student screens, player, exam, checkout, offline, push)
+
+### What is done (headless code compiled + unit-tested on the JVM, UI written and linted)
+
+| Area | Screens (Compose, `ui/`) | Logic (`data/` + `presentation/`, tested) |
+|---|---|---|
+| Discovery | `ExploreScreen` (search box, debounced autocomplete, filter chips, sort menu, paging), `CourseDetailScreen` (compatibility badge + targets, curriculum, resources, "এই কোর্স কাদের জন্য নয়", disclaimers, one pinned CTA) | `CatalogRepository` (`GET /search`, `/search/suggest`, `/courses/:slug`, wishlist), `ExploreViewModel` (stale answers cancelled), `CourseDetailViewModel` (`CourseCta`: buy / continue / owner preview, optimistic wishlist) |
+| Checkout | `CheckoutScreen` (summary, coupon, bKash/Nagad/Rocket/card, waiting, success, failed), `CheckoutResultScreen` (gateway return App Link) | `OrdersRepository`, `CheckoutViewModel` (one idempotency key per coupon, `POST /orders` → `POST /orders/:id/pay` → `ExternalBrowser` (Custom Tab) → poll `GET /orders/:id` every 3 s + on resume), `CheckoutResultViewModel` |
+| My Courses + player | `MyCoursesScreen`, `PlayerScreen` (16:9 video, moving watermark, ±10 s, seek bar, speed menu, takeover overlay "এখানে চালান", PDF/text lessons, mark complete, prev/next), tabs লেসন · নোট · প্রশ্নোত্তর, `NotesScreen` (drawer) | `LearningRepository`, `MyCoursesViewModel`, `PlayerViewModel`, `LessonNotesViewModel`, `LessonQaViewModel`, `NotesViewModel`, `WatchTimeTracker` |
+| Exam | `ExamModeScreen` (countdown card + readiness ring, today's plan, syllabus, important topics, practice, "পরীক্ষার আগের রাত"), `PlanFormSheet` (M3 date picker + time chips), `FlashcardsScreen`, `MockTestsScreen`, `MockAttemptScreen`, `MockResultScreen` | `ExamRepository`, `ExamModeViewModel`, `FlashcardsViewModel`, `MockTestsViewModel`, `MockAttemptViewModel`, `MockResultViewModel` |
+| Offline | `DownloadsScreen` (drawer → ডাউনলোড), "অফলাইনে রাখুন" on PDF lessons | `OfflineDownloadManager`, `ChunkedAead` ("SSE1" container), `ContentKeyStore`, `DownloadPolicy`, `KtorDownloadTransport`, `DownloadsViewModel` |
+| Push + links | — | `PushRegistrar` (`POST`/`DELETE /me/push-tokens`), `AppLinkBus`, `routeForLink` (web paths **and** `https://shikkhasathi.com/...`), `SignOut` |
+
+Navigation: bottom bar unchanged (হোম · ক্লাসরুম · কোর্স · Exam · প্রোফাইল); কোর্স = `MyCoursesScreen`, Exam = `ExamModeScreen`.
+The drawer gained **ডাউনলোড**. Course requests, settings and Teacher Studio are still placeholders (web has them).
+All copy is in `Str` (bn + en, keys follow the web catalogue: `mock.*`, `checkout.*`, `player.*` …); numbers go through
+`core/i18n/Formats.kt` (`durationText`, `clockText`, `sizeText`, `takaText`) so Bangla numerals follow the locale.
+
+### Behaviour worth knowing
+
+- **Install id** (`core/datastore/InstallId`): random UUID kept in `KeyValueStore` (Android `ss_prefs`, iOS `NSUserDefaults`).
+  It is now also the `deviceId` of sign-in, and the `deviceId` of `POST /lessons/:id/playback` (3-device limit, ADR-022).
+- **Heartbeat** (`PlayerViewModel`): every 15 s while playing, plus on pause, lesson change, app background (`ON_STOP`)
+  and screen close (sent from the app scope so it survives the ViewModel). `deltaSec` = real playback only
+  (`WatchTimeTracker`: forward progress, jumps > 2×speed are seeks, divided by speed, ≤ 60). `streamActive:false` → pause
+  + `VideoState.TakenOver`; "এখানে চালান" asks for a new playback grant and resumes at the current position. Offline
+  heartbeat failures never stop playback (same as web). The video window is `FLAG_SECURE` on Android.
+- **Mock timer** runs on the server clock: skew = `serverNow − device time` at the answer. Autosave is serialised (one
+  mutex, the value is read at send time → last write wins). Failed saves are resent before submit. A `409` on save or
+  submit means the server already closed the attempt → go to the result. At 0 the attempt auto-submits.
+- **Checkout** never trusts the gateway's redirect status: the order is always re-read from the API. A failed order
+  drops its idempotency key so "আবার চেষ্টা করুন" creates a fresh order. Return URL `/checkout/result?order=…` is an App Link.
+- **Offline downloads** (non-UI part, done for documents):
+  - container "SSE1": 64 KB chunks, AES-256-GCM, random IV per chunk, AAD = fileId ‖ chunk index ‖ last-flag →
+    seekable (ExoPlayer `DataSource` / PDF renderer can read any range), detects tampering, reordering, chunk swaps
+    between files and truncation;
+  - one random content key per account, stored only **wrapped** by a device-bound key (`KeyWrapper`: Android Keystore
+    AES-GCM non-exportable key; iOS Keychain via CryptoKit from the Swift host). Sign-out deletes files **and** the key;
+  - plain bytes never touch disk; files live in `noBackupFilesDir/offline` (Android) / Application Support (iOS);
+  - `DownloadPolicy`: purge if another account or another install (restored backup), stop at enrollment `accessUntil`,
+    require an online check every 14 days (an outline load calls `verified()`; `enrolled:false` deletes the course's files).
+- **Push**: tokens come from the host (Android `SsMessagingService.onNewToken` + `FirebaseMessaging.token` in
+  `MainActivity`; iOS `AppDelegate` → `IosHostBridgeKt.onApnsToken`). Registered once per (account, token), retried with
+  backoff; `SignOut` unregisters before logging out. Notification taps carry `data.link` → `AppLinkBus` → `routeForLink`
+  (`/learn/{c}/{l}?tab=qa`, `/exam-mode/{id}`, `/mock-test/{id}[/result]`, `/c/{slug}`, `/checkout/result?order=`, …).
+  Links that arrive before sign-in are replayed once the shell is up.
+
+### Needs an SDK machine / Xcode (not compilable here)
+
+1. **Compile the UI**: `./gradlew :shared:compileKotlinDesktop -Pss.compose=true` and `:android:assembleDebug`. New Compose
+   APIs used: `PrimaryTabRow`, `FilterChip`, `ModalBottomSheet`, `DatePickerDialog`, `PullToRefreshBox`,
+   `LifecycleResumeEffect` / `LifecycleEventEffect`, `AndroidView(onRelease=)`, `UIKitView`. Fix any API drift.
+   Lucide icon names used for the first time (verify they exist in icons-lucide 1.1.0): `ArrowUpDown`, `SearchX`, `X`,
+   `Heart`, `Ban`, `ChevronDown/Up/Left/Right`, `CircleCheck`, `Circle`, `Lock`, `Clock`, `Flag`, `CloudOff`, `Pencil`,
+   `Trash2`, `Bookmark`, `MessageCircle`, `Play`, `Pause`, `RotateCcw`, `RotateCw`, `Download`, `ExternalLink`,
+   `MonitorSmartphone`, `Smartphone`, `CreditCard`, `TriangleAlert`, `Layers`, `Repeat`, `Plus`, `Video`, `CalendarDays`.
+2. **Media3** (`media3-exoplayer` + `-hls` 1.8.0, added to the catalog for `androidMain` only): run a lesson on a device —
+   resume position, speed, takeover from the web, heartbeat in the server log, black screenshots (FLAG_SECURE).
+3. **Custom Tabs**: `CustomTabsBrowser` builds the Custom Tabs intent by hand (no `androidx.browser` in the catalog).
+   Optionally switch to `androidx.browser:browser` `CustomTabsIntent` for toolbar colours.
+4. **Video downloads**: bind a real `VideoDownloader` on Android — Media3 `DownloadManager` + `HlsDownloader` writing to a
+   `SimpleCache` whose sink/source are wrapped with the account content key (Media3 `AesCipherDataSink`/`Source`, or a
+   custom `DataSource` over `EncryptedReader`), run from a `DownloadService` (WorkManager scheduler, `foregroundServiceType=dataSync`).
+   Playback of an offline video: `CacheDataSource` with the same key, gated by `DownloadManager.validity()`.
+   `androidx.security:security-crypto` / `EncryptedFile` is deprecated, so the chunked container replaces it.
+   iOS: `AVAssetDownloadURLSession` in the Swift host. Until then `UnsupportedVideoDownloader` refuses video downloads.
+5. **iOS Swift side**: implement `IosOfflineCrypto` (CryptoKit `AES.GCM` + Keychain wrapping key) and call
+   `installIosOfflineCrypto(...)` at launch; the new `AppDelegate` in `iOSApp.swift` forwards APNs tokens and
+   notification links. The APNs token can arrive before Koin starts (it is started by `MainViewController()`); move
+   `initKoin` into `AppDelegate.didFinishLaunching` if tokens are dropped.
+6. **Baseline + Startup profile**: module `:baselineprofile` (`com.android.test` + `androidx.baselineprofile` 1.4.1,
+   Gradle Managed Device `pixel6Api34`), included only with `ss.android`. Generate:
+   `./gradlew :android:generateReleaseBaselineProfile` (writes `android/src/release/generated/baselineProfiles/`;
+   sign in once on the device first so the journey reaches হোম). Measure cold start:
+   `./gradlew :baselineprofile:connectedBenchmarkReleaseAndroidTest` on a mid-range phone → `docs/PERFORMANCE.md`
+   (budget < 1.5 s). The benchmark build types copy the release signing config — set a debug signing config for local
+   runs if release signing comes only from CI. The old hand-written `android/src/main/baseline-prof.txt` stays as a
+   fallback until the generated profile is committed.
+7. **App Links**: `assetlinks.json` / `apple-app-site-association` must list the release key / team id, and the server's
+   checkout return URL must be `https://shikkhasathi.com/checkout/result?...` (it is: `orders.service.ts`).
+
+### How to run (cloud container)
+
+```bash
+cd App/mobile
+./gradlew --offline :shared:desktopTest                                   # 129 JVM tests (was 68)
+./gradlew --offline :shared:ktlintCheck :shared:detekt                   # headless sources
+./gradlew --offline :shared:ktlintCheck :shared:detekt -Pss.compose=true # + Compose UI sources (lint only)
+```

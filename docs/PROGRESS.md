@@ -3,8 +3,8 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 10 — Admin + seller completion (Phases 0–9 are done)
-- **Next step:** Phase 10 admin web pages over the existing APIs: orders, refunds (approve/reject), payouts (new: seller payout request + admin approve/mark paid with ledger debit), users (search, roles, suspend), reports/moderation (new: report Q&A/review/course → hide), broadcasts (new: admin.broadcast notification + email), email logs, audit log, analytics (new: GMV, enrollments, top courses, sellers). Seller pages: earnings + payout request, coupons, bundles, students, Q&A inbox, reviews + reply, mock tests/flashcards authoring, analytics.
+- **Current phase:** 11 (mobile parity, sub-agent running in `App/mobile`) and 12 (polish & hardening, most items done). Phases 0–10 are done.
+- **Next step:** commit the mobile Phase 11 work once its JVM tests are green. Then finish Phase 12: a final design audit against the reference PNGs (dark mode on every screen), the security review checklist (headers/CSP, secrets, rate limits — RBAC sweep ✅), and the final summary in this file.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
 - **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
@@ -78,14 +78,25 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] Classroom edge cases tested: revoked token → reauth, Workspace blocked → friendly state + no polling, quota → doubling backoff capped at 2 h keeping last-synced data, push registration renewal window, disconnect wipes cache, rate-limited manual sync
 - [x] verification pack in `docs/CLASSROOM_INTEGRATION.md` (scope justifications, data-handling statement, demo video script). Submitting it needs the owner's Google Cloud account; see the owner checklist below
 
-### Phase 10 — Admin + seller completion
-- [ ] all admin sections, payouts, reports, analytics, seller earnings
+### Phase 10 — Admin + seller completion ✅
+- [x] server `modules/ops`: payouts (request → approve → paid with ledger debit and notification/email), admin users (search, roles, suspend with immediate token cutoff), reports + moderation (hide/restore/dismiss, rating recompute), broadcasts (audience preview, in-app/push/email), email logs, redacted audit log, platform analytics, seller students + analytics, `GET /seller/bundles`
+- [x] admin web: dashboard (KPIs, work queue, chart, top lists), orders, refunds, payouts, users, reports, broadcasts, email logs, audit
+- [x] Teacher Studio web: earnings + payouts, coupons + bundles, students, Q&A inbox, reviews + reply, analytics, mock test/flashcard authoring, dashboard balance card
+- [x] student: payment history, receipts and refund requests in Profile
+- [x] tests: server ops 5, client admin 10 + seller 15
 
 ### Phase 11 — Mobile parity
 - [ ] every student screen, offline downloads, push, baseline profiles
 
-### Phase 12 — Polish & hardening
-- [ ] design/a11y/perf/SEO/security audits, E2E, RUNBOOK
+### Phase 12 — Polish & hardening (in progress)
+- [x] SEO: request-time head + JSON-LD for course/university/subject/teacher, live sitemap, prerendered public pages
+- [x] performance: SSR landing with inlined CSS and a no-shift swap, 2 font files per script; Lighthouse mobile Perf 79–81, A11y/BP/SEO 100 (numbers in `docs/PERFORMANCE.md`)
+- [x] accessibility: Lighthouse 100 on public pages (chip roles, button names, AA colours)
+- [x] security: RBAC sweep test over every endpoint, suspended-token cutoff, audit-log redaction
+- [x] E2E: Playwright 17 specs (guest, student checkout → player, exam/mock, roles, phone widths); it found and fixed the paid-but-not-enrolled bug
+- [x] seed: real review rows (no fake aggregates)
+- [x] RUNBOOK: build pipeline, failure table, release checks
+- [ ] final design audit vs reference (dark mode on every screen) and the final summary
 
 ## Google OAuth verification prerequisites
 - [ ] `shikkhasathi.com` verified in Search Console
@@ -103,3 +114,4 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Phase 7 done: learning server + player/My Courses/Notes web. Server 92 tests, client 70. hls.js light build (87 KB, lazy, player only). Next: Phase 8.
 - **2026-11-03** — Phase 8 done: Exam Mode + mock tests (server + web). Server 103 tests, client 73. Next: Phase 9.
 - **2026-11-03** — Phase 9 done: dashboard fully real, Classroom edge-case tests (+3), Google verification pack. Next: Phase 10.
+- **2026-11-03** — Phase 10 done (admin + Teacher Studio + ops APIs). Phase 12 mostly done: SEO, perf, a11y 100, RBAC sweep, E2E 17/17, real reviews. Server 117 tests, client 103, e2e 17. Mobile parity sub-agent running.

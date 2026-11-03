@@ -99,6 +99,13 @@ docker build -f infra/Dockerfile --target server -t shikkhasathi/server .
 docker build -f infra/Dockerfile --target worker -t shikkhasathi/worker .
 ```
 
+The client build is `pnpm --filter @shikkhasathi/client build`, which runs three steps:
+1. the Vite build;
+2. an SSR build of the landing page (`dist-ssr/`);
+3. `scripts/prerender.mjs`, which writes `dist/<route>/index.html` and `dist/index.prerendered.html` with the CSS inlined.
+
+The server serves `dist/` (`CLIENT_DIST_DIR`) and builds `sitemap.xml` live from the database, along with request-time SEO heads for `/c /u /s /t`. Restart the server after every client build, because it caches `index.html` at boot.
+
 Release steps: run migrations (`node dist/migrate.js` with `*_DIRECT_URL`), start `server` and `worker`, Caddy (`infra/Caddyfile`) terminates TLS for `shikkhasathi.com`, redirects `admin.shikkhasathi.com` to `/admin`. CI (`.github/workflows/ci.yml`) runs lint → typecheck → tests → build → bundle budget.
 
 ## 6. Backups & restore
@@ -114,7 +121,20 @@ Release steps: run migrations (`node dist/migrate.js` with `*_DIRECT_URL`), star
 | Emails stuck "queued" | Worker not running, or Redis unreachable; check Admin → সিস্টেম হেলথ queues |
 | OTP not arriving in production | SMS integration not configured (Admin → SMS) — the API returns `INTEGRATION_DISABLED` |
 | 429 on login/OTP | Rate limits (OTP 5/h per phone, login 10/15 min) — expected |
+| Paid order but course still locked | Fulfilment runs inline on payment confirmation. If it failed, `payments.fulfil` retries and `payments.reconcile` (hourly, needs the worker) re-enqueues paid-but-unfulfilled orders. Check `orders.fulfilled_at` and the worker logs |
+| Payment stuck "pending" | The gateway callback never arrived. `payments.reconcile` re-queries the gateway after 10 min and fails it after 24 h |
+| Student can't play video ("সর্বোচ্চ ৩টি ডিভাইস") | Device limit (Redis `pd:<userId>`, 30-day window). Support can clear it with `redis-cli del pd:<userId>` |
+| Suspended user still sees data | Access tokens die within 15 min, and `susp:<id>` blocks them sooner. Check Redis is reachable |
+| Server won't start: `FST_ERR_DUPLICATED_ROUTE … /sitemap.xml` | An old build left `dist/sitemap.xml`. Delete it (the sitemap is served live) |
 
-## 8. Manual steps that can't be done from the cloud dev environment
+## 8. Checks before a release
+```bash
+pnpm lint && pnpm typecheck && pnpm test          # all packages
+node scripts/check-bundle.mjs                       # landing ≤ 150 KB, home ≤ 200 KB, chunks ≤ 100 KB
+cd Web/client && pnpm e2e                           # against a seeded staging server
+```
+Re-run Lighthouse (mobile) on `/`, a course page and `/explore`, and record the numbers in `docs/PERFORMANCE.md`.
+
+## 9. Manual steps that can't be done from the cloud dev environment
 - Android/iOS builds (Android SDK / Xcode) — see `App/README.md`.
 - Google OAuth verification, Pub/Sub topic creation, Brevo domain DNS, payment gateway merchant onboarding, SMS sender-id approval — see the relevant sections above and `docs/CLASSROOM_INTEGRATION.md`.
