@@ -94,5 +94,17 @@
   "due.tomorrow": "আগামীকাল",
   "due.thisWeek": "এই সপ্তাহ",
   "due.later": "পরে",
-  "home.dueSoon": "সামনের অ্যাসাইনমেন্ট"
+  "home.dueSoon": "সামনের অ্যাসাইনমেন্ট",
+  "gc.connect": "Google Classroom সংযুক্ত করুন",
+  "instType.public": "সরকারি বিশ্ববিদ্যালয়",
+  "instType.private": "বেসরকারি বিশ্ববিদ্যালয়",
+  "instType.college": "কলেজ",
+  "instType.polytechnic": "পলিটেকনিক",
+  "examType.midterm": "Midterm",
+  "examType.final": "Final",
+  "examType.quiz": "Quiz",
+  "examType.lab": "Lab",
+  "examType.viva": "Viva",
+  "examType.admission": "ভর্তি",
+  "examType.general": "সাধারণ"
 }

@@ -117,5 +117,134 @@ export const endpoints = {
       "path": "/config",
       "auth": "public"
     }
+  },
+  "catalog": {
+    "institutions": {
+      "method": "GET",
+      "path": "/institutions",
+      "auth": "public"
+    },
+    "institution": {
+      "method": "GET",
+      "path": "/institutions/:slug",
+      "auth": "public"
+    },
+    "departments": {
+      "method": "GET",
+      "path": "/departments",
+      "auth": "public"
+    },
+    "programs": {
+      "method": "GET",
+      "path": "/programs",
+      "auth": "public"
+    },
+    "subjects": {
+      "method": "GET",
+      "path": "/subjects",
+      "auth": "public"
+    },
+    "subject": {
+      "method": "GET",
+      "path": "/subjects/:slug",
+      "auth": "public"
+    },
+    "requestInstitution": {
+      "method": "POST",
+      "path": "/institution-requests",
+      "auth": "user"
+    },
+    "academicProfile": {
+      "method": "PUT",
+      "path": "/me/academic-profile",
+      "auth": "user"
+    },
+    "completeOnboarding": {
+      "method": "POST",
+      "path": "/me/onboarding",
+      "auth": "user"
+    }
+  },
+  "adminCatalog": {
+    "institutionRequests": {
+      "method": "GET",
+      "path": "/admin/institution-requests",
+      "auth": "admin"
+    },
+    "decideInstitutionRequest": {
+      "method": "PATCH",
+      "path": "/admin/institution-requests/:id",
+      "auth": "admin"
+    },
+    "institutions": {
+      "method": "GET",
+      "path": "/admin/catalog/institutions",
+      "auth": "admin"
+    },
+    "createInstitution": {
+      "method": "POST",
+      "path": "/admin/catalog/institutions",
+      "auth": "admin"
+    },
+    "updateInstitution": {
+      "method": "PATCH",
+      "path": "/admin/catalog/institutions/:id",
+      "auth": "admin"
+    },
+    "mergeInstitution": {
+      "method": "POST",
+      "path": "/admin/catalog/institutions/:id/merge",
+      "auth": "admin"
+    },
+    "createDepartment": {
+      "method": "POST",
+      "path": "/admin/catalog/departments",
+      "auth": "admin"
+    },
+    "updateDepartment": {
+      "method": "PATCH",
+      "path": "/admin/catalog/departments/:id",
+      "auth": "admin"
+    },
+    "deleteDepartment": {
+      "method": "DELETE",
+      "path": "/admin/catalog/departments/:id",
+      "auth": "admin"
+    },
+    "createProgram": {
+      "method": "POST",
+      "path": "/admin/catalog/programs",
+      "auth": "admin"
+    },
+    "deleteProgram": {
+      "method": "DELETE",
+      "path": "/admin/catalog/programs/:id",
+      "auth": "admin"
+    },
+    "subjects": {
+      "method": "GET",
+      "path": "/admin/catalog/subjects",
+      "auth": "admin"
+    },
+    "createSubject": {
+      "method": "POST",
+      "path": "/admin/catalog/subjects",
+      "auth": "admin"
+    },
+    "updateSubject": {
+      "method": "PATCH",
+      "path": "/admin/catalog/subjects/:id",
+      "auth": "admin"
+    },
+    "createInstitutionSubject": {
+      "method": "POST",
+      "path": "/admin/catalog/institution-subjects",
+      "auth": "admin"
+    },
+    "deleteInstitutionSubject": {
+      "method": "DELETE",
+      "path": "/admin/catalog/institution-subjects/:id",
+      "auth": "admin"
+    }
   }
 } as unknown as typeof C;

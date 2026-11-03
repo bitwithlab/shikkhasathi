@@ -25,3 +25,14 @@ describe('contracts', () => {
     for (const d of INTEGRATIONS) for (const f of d.fields) if (/key$|secret|password|_json$/.test(f.key) && !/public|_id$/.test(f.key)) expect(f.type, `${d.provider}.${f.key}`).toBe('secret');
   });
 });
+
+import { endpoints } from '../src/contracts/endpoints.gen';
+import { contracts } from '../src/contracts';
+
+describe('endpoints.gen.ts (zod-free client map)', () => {
+  it('is in sync with the contracts — run `pnpm gen:openapi` after changing contracts', () => {
+    const shape = (c: Record<string, Record<string, { method: string; path: string; auth: string }>>) =>
+      Object.fromEntries(Object.entries(c).map(([g, eps]) => [g, Object.fromEntries(Object.entries(eps).map(([k, e]) => [k, `${e.method} ${e.path} ${e.auth}`]))]));
+    expect(shape(endpoints as never)).toEqual(shape(contracts as never));
+  });
+});

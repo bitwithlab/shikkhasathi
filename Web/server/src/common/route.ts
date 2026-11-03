@@ -64,9 +64,9 @@ export function route<E extends Endpoint>(
   app: FastifyInstance,
   e: E,
   handler: (ctx: Ctx<E>) => Result<E>,
-  opts: RouteShorthandOptions & { rateLimit?: { max: number; timeWindow: string | number } } = {},
+  opts: RouteShorthandOptions & { rateLimit?: { max: number; timeWindow: string | number }; cacheControl?: string } = {},
 ) {
-  const { rateLimit, ...rest } = opts;
+  const { rateLimit, cacheControl, ...rest } = opts;
   app.route({
     method: e.method,
     url: e.path,
@@ -102,6 +102,7 @@ export function route<E extends Endpoint>(
         throw new AppError('INTERNAL');
       }
       reply.status(e.status ?? 200);
+      if (cacheControl) reply.header('cache-control', cacheControl);
       return parsed.data;
     },
   });

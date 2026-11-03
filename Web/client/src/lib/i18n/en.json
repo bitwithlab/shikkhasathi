@@ -94,5 +94,17 @@
   "due.tomorrow": "Tomorrow",
   "due.thisWeek": "This week",
   "due.later": "Later",
-  "home.dueSoon": "Due soon"
+  "home.dueSoon": "Due soon",
+  "gc.connect": "Connect Google Classroom",
+  "instType.public": "Public university",
+  "instType.private": "Private university",
+  "instType.college": "College",
+  "instType.polytechnic": "Polytechnic",
+  "examType.midterm": "Midterm",
+  "examType.final": "Final",
+  "examType.quiz": "Quiz",
+  "examType.lab": "Lab",
+  "examType.viva": "Viva",
+  "examType.admission": "Admission",
+  "examType.general": "General"
 }

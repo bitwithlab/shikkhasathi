@@ -3,8 +3,9 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 1 — Foundation (only the mobile skeleton remains) → then Phase 2 Master data
-- **Next step:** finish/verify `App/mobile` skeleton (`./gradlew :shared:desktopTest`), commit; start Phase 2 (catalog API + admin approval + onboarding screens + seed).
+- **Current phase:** 3 — Home dashboard + Google Classroom
+- **Next step:** Classroom contracts + `services/google` (real Classroom REST client + fake dataset), OAuth connect/callback, `google_connections` encryption, sync jobs, notifications module, `/dashboard` aggregate, then web `/home` + `/classroom/*` + notifications, then mobile Home/Classroom.
+- After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`) and `redis-server --daemonize yes`.
 - **Known blockers:** no Docker daemon (use local Postgres 16 + Redis, ADR-002); Google Maven/Android SDK unreachable → Compose UI not compiled here (ADR-012); Meilisearch binary not downloadable (ADR-005).
 
@@ -16,7 +17,7 @@ Resumable log. A new session reads **Current state** and continues from **Next s
 - [x] Inspected existing folders (only READMEs + specs existed; no code)
 - [x] `docs/ARCHITECTURE.md`, `docs/DESIGN_SYSTEM.md`, `docs/DECISIONS.md`, phase plan (this file)
 
-### Phase 1 — Foundation
+### Phase 1 — Foundation ✅
 Plan:
 1. pnpm workspace (root `package.json`, `pnpm-workspace.yaml`), TS base config, ESLint flat config, Prettier.
 2. `Web/shared`: tokens.json + generators (CSS vars, Tailwind preset, Compose theme); enums; Zod contracts for health, auth, me, settings; OpenAPI generator.
@@ -34,8 +35,14 @@ Plan:
 - [x] infra (docker-compose, Dockerfile, Caddyfile) + CI workflow + `scripts/check-all.sh`
 - [x] docs: RUNBOOK (incl. Brevo SPF/DKIM/DMARC), API, DB_SCHEMA, TESTING, PERFORMANCE
 
-### Phase 2 — Master data
-- [ ] institutions/departments/programs/subjects API + admin approval + institution requests + seed; onboarding screens
+### Phase 2 — Master data ✅
+Plan: catalog contracts → service (batched cross-DB counts, alias search incl. Bangla) → admin catalog CRUD + institution-request queue (approve / merge / reject, duplicate hints) → academic profile + onboarding endpoint (+ optional exam plan) → seed (12 institutions, 20 subjects, 49 course codes, demo student profiles) → web onboarding (5 steps + success, per reference) and admin pages → tests.
+- [x] `GET /institutions` (search name/short/alias/Bangla, type filter, cursor), `/institutions/:slug`, `/departments`, `/programs`, `/subjects`, `/subjects/:slug`, `POST /institution-requests`, `PUT /me/academic-profile`, `POST /me/onboarding`
+- [x] admin: request queue with similar-name detection, approve/merge/reject (audit-logged), institutions/departments/programs/subjects/institution-subject CRUD, merge duplicates (moves CONTENT refs + CORE student profiles)
+- [x] seed: MU, NSU, BRACU (+9 more), departments/programs, subject master with aliases (DS = Data Structures, DBMS…), course codes (CSE-2203…), demo student profiles
+- [x] web: onboarding 5 steps + success (refs campuscourse_3/1/2/4), admin Institution requests + Catalog pages
+- [x] tests: 7 catalog integration tests; endpoint-map sync test
+- Universities directory / university detail / subjects pages are built in Phase 5 together with course grids.
 
 ### Phase 3 — Home dashboard + Google Classroom
 - [ ] OAuth connect/disconnect, full/incremental sync, Pub/Sub + renewal, reminders, notifications center + push, `/home`, `/classroom/*`, calendar, notifications (web + mobile), fake Classroom seed, `docs/CLASSROOM_INTEGRATION.md`
