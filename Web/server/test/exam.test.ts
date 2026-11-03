@@ -152,3 +152,24 @@ describe('exam mode', () => {
     expect((await app.inject({ method: 'DELETE', url: `/api/v1/seller/mock-tests/${j(ok).id}`, headers: t })).statusCode).toBe(200);
   });
 });
+
+describe('dashboard completion (Phase 9)', () => {
+  it('demo student: continue learning, exam countdown with readiness, week strip exam dot, recommendations — all real', async () => {
+    const app = await getApp();
+    await seedAll();
+    const [u] = await coreDb.select().from(users).where(eq(users.email, 'sadman@demo.shikkhasathi.com'));
+    const auth = { authorization: `Bearer ${(await issueSession(u!, { platform: 'android' })).accessToken}` };
+    const plan = j(await app.inject({ url: '/api/v1/exam-plans', headers: auth })).items[0];
+    const first = j(await app.inject({ url: `/api/v1/exam-plans/${plan.id}`, headers: auth })).today.items[0];
+    await app.inject({ method: 'POST', url: `/api/v1/lessons/${first.lessonId}/complete`, headers: auth, payload: { completed: true } });
+    await app.inject({ url: `/api/v1/exam-plans/${plan.id}`, headers: auth }); // refresh readiness
+    const d = j(await app.inject({ url: '/api/v1/dashboard?fresh=1', headers: auth }));
+    expect(d.continueLearning.data).toMatchObject({ lastLessonId: first.lessonId });
+    expect(d.continueLearning.data.progressPercent).toBeGreaterThan(0);
+    expect(d.exam.data).toMatchObject({ planId: plan.id, subjectName: 'Data Structures' });
+    expect(d.exam.data.readiness).toBeGreaterThan(0);
+    expect(d.week.data.some((x: { exams: number }) => x.exams > 0)).toBe(true);
+    expect(d.recommendations.data.length).toBeGreaterThan(0);
+    expect(d.recommendations.data.map((c: { id: string }) => c.id)).not.toContain(d.continueLearning.data.courseId);
+  });
+});

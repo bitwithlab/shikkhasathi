@@ -3,8 +3,8 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 9 — Dashboard completion (Phases 0–8 are done)
-- **Next step:** Phase 9: verify every `/home` widget uses real data (continue learning ✅, exam countdown ✅ from exam plans, recommendations ✅), test Classroom edge cases (revoked token, Workspace blocked, quota backoff, disconnect wipes cache, push renewal), write the Google verification checklist in `docs/CLASSROOM_INTEGRATION.md`, and screenshot `/home` with demo data (sadman has DS + Algorithms and a DS midterm plan).
+- **Current phase:** 10 — Admin + seller completion (Phases 0–9 are done)
+- **Next step:** Phase 10 admin web pages over the existing APIs: orders, refunds (approve/reject), payouts (new: seller payout request + admin approve/mark paid with ledger debit), users (search, roles, suspend), reports/moderation (new: report Q&A/review/course → hide), broadcasts (new: admin.broadcast notification + email), email logs, audit log, analytics (new: GMV, enrollments, top courses, sellers). Seller pages: earnings + payout request, coupons, bundles, students, Q&A inbox, reviews + reply, mock tests/flashcards authoring, analytics.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
 - **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
@@ -73,8 +73,10 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] tests: server 6 integration + 5 planner unit; client 2
 - Seller mock/flashcard authoring UI → Phase 10 (APIs exist).
 
-### Phase 9 — Dashboard completion
-- [ ] real widgets wired, Classroom edge cases, verification checklist
+### Phase 9 — Dashboard completion ✅
+- [x] every `/home` widget uses real data: Classroom due-soon + feed, exam countdown + readiness (from exam plans), continue learning (from progress), week strip (deadlines + exams), recommendations (excluding owned)
+- [x] Classroom edge cases tested: revoked token → reauth, Workspace blocked → friendly state + no polling, quota → doubling backoff capped at 2 h keeping last-synced data, push registration renewal window, disconnect wipes cache, rate-limited manual sync
+- [x] verification pack in `docs/CLASSROOM_INTEGRATION.md` (scope justifications, data-handling statement, demo video script). Submitting it needs the owner's Google Cloud account; see the owner checklist below
 
 ### Phase 10 — Admin + seller completion
 - [ ] all admin sections, payouts, reports, analytics, seller earnings
@@ -87,7 +89,7 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 
 ## Google OAuth verification prerequisites
 - [ ] `shikkhasathi.com` verified in Search Console
-- [ ] `/privacy` and `/terms` live
+- [x] `/privacy` and `/terms` implemented (live with first deploy)
 - [ ] consent screen with ShikkhaSathi name + logo + support email
 - [ ] scope justification + demo video submitted
 - [ ] Testing mode with test users until verified
@@ -100,3 +102,4 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Teacher Studio web UI done: apply/verification, dashboard, courses list, 5-step wizard with autosave + live preview, curriculum drag & drop, TUS/PDF uploads, storefront. Fixed zod-4 `.partial()` default injection with `patchOf()` (ADR-021). Seller follow-ups: `reviewNote` in the course list, a documents-delete endpoint → Phase 10.
 - **2026-11-03** — Phase 7 done: learning server + player/My Courses/Notes web. Server 92 tests, client 70. hls.js light build (87 KB, lazy, player only). Next: Phase 8.
 - **2026-11-03** — Phase 8 done: Exam Mode + mock tests (server + web). Server 103 tests, client 73. Next: Phase 9.
+- **2026-11-03** — Phase 9 done: dashboard fully real, Classroom edge-case tests (+3), Google verification pack. Next: Phase 10.

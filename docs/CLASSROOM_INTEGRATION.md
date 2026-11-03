@@ -53,8 +53,30 @@ Each run is recorded in `classroom_sync_runs`. Diffing: new coursework/material/
 5. Admin → সেটিংস → Google OAuth + Classroom: client id/secret, Android/iOS client ids, topic, push verification token → "সংযোগ পরীক্ষা করুন".
 
 ## Verification checklist (track in docs/PROGRESS.md)
-- [ ] `shikkhasathi.com` verified in Search Console
-- [ ] `/privacy` (includes the Limited Use statement) and `/terms` live — implemented in the web app
-- [ ] Consent screen name + logo + support email
-- [ ] Scope justification text + demo video (connect → dashboard → disconnect)
-- [ ] Testing-mode test users added until approval
+Owner actions (they need the ShikkhaSathi Google Cloud project; they can't be done from the codebase):
+- [ ] `shikkhasathi.com` verified in Google Search Console (DNS TXT record)
+- [x] `/privacy` (with the Google API Services User Data Policy / Limited Use statement) and `/terms`: implemented, and they go live with the first deploy
+- [ ] OAuth consent screen: app name **ShikkhaSathi**, logo (120×120 PNG from `App/mobile/assets`), support email, authorised domain `shikkhasathi.com`, home page `https://shikkhasathi.com`, privacy and terms links
+- [ ] Scopes added exactly as in §Scopes, with the justification text below
+- [ ] Demo video uploaded (unlisted YouTube), script below
+- [ ] Test users added while in Testing mode, then "Publish app" → submit for verification
+
+### Scope justification (paste into the verification form)
+| Scope | Justification |
+|---|---|
+| `classroom.courses.readonly` | Shows the student's enrolled Google Classroom classes on their ShikkhaSathi dashboard so they can see every class in one place. Read-only; we never create or change classes. |
+| `classroom.coursework.me.readonly` | Lists the student's own assignments, due dates and submission status/grades so we can show "due soon" deadlines and send reminders 24 h and 2 h before they are due. Only the signed-in student's own work is read. |
+| `classroom.courseworkmaterials.readonly` | Shows new materials (slides, PDFs, links) teachers post, in a unified "new from your classes" feed with a link back to Classroom. |
+| `classroom.announcements.readonly` | Shows class announcements (room changes, syllabus notices) in the same feed and as notifications. |
+| `classroom.push-notifications` | Registers for Classroom course-work change notifications via Cloud Pub/Sub so the dashboard updates within minutes without frequent polling. This reduces API usage. |
+| `openid email profile` | Identifies the Google account the student connects and shows which account is linked. |
+
+Data handling statement: tokens are stored server-side only, encrypted with AES-256-GCM, and never sent to the browser or mobile app. Classroom data is cached only to render the student's own dashboard, is never shared with teachers on ShikkhaSathi, other students or third parties, is not used for ads or model training, and is deleted when the student disconnects (we also revoke the token).
+
+### Demo video script (≈ 2 minutes)
+1. Open `https://shikkhasathi.com`, sign in as a test student, and go to Home, which shows the "Google Classroom সংযুক্ত করুন" card.
+2. Click connect. The Google consent screen shows each read-only scope; pause on it.
+3. After returning, the dashboard shows due-soon assignments, the new-from-classes feed, and the calendar dots.
+4. Open an assignment, then "Classroom-এ খুলুন" deep link to show we only link out (no posting or submitting).
+5. Show a notification (new material / reminder).
+6. Go to Profile → Classroom, click "সংযোগ বিচ্ছিন্ন করুন": the data disappears from the dashboard, and the Google account permissions page no longer lists ShikkhaSathi.

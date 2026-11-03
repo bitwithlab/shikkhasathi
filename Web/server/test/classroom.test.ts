@@ -3,8 +3,8 @@ import { and, eq } from 'drizzle-orm';
 import { getApp, createUser } from './helpers';
 import { coreDb } from '../src/database/client';
 import { classroomCourses, classroomCoursework, classroomFeedItems, googleConnections, notifications, classroomPushRegistrations } from '../src/database/core/schema';
-import { FakeClassroomClient, RealClassroomClient, mapDue, mapMaterials } from '../src/services/google/classroom';
-import { __setClassroomClientFactory, assignmentStatus, runDeadlineReminders, runSync, pollActive } from '../src/modules/classroom/classroom.service';
+import { ClassroomError, FakeClassroomClient, RealClassroomClient, mapDue, mapMaterials } from '../src/services/google/classroom';
+import { __setClassroomClientFactory, assignmentStatus, renewRegistrations, runDeadlineReminders, runSync, pollActive } from '../src/modules/classroom/classroom.service';
 import { updateIntegration } from '../src/modules/settings/settings.service';
 import { CLASSROOM_SCOPES } from '@shikkhasathi/shared';
 import { FakePushProvider } from '../src/services/push';
@@ -208,6 +208,71 @@ describe('errors, push, disconnect', () => {
     for (const t of [classroomCourses, classroomCoursework, classroomFeedItems, googleConnections]) expect(await coreDb.select().from(t).where(eq(t.userId, s.user.id))).toHaveLength(0);
     expect(await coreDb.select().from(notifications).where(eq(notifications.userId, s.user.id))).toHaveLength(0);
     expect(j(await app.inject({ url: '/api/v1/classroom/status', headers: s.auth })).connected).toBe(false);
+  });
+});
+
+describe('edge cases (Phase 9)', () => {
+  /** Fake client whose list calls fail with a given Google error class. */
+  function failingClock(kind: 'workspace' | 'quota') {
+    __setClassroomClientFactory((conn) => {
+      const c = new FakeClassroomClient(conn?.createdAt ?? new Date(), () => new Date(clock));
+      c.listCourses = async () => {
+        throw new ClassroomError(kind, kind === 'quota' ? 'Quota exceeded' : 'The domain administrator has disabled Classroom API access');
+      };
+      return c;
+    });
+  }
+
+  it('university Workspace blocks third-party apps → workspace_blocked, friendly error, polling skips it', async () => {
+    useClock();
+    const app = await getApp();
+    const s = await createUser();
+    await connect(s.auth);
+    failingClock('workspace');
+    await runSync({ userId: s.user.id, trigger: 'poll' });
+    const st = j(await app.inject({ url: '/api/v1/classroom/status', headers: s.auth }));
+    expect(st.status).toBe('workspace_blocked');
+    const r = await app.inject({ method: 'POST', url: '/api/v1/classroom/sync', headers: s.auth });
+    expect(j(r).error.code).toBe('CLASSROOM_WORKSPACE_BLOCKED');
+    expect(await runSync({ userId: s.user.id, trigger: 'poll' })).toEqual({ changes: 0 });
+    // cached data from before stays readable
+    expect(j(await app.inject({ url: '/api/v1/classroom/courses', headers: s.auth })).items.length).toBeGreaterThan(0);
+  });
+
+  it('quota errors back off (doubling, capped) and keep last-synced data', async () => {
+    useClock();
+    const s = await createUser();
+    await connect(s.auth);
+    const [before] = await coreDb.select().from(googleConnections).where(eq(googleConnections.userId, s.user.id));
+    failingClock('quota');
+    await runSync({ userId: s.user.id, trigger: 'poll' });
+    const [a] = await coreDb.select().from(googleConnections).where(eq(googleConnections.userId, s.user.id));
+    expect(a!.errorCode).toBe('quota');
+    expect(a!.status).toBe('active');
+    const w1 = a!.nextSyncAllowedAt!.getTime() - Date.now();
+    expect(w1).toBeGreaterThan(4 * 60_000);
+    expect(a!.lastSyncAt?.getTime()).toBe(before!.lastSyncAt?.getTime());
+    await coreDb.update(googleConnections).set({ nextSyncAllowedAt: new Date(Date.now() - 1) }).where(eq(googleConnections.id, a!.id));
+    await runSync({ userId: s.user.id, trigger: 'poll' });
+    const [b] = await coreDb.select().from(googleConnections).where(eq(googleConnections.userId, s.user.id));
+    expect(b!.nextSyncAllowedAt!.getTime() - Date.now()).toBeLessThanOrEqual(2 * HOUR);
+  });
+
+  it('push registrations renew when they expire within 2 days, not before', async () => {
+    useClock();
+    const s = await createUser();
+    await connect(s.auth);
+    await renewRegistrations({ userId: s.user.id });
+    const regs = await coreDb.select().from(classroomPushRegistrations).where(eq(classroomPushRegistrations.userId, s.user.id));
+    expect(regs.length).toBeGreaterThan(0);
+    const fresh = regs[0]!;
+    await renewRegistrations({ userId: s.user.id });
+    const [same] = await coreDb.select().from(classroomPushRegistrations).where(eq(classroomPushRegistrations.id, fresh.id));
+    expect(same!.registrationId).toBe(fresh.registrationId);
+    await coreDb.update(classroomPushRegistrations).set({ expiresAt: new Date(Date.now() + HOUR) }).where(eq(classroomPushRegistrations.id, fresh.id));
+    await renewRegistrations({});
+    const [renewed] = await coreDb.select().from(classroomPushRegistrations).where(eq(classroomPushRegistrations.id, fresh.id));
+    expect(renewed!.expiresAt.getTime()).toBeGreaterThan(Date.now() + 2 * 86_400_000);
   });
 });
 
