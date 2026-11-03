@@ -359,5 +359,128 @@ export const endpoints = {
       "path": "/webhooks/google-pubsub",
       "auth": "public"
     }
+  },
+  "sellerApply": {
+    "profile": {
+      "method": "GET",
+      "path": "/seller/profile",
+      "auth": "user"
+    },
+    "apply": {
+      "method": "POST",
+      "path": "/seller/apply",
+      "auth": "user"
+    },
+    "emailCode": {
+      "method": "POST",
+      "path": "/seller/verify-email/request",
+      "auth": "user"
+    },
+    "emailConfirm": {
+      "method": "POST",
+      "path": "/seller/verify-email/confirm",
+      "auth": "user"
+    },
+    "updateStorefront": {
+      "method": "PATCH",
+      "path": "/seller/storefront",
+      "auth": "seller"
+    }
+  },
+  "adminSellers": {
+    "list": {
+      "method": "GET",
+      "path": "/admin/sellers",
+      "auth": "admin"
+    },
+    "decide": {
+      "method": "PATCH",
+      "path": "/admin/sellers/:id/verification",
+      "auth": "admin"
+    }
+  },
+  "sellerCourses": {
+    "list": {
+      "method": "GET",
+      "path": "/seller/courses",
+      "auth": "seller"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/seller/courses",
+      "auth": "seller"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/seller/courses/:id",
+      "auth": "seller"
+    },
+    "update": {
+      "method": "PATCH",
+      "path": "/seller/courses/:id",
+      "auth": "seller"
+    },
+    "targets": {
+      "method": "PUT",
+      "path": "/seller/courses/:id/targets",
+      "auth": "seller"
+    },
+    "curriculum": {
+      "method": "PUT",
+      "path": "/seller/courses/:id/curriculum",
+      "auth": "seller"
+    },
+    "checklist": {
+      "method": "GET",
+      "path": "/seller/courses/:id/checklist",
+      "auth": "seller"
+    },
+    "submit": {
+      "method": "POST",
+      "path": "/seller/courses/:id/submit",
+      "auth": "verified_seller"
+    },
+    "archive": {
+      "method": "POST",
+      "path": "/seller/courses/:id/archive",
+      "auth": "seller"
+    },
+    "remove": {
+      "method": "DELETE",
+      "path": "/seller/courses/:id",
+      "auth": "seller"
+    },
+    "upload": {
+      "method": "POST",
+      "path": "/seller/uploads",
+      "auth": "user"
+    },
+    "uploadComplete": {
+      "method": "POST",
+      "path": "/seller/uploads/:id/complete",
+      "auth": "seller"
+    },
+    "proposeSubject": {
+      "method": "POST",
+      "path": "/subjects/propose",
+      "auth": "seller"
+    }
+  },
+  "adminReview": {
+    "queue": {
+      "method": "GET",
+      "path": "/admin/courses/review",
+      "auth": "admin"
+    },
+    "detail": {
+      "method": "GET",
+      "path": "/admin/courses/:id",
+      "auth": "admin"
+    },
+    "decide": {
+      "method": "POST",
+      "path": "/admin/courses/:id/decision",
+      "auth": "admin"
+    }
   }
 } as unknown as typeof C;

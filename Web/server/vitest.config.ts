@@ -17,6 +17,7 @@ export default defineConfig({
       REDIS_URL: process.env.TEST_REDIS_URL ?? 'redis://localhost:6379/15',
       ENCRYPTION_KEY: '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
       APP_URL: 'http://localhost:3000',
+      LOCAL_STORAGE_DIR: '/tmp/ss-test-storage',
     },
   },
 });

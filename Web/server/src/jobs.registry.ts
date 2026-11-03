@@ -2,3 +2,4 @@
 import './services/email';
 import './modules/notifications/notifications.service';
 import './modules/classroom/classroom.service';
+import './modules/seller/seller.jobs';
