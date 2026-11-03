@@ -23,9 +23,9 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done (real API + seed,
 | `campuscourse_university_detail` | University hero, stats, department tabs, semester pills, subjects, course grid | `/u/:slug` | `UniversityDetailScreen` | 2/5 | ⬜ |
 | `campuscourse_data_structures_desktop` | Course details desktop — breadcrumb, teacher card, chips, compatibility badge, learn list, curriculum, resources, "কাদের জন্য নয়", reviews, FAQ, sticky buy card | `/c/:slug` | — | 5 | ⬜ |
 | `campuscourse_data_structures_mobile` | Course details mobile with sticky bottom buy bar | `/c/:slug` (mobile web) | `CourseDetailScreen` | 5 | ⬜ |
-| `campuscourse_exam_mode` | Exam Mode — gradient countdown + readiness ring, daily plan, syllabus checklist, important topics, short lectures, previous questions, flashcards, mock test card, last-night pack | `/exam-mode`, `/exam-mode/:planId` | `ExamModeScreen` | 8 | ✅ web |
+| `campuscourse_exam_mode` | Exam Mode — gradient countdown + readiness ring, daily plan, syllabus checklist, important topics, short lectures, previous questions, flashcards, mock test card, last-night pack | `/exam-mode`, `/exam-mode/:planId` | `ExamModeScreen` | 8 | ✅ web · mobile code ✅ (compile on SDK machine) |
 | `academic_calm/DESIGN.md` | Design system tokens & component rules | `docs/DESIGN_SYSTEM.md` | Compose theme | 1 | ✅ |
-| `শিক্ষাসাথী Educational Logo.png` | Brand logo (cap + open book, indigo/violet, amber tassel) | favicon, navbar, emails | launcher icon | 1 | ✅ web |
+| `শিক্ষাসাথী Educational Logo.png` | Brand logo (cap + open book, indigo/violet, amber tassel) | favicon, navbar, emails | launcher icon | 1 | ✅ web · mobile code ✅ (compile on SDK machine) |
 
 ## Spec screens without a reference image (designed from `docs/UI_PROMPTS.md` + design system)
 
@@ -38,11 +38,11 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done (real API + seed,
 | Notifications center | `/notifications` | `NotificationsScreen` | 3 | ⬜ |
 | Subjects list / detail (#6) | `/subjects`, `/s/:slug` | `SubjectsScreen` | 5 | ⬜ |
 | Course request board (#14) | `/requests` | `RequestsScreen` | 5 | ⬜ |
-| Checkout + processing/success/failure (#8) | `/checkout/:courseId`, `/checkout/result` | `CheckoutScreen` | 6 | ✅ web |
-| Course player (#10) | `/learn/:courseId/:lessonId` | `PlayerScreen` | 7 | ✅ web |
-| My Courses (#9) | `/my-courses` | `MyCoursesScreen` | 7 | ✅ web |
-| Notes & bookmarks | `/notes` | `NotesScreen` | 7 | ✅ web |
-| Mock test pre/question/submit/result (#12) | `/mock-tests`, `/mock-test/:id`, `/mock-test/:id/result` | `MockTestScreen` | 8 | ✅ web |
+| Checkout + processing/success/failure (#8) | `/checkout/:courseId`, `/checkout/result` | `CheckoutScreen` | 6 | ✅ web · mobile code ✅ (compile on SDK machine) |
+| Course player (#10) | `/learn/:courseId/:lessonId` | `PlayerScreen` | 7 | ✅ web · mobile code ✅ (compile on SDK machine) |
+| My Courses (#9) | `/my-courses` | `MyCoursesScreen` | 7 | ✅ web · mobile code ✅ (compile on SDK machine) |
+| Notes & bookmarks | `/notes` | `NotesScreen` | 7 | ✅ web · mobile code ✅ (compile on SDK machine) |
+| Mock test pre/question/submit/result (#12) | `/mock-tests`, `/mock-test/:id`, `/mock-test/:id/result` | `MockTestScreen` | 8 | ✅ web · mobile code ✅ (compile on SDK machine) |
 | Profile & settings (#20) | `/profile`, `/settings` | `ProfileScreen`, `SettingsScreen` | 3/9 | ⬜ |
 | Teacher dashboard (#15) | `/teach` | `SellerLiteScreen` | 4/10 | ⬜ |
 | Course creator wizard (#16) | `/teach/courses/new`, `/teach/courses/:id/edit` | — | 4 | ⬜ |

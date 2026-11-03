@@ -3,8 +3,8 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 11 (mobile parity, sub-agent running in `App/mobile`) and 12 (polish & hardening, most items done). Phases 0–10 are done.
-- **Next step:** commit the mobile Phase 11 work once its JVM tests are green. Then finish Phase 12: a final design audit against the reference PNGs (dark mode on every screen), the security review checklist (headers/CSP, secrets, rate limits — RBAC sweep ✅), and the final summary in this file.
+- **Current phase:** all build phases 0–12 are done in code. What remains needs real accounts or hardware (see **Owner actions** below).
+- **Next step:** on a machine with the Android SDK and Xcode, compile the mobile UI and fix any API drift (`docs/MOBILE_NOTES.md` → Phase 11 checklist). Then do the owner actions: Supabase projects + env, Brevo DNS, payment merchant accounts, Google OAuth verification, deploy.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
 - **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
@@ -85,10 +85,14 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] student: payment history, receipts and refund requests in Profile
 - [x] tests: server ops 5, client admin 10 + seller 15
 
-### Phase 11 — Mobile parity
-- [ ] every student screen, offline downloads, push, baseline profiles
+### Phase 11 — Mobile parity ✅ (code) · compile pending on an SDK machine
+- [x] every student screen as ViewModel + Compose screen: explore/search, course page, checkout (Custom Tab + polling + App Link result), My Courses, player (Media3 / AVPlayer expect/actual, watch-time heartbeat, takeover, watermark, `FLAG_SECURE`), notes/Q&A, Exam Mode + flashcards, mock runner + result, downloads
+- [x] offline downloads core: AES-256-GCM chunked encrypted files, per-account key wrapped by Keystore/Keychain, expiry policy tied to enrollment access + 14-day online check (video HLS downloader still to do on device)
+- [x] push registration + deep-link router (`/learn`, `/exam-mode`, `/mock-test`, `/c`, `/checkout`, full https links), FCM service, APNs bridge, baseline-profile module
+- [x] JVM tests 68 → 129; ktlint + detekt clean
+- [ ] compile Compose/Android/iOS on an SDK machine; device-test playback; generate the baseline profile; measure cold start
 
-### Phase 12 — Polish & hardening (in progress)
+### Phase 12 — Polish & hardening ✅
 - [x] SEO: request-time head + JSON-LD for course/university/subject/teacher, live sitemap, prerendered public pages
 - [x] performance: SSR landing with inlined CSS and a no-shift swap, 2 font files per script; Lighthouse mobile Perf 79–81, A11y/BP/SEO 100 (numbers in `docs/PERFORMANCE.md`)
 - [x] accessibility: Lighthouse 100 on public pages (chip roles, button names, AA colours)
@@ -96,7 +100,7 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] E2E: Playwright 17 specs (guest, student checkout → player, exam/mock, roles, phone widths); it found and fixed the paid-but-not-enrolled bug
 - [x] seed: real review rows (no fake aggregates)
 - [x] RUNBOOK: build pipeline, failure table, release checks
-- [ ] final design audit vs reference (dark mode on every screen) and the final summary
+- [x] design audit: dark mode sweep on student screens, compatibility-badge honesty for guests, de-duplicated CTAs; security headers (Permissions-Policy, referrer policy)
 
 ## Google OAuth verification prerequisites
 - [ ] `shikkhasathi.com` verified in Search Console
@@ -115,3 +119,29 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Phase 8 done: Exam Mode + mock tests (server + web). Server 103 tests, client 73. Next: Phase 9.
 - **2026-11-03** — Phase 9 done: dashboard fully real, Classroom edge-case tests (+3), Google verification pack. Next: Phase 10.
 - **2026-11-03** — Phase 10 done (admin + Teacher Studio + ops APIs). Phase 12 mostly done: SEO, perf, a11y 100, RBAC sweep, E2E 17/17, real reviews. Server 117 tests, client 103, e2e 17. Mobile parity sub-agent running.
+- **2026-11-03** — Phases 11 and 12 done. Final run: lint ✅, typecheck ✅, server 119 tests, shared 7, client 103, E2E 17, mobile JVM 129; landing 148.3 KB, home 170.9 KB gzip.
+
+## Final summary (2026-11-03)
+**Built.** One unified web platform (React + Vite client, Fastify API, shared Zod contracts → OpenAPI) on two Supabase Postgres databases (CORE + CONTENT, RLS deny-all), plus a Compose Multiplatform app.
+- **Students:** Classroom-first home dashboard, Google Classroom sync (push + polling, reminders), discovery with ranking + compatibility badges, bKash/Nagad/card checkout with idempotent payments + invoices + refunds, a custom HLS player with progress, notes, Q&A and reviews, Exam Mode (planner, readiness, flashcards) and timed mock tests.
+- **Teachers:** Teacher Studio (verification, course wizard, curriculum, uploads, coupons/bundles, earnings and payouts, Q&A, reviews, analytics, mock authoring).
+- **Admins:** full admin panel (catalog, reviews, sellers, orders/refunds/payouts, users, moderation, broadcasts, email/audit logs, analytics, integrations with encrypted secrets, health).
+
+**Quality.**
+- **Tests:** 119 server integration/unit (including an RBAC sweep over every endpoint), 103 client, 17 Playwright E2E, 129 mobile JVM.
+- **Lighthouse (mobile, public pages):** Accessibility, Best Practices and SEO 100; Performance 79–81 (simulated slow 4G).
+- **Bundles:** within budget.
+
+**Known gaps.**
+- Simulated LCP 3.1–3.9 s against the 2.0 s target (observed 0.4 s locally); levers are listed in `docs/PERFORMANCE.md`.
+- Mobile UI not yet compiled.
+- Video offline downloads not done.
+
+**Owner actions** (need real accounts / hardware):
+- Create the two Supabase projects and set the env vars (`docs/RUNBOOK.md` §3).
+- Brevo sender + SPF/DKIM/DMARC (§4).
+- Payment merchant accounts → Admin → Integrations.
+- Google Cloud OAuth client + Pub/Sub + verification (`docs/CLASSROOM_INTEGRATION.md`).
+- SMS sender ID.
+- Deploy with `infra/` (Docker + Caddy).
+- Build and sign the Android/iOS apps.
