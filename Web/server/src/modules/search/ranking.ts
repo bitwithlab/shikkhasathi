@@ -98,7 +98,8 @@ export function rankScore(c: RankCourse, s: RankStudent | null, now = new Date()
 /** Compatibility badge: ✅ when a target matches the student's institution + department. */
 export function compatibility(targets: RankTarget[], s: Pick<RankStudent, 'institutionId' | 'departmentId'> | null): 'match' | 'mismatch' | 'general' {
   if (targets.length > 0 && targets.every((t) => t.isGeneral)) return 'general';
-  if (!s?.institutionId) return targets.some((t) => t.isGeneral) ? 'general' : 'mismatch';
+  // unknown student (guest / no academic profile): never claim a mismatch we can't know
+  if (!s?.institutionId) return 'general';
   if (targets.some((t) => t.institutionId === s.institutionId && (!s.departmentId || !t.departmentId || t.departmentId === s.departmentId))) return 'match';
   return targets.some((t) => t.isGeneral) ? 'general' : 'mismatch';
 }

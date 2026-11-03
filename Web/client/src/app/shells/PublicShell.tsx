@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
-import { Link, NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { Menu, Search } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
@@ -20,6 +20,7 @@ const LINKS = [
 ];
 
 export function PublicShell() {
+  const loc = useLocation();
   const t = useT();
   const [open, setOpen] = useState(false);
   const authed = useAuth((s) => s.status === 'authed');
@@ -111,14 +112,17 @@ export function PublicShell() {
         <Outlet />
       </div>
       <Footer />
-      <div
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
-        data-public-cta
-      >
-        <Button asChild block icon={<Search className="size-4" aria-hidden />}>
-          <Link to="/explore">{t('nav.public.explore')}</Link>
-        </Button>
-      </div>
+      {/* phone CTA only on the landing — course pages have their own buy bar */}
+      {loc.pathname === '/' && (
+        <div
+          className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
+          data-public-cta
+        >
+          <Button asChild block icon={<Search className="size-4" aria-hidden />}>
+            <Link to="/explore">{t('nav.public.explore')}</Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

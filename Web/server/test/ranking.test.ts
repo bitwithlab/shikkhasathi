@@ -48,7 +48,7 @@ describe('ranking (spec §6.5)', () => {
     expect(compatibility(course().targets, student)).toBe('match');
     expect(compatibility([T({ institutionId: 'nsu', departmentId: 'x' })], student)).toBe('mismatch');
     expect(compatibility([T({ isGeneral: true })], student)).toBe('general');
-    expect(compatibility([T({ institutionId: MU, departmentId: CSE })], null)).toBe('mismatch');
+    expect(compatibility([T({ institutionId: MU, departmentId: CSE })], null)).toBe('general');
   });
 });
 

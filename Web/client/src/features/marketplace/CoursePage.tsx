@@ -76,7 +76,6 @@ function CourseView({ c }: { c: CourseDetail }) {
               </ul>
               {c.compatibility !== 'general' && (
                 <div className={cn('mt-5 flex items-start gap-3 rounded-card border p-4', c.compatibility === 'match' ? 'border-success/30 bg-success-soft' : 'border-warning/30 bg-warning-soft')}>
-                  {c.compatibility === 'match' ? <ShieldCheck className="mt-0.5 size-5 shrink-0 text-success-fg" aria-hidden /> : <AlertTriangle className="mt-0.5 size-5 shrink-0 text-warning-fg" aria-hidden />}
                   <div className="min-w-0">
                     <CompatibilityBadge value={c.compatibility} />
                     <p className="latin mt-1 text-sm">{c.targets.map((x) => x.label).join(' · ')}</p>
