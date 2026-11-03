@@ -24,7 +24,7 @@ export function Chip({ selected, className, ...rest }: React.ButtonHTMLAttribute
   return (
     <button
       type="button"
-      aria-pressed={selected}
+      aria-pressed={rest.role ? undefined : selected}
       className={cn(
         'inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium whitespace-nowrap transition-colors duration-150',
         selected ? 'border-primary bg-primary text-on-primary' : 'border-border bg-surface text-text hover:border-border-strong hover:bg-surface-2',

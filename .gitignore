@@ -21,3 +21,4 @@ App/mobile/.kotlin/
 dump.rdb
 test-results/
 playwright-report/
+dist-ssr/

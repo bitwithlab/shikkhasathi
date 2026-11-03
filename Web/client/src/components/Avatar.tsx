@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn';
 
-const PALETTE = ['#4F46E5', '#0EA5E9', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6', '#14B8A6', '#F97316'];
+const PALETTE = ['#4338CA', '#0369A1', '#047857', '#B45309', '#BE185D', '#6D28D9', '#0F766E', '#C2410C']; // all ≥ 4.5:1 with white text
 
 function initials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);

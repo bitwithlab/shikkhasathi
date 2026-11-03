@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('guest: landing → smart search "DS" → course details → buy asks to log in', async ({ page }) => {
   await page.goto('/');
+  await page.waitForFunction(() => !document.getElementById('ssr')); // prerendered copy swapped for the live app
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.getByText('কোনো বিশ্ববিদ্যালয়ের সঙ্গে অফিসিয়ালি যুক্ত নয়')).toBeVisible();
   const search = page.getByRole('combobox').first();

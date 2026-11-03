@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender.mjs",
+    "build": "vite build && vite build --ssr src/prerender/entry.tsx --outDir dist-ssr --emptyOutDir --logLevel warn && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",

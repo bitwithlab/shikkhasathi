@@ -2,7 +2,7 @@
 // Build-time SEO prerender for public routes: writes dist/<route>/index.html with per-page title/meta/canonical/JSON-LD.
 // Full content prerender of dynamic pages (courses, universities) is added in Phase 5 by fetching the API at build time
 // when PRERENDER_API is set; without it, static public routes still get correct head tags.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -38,14 +38,25 @@ export function renderHead(html, p) {
   return out;
 }
 
+// landing body rendered at build time (dist-ssr from `vite build --ssr src/prerender/entry.tsx`) — first paint without JS
+const ssr = resolve(dist, '../dist-ssr/entry.js');
+if (existsSync(ssr)) {
+  const { renderLanding } = await import(ssr);
+  pages[0].body = renderLanding();
+}
+
 for (const p of pages) {
   const html = renderHead(shell, p);
-  if (p.path === '/') writeFileSync(resolve(dist, 'index.prerendered.html'), html);
+  if (p.path === '/') {
+    // inline the stylesheet on the landing page: first paint needs no extra round trip (CSP allows inline styles)
+    const link = /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/.exec(html);
+    const out = link ? html.replace(link[0], `<style>${readFileSync(resolve(dist, link[1].slice(1)), 'utf8')}</style>`) : html;
+    writeFileSync(resolve(dist, 'index.prerendered.html'), out);
+  }
   else {
     mkdirSync(resolve(dist, p.path.slice(1)), { recursive: true });
     writeFileSync(resolve(dist, p.path.slice(1), 'index.html'), html);
   }
 }
-const urls = pages.map((p) => `  <url><loc>${SITE}${p.path}</loc><changefreq>weekly</changefreq></url>`).join('\n');
-writeFileSync(resolve(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
-console.info(`prerender: ${pages.length} public routes + sitemap.xml`);
+// sitemap.xml is served live by the server (Web/server/src/seo.ts) — not generated at build time
+console.info(`prerender: ${pages.length} public routes`);

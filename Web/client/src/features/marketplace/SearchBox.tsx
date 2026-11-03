@@ -110,7 +110,7 @@ export function SearchBox({ initial = '', onSearch, size = 'lg', autoFocus }: { 
             <X className="size-4" aria-hidden />
           </button>
         )}
-        <button type="submit" className={cn('inline-flex shrink-0 items-center gap-2 rounded-control bg-primary px-4 font-semibold text-on-primary hover:bg-primary-strong', size === 'lg' ? 'h-11' : 'h-9 text-sm')}>
+        <button type="submit" aria-label={t('common.search')} className={cn('inline-flex shrink-0 items-center gap-2 rounded-control bg-primary px-4 font-semibold text-on-primary hover:bg-primary-strong', size === 'lg' ? 'h-11' : 'h-9 text-sm')}>
           <Search className="size-4 sm:hidden" aria-hidden />
           <span className="hidden sm:inline">{t('common.search')}</span>
         </button>

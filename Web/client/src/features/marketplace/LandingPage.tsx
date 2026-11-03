@@ -1,5 +1,7 @@
 import './landing/i18n';
+import { useEffect } from 'react';
 import { Link } from 'react-router';
+import { revealApp } from '@/app/reveal';
 import { BellRing, CalendarClock, CheckCircle2, ChevronDown, ClipboardCheck, CreditCard, FileText, Lock, PlayCircle, Search, Star, Timer, Zap } from 'lucide-react';
 import { Badge, Button } from '@/components';
 import { localDigits, useT } from '@/lib/i18n';
@@ -10,6 +12,7 @@ import { SearchBox } from './SearchBox';
 const POPULAR = ['Metropolitan University', 'Data Structures', 'CSE-2203', 'Algorithms', 'Midterm', 'BRAC CSE-111'];
 
 export default function LandingPage() {
+  useEffect(() => revealApp(), []);
   const t = useT();
   return (
     <main id="main">
@@ -130,7 +133,7 @@ function TrustStrip() {
         <p className="text-center text-sm text-muted">{t('landing.trust.line')}</p>
         <ul className="mt-4 flex gap-6 overflow-x-auto scrollbar-none md:flex-wrap md:justify-center">
           {unis.map((u) => (
-            <li key={u} className="latin shrink-0 text-sm font-semibold text-muted/90">
+            <li key={u} className="latin shrink-0 text-sm font-semibold text-muted">
               {u}
             </li>
           ))}

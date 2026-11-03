@@ -15,19 +15,21 @@ test('student home dashboard shows Classroom, exam countdown, continue learning 
 test('checkout with the dev gateway → course unlocked → player opens and lesson can be completed', async ({ page }) => {
   await login(page, 'nusrat@demo.shikkhasathi.com');
   await page.goto('/explore');
-  // pick a paid course nusrat doesn't own yet
+  // pick a paid course nusrat doesn't own yet (page.request is anonymous, so ask the checkout page itself)
   const res = await page.request.get('/api/v1/search?limit=24&sort=price_desc');
-  const items = ((await res.json()) as { items: { id: string; slug: string; price: number }[] }).items.filter((c) => c.price > 0);
-  let target: { id: string } | undefined;
+  const items = ((await res.json()) as { items: { id: string; price: number }[] }).items.filter((c) => c.price > 0);
+  let found = false;
   for (const c of items) {
-    const d = await (await page.request.get(`/api/v1/courses/${c.slug}`)).json();
-    if (!d.viewer.enrolled && !d.viewer.isOwner) {
-      target = c;
+    await page.goto(`/checkout/${c.id}`);
+    const ready = page.getByRole('radio', { name: /বিকাশ/ });
+    const owned = page.getByText('এই কোর্সটি আপনার কাছে আগেই আছে');
+    await expect(ready.or(owned)).toBeVisible();
+    if (await ready.isVisible()) {
+      found = true;
       break;
     }
   }
-  test.skip(!target, 'student already owns every paid course');
-  await page.goto(`/checkout/${target!.id}`);
+  test.skip(!found, 'student already owns every paid course');
   await page.getByRole('radio', { name: /বিকাশ/ }).click();
   await page.getByRole('button', { name: /পরিশোধ করুন/ }).first().click();
   await page.waitForURL(/\/payments\/fake\//);
@@ -39,7 +41,7 @@ test('checkout with the dev gateway → course unlocked → player opens and les
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   const done = page.getByRole('button', { name: 'সম্পন্ন হিসেবে চিহ্নিত করুন' });
   await done.click();
-  await expect(page.getByRole('button', { name: 'সম্পন্ন' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'সম্পন্ন', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('Exam Mode + mock test: start → answer → submit → result with chapter breakdown', async ({ page }) => {

@@ -18,8 +18,8 @@ export function Footer() {
           <p className="mt-4 text-xs text-muted">{t('footer.payments')}</p>
           <div className="mt-2 flex flex-wrap gap-2" aria-label={t('footer.payments')}>
             {[
-              ['bKash', '#E2136E'],
-              ['Nagad', '#EC1C24'],
+              ['bKash', '#B80F5A'],
+              ['Nagad', '#C0121A'],
               ['Rocket', '#8C3494'],
               ['VISA', '#1A1F71'],
             ].map(([n, c]) => (
