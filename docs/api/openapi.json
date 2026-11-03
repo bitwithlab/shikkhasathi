@@ -7845,6 +7845,3616 @@
           }
         }
       }
+    },
+    "/api/v1/classroom/connect-url": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Google consent URL (read-only Classroom scopes, signed state + PKCE)",
+        "operationId": "getClassroomConnectUrl",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "returnTo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "fake": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "fake"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/connect": {
+      "post": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Exchange a server auth code (mobile) and start full sync",
+        "operationId": "postClassroomConnect",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "minLength": 4
+                  },
+                  "platform": {
+                    "default": "android",
+                    "type": "string",
+                    "enum": [
+                      "web",
+                      "android",
+                      "ios"
+                    ]
+                  },
+                  "redirectUri": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "connected": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "nullable": true,
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "needs_reauth",
+                        "workspace_blocked",
+                        "error",
+                        "syncing"
+                      ]
+                    },
+                    "email": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastFullSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "nextManualSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "errorCode": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "courseCount": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "isFake": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "connected",
+                    "status",
+                    "email",
+                    "lastSyncAt",
+                    "lastFullSyncAt",
+                    "nextManualSyncAt",
+                    "errorCode",
+                    "courseCount",
+                    "isFake"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/status": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Connection + sync status",
+        "operationId": "getClassroomStatus",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "connected": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "nullable": true,
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "needs_reauth",
+                        "workspace_blocked",
+                        "error",
+                        "syncing"
+                      ]
+                    },
+                    "email": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastFullSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "nextManualSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "errorCode": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "courseCount": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "isFake": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "connected",
+                    "status",
+                    "email",
+                    "lastSyncAt",
+                    "lastFullSyncAt",
+                    "nextManualSyncAt",
+                    "errorCode",
+                    "courseCount",
+                    "isFake"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/connection": {
+      "delete": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Revoke at Google, stop push, delete all cached Classroom data",
+        "operationId": "deleteClassroomConnection",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/sync": {
+      "post": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Manual refresh (1/min)",
+        "operationId": "postClassroomSync",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "connected": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "nullable": true,
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "needs_reauth",
+                        "workspace_blocked",
+                        "error",
+                        "syncing"
+                      ]
+                    },
+                    "email": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "lastFullSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "nextManualSyncAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "errorCode": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "courseCount": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "isFake": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "connected",
+                    "status",
+                    "email",
+                    "lastSyncAt",
+                    "lastFullSyncAt",
+                    "nextManualSyncAt",
+                    "errorCode",
+                    "courseCount",
+                    "isFake"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/courses": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Classes",
+        "operationId": "getClassroomCourses",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "section": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "room": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "teacherNames": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "color": {
+                            "type": "string"
+                          },
+                          "alternateLink": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "unreadCount": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "pendingCount": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "nextDueAt": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "section",
+                          "room",
+                          "teacherNames",
+                          "color",
+                          "alternateLink",
+                          "unreadCount",
+                          "pendingCount",
+                          "nextDueAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/courses/{id}/stream": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Class stream: assignments, materials, announcements",
+        "operationId": "getClassroomCoursesIdStream",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "course": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "section": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "room": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "teacherNames": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "color": {
+                          "type": "string"
+                        },
+                        "alternateLink": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "unreadCount": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "pendingCount": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "nextDueAt": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "section",
+                        "room",
+                        "teacherNames",
+                        "color",
+                        "alternateLink",
+                        "unreadCount",
+                        "pendingCount",
+                        "nextDueAt"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "assignment",
+                              "material",
+                              "announcement"
+                            ]
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "author": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "materials": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drive",
+                                    "link",
+                                    "youtube",
+                                    "form"
+                                  ]
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "thumbnailUrl": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "mime": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "title",
+                                "url",
+                                "thumbnailUrl",
+                                "mime"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "postedAt": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "alternateLink": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "assignment": {
+                            "nullable": true,
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "courseId": {
+                                "type": "string"
+                              },
+                              "courseName": {
+                                "type": "string"
+                              },
+                              "courseColor": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "workType": {
+                                "type": "string"
+                              },
+                              "dueAt": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "maxPoints": {
+                                "nullable": true,
+                                "type": "number"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "turned_in",
+                                  "graded",
+                                  "missing"
+                                ]
+                              },
+                              "late": {
+                                "type": "boolean"
+                              },
+                              "grade": {
+                                "nullable": true,
+                                "type": "number"
+                              },
+                              "materials": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "kind": {
+                                      "type": "string",
+                                      "enum": [
+                                        "drive",
+                                        "link",
+                                        "youtube",
+                                        "form"
+                                      ]
+                                    },
+                                    "title": {
+                                      "type": "string"
+                                    },
+                                    "url": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    },
+                                    "thumbnailUrl": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    },
+                                    "mime": {
+                                      "nullable": true,
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "kind",
+                                    "title",
+                                    "url",
+                                    "thumbnailUrl",
+                                    "mime"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "alternateLink": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "postedAt": {
+                                "nullable": true,
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "courseId",
+                              "courseName",
+                              "courseColor",
+                              "title",
+                              "description",
+                              "workType",
+                              "dueAt",
+                              "maxPoints",
+                              "status",
+                              "late",
+                              "grade",
+                              "materials",
+                              "alternateLink",
+                              "postedAt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "title",
+                          "body",
+                          "author",
+                          "materials",
+                          "postedAt",
+                          "alternateLink",
+                          "assignment"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "course",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/assignments": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "All assignments (filters: status, class, due range)",
+        "operationId": "getClassroomAssignments",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "all",
+              "type": "string",
+              "enum": [
+                "pending",
+                "turned_in",
+                "graded",
+                "missing",
+                "all",
+                "upcoming"
+              ]
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "courseId": {
+                            "type": "string"
+                          },
+                          "courseName": {
+                            "type": "string"
+                          },
+                          "courseColor": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "workType": {
+                            "type": "string"
+                          },
+                          "dueAt": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "maxPoints": {
+                            "nullable": true,
+                            "type": "number"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "pending",
+                              "turned_in",
+                              "graded",
+                              "missing"
+                            ]
+                          },
+                          "late": {
+                            "type": "boolean"
+                          },
+                          "grade": {
+                            "nullable": true,
+                            "type": "number"
+                          },
+                          "materials": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drive",
+                                    "link",
+                                    "youtube",
+                                    "form"
+                                  ]
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "thumbnailUrl": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "mime": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "title",
+                                "url",
+                                "thumbnailUrl",
+                                "mime"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "alternateLink": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "postedAt": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "courseId",
+                          "courseName",
+                          "courseColor",
+                          "title",
+                          "description",
+                          "workType",
+                          "dueAt",
+                          "maxPoints",
+                          "status",
+                          "late",
+                          "grade",
+                          "materials",
+                          "alternateLink",
+                          "postedAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/assignments/{id}": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Assignment detail",
+        "operationId": "getClassroomAssignmentsId",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "courseId": {
+                      "type": "string"
+                    },
+                    "courseName": {
+                      "type": "string"
+                    },
+                    "courseColor": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "workType": {
+                      "type": "string"
+                    },
+                    "dueAt": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "maxPoints": {
+                      "nullable": true,
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "turned_in",
+                        "graded",
+                        "missing"
+                      ]
+                    },
+                    "late": {
+                      "type": "boolean"
+                    },
+                    "grade": {
+                      "nullable": true,
+                      "type": "number"
+                    },
+                    "materials": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "drive",
+                              "link",
+                              "youtube",
+                              "form"
+                            ]
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "thumbnailUrl": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "mime": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "title",
+                          "url",
+                          "thumbnailUrl",
+                          "mime"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "alternateLink": {
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "postedAt": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "courseId",
+                    "courseName",
+                    "courseColor",
+                    "title",
+                    "description",
+                    "workType",
+                    "dueAt",
+                    "maxPoints",
+                    "status",
+                    "late",
+                    "grade",
+                    "materials",
+                    "alternateLink",
+                    "postedAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/calendar": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Deadlines + exams in a range",
+        "operationId": "getClassroomCalendar",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "assignment",
+                              "exam"
+                            ]
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "at": {
+                            "type": "string"
+                          },
+                          "courseName": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "color": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "nullable": true,
+                            "type": "string",
+                            "enum": [
+                              "pending",
+                              "turned_in",
+                              "graded",
+                              "missing"
+                            ]
+                          },
+                          "link": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "title",
+                          "at",
+                          "courseName",
+                          "color",
+                          "status",
+                          "link"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/feed": {
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "New from your classes (newest first)",
+        "operationId": "getClassroomFeed",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "assignment",
+                              "material",
+                              "announcement",
+                              "graded"
+                            ]
+                          },
+                          "refId": {
+                            "type": "string"
+                          },
+                          "courseId": {
+                            "type": "string"
+                          },
+                          "courseName": {
+                            "type": "string"
+                          },
+                          "courseColor": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "materials": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drive",
+                                    "link",
+                                    "youtube",
+                                    "form"
+                                  ]
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "url": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "thumbnailUrl": {
+                                  "nullable": true,
+                                  "type": "string"
+                                },
+                                "mime": {
+                                  "nullable": true,
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "title",
+                                "url",
+                                "thumbnailUrl",
+                                "mime"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "grade": {
+                            "nullable": true,
+                            "type": "object",
+                            "properties": {
+                              "assigned": {
+                                "nullable": true,
+                                "type": "number"
+                              },
+                              "max": {
+                                "nullable": true,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "assigned",
+                              "max"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "alternateLink": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "occurredAt": {
+                            "type": "string"
+                          },
+                          "read": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "refId",
+                          "courseId",
+                          "courseName",
+                          "courseColor",
+                          "title",
+                          "body",
+                          "materials",
+                          "grade",
+                          "alternateLink",
+                          "occurredAt",
+                          "read"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "nextCursor": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classroom/feed/read": {
+      "post": {
+        "tags": [
+          "classroom"
+        ],
+        "summary": "Mark feed items read (ids or all)",
+        "operationId": "postClassroomFeedRead",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  "all": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Notification center",
+        "operationId": "getNotifications",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "classroom.assignment_new",
+                              "classroom.material_new",
+                              "classroom.announcement",
+                              "classroom.graded",
+                              "classroom.due_24h",
+                              "classroom.due_2h",
+                              "classroom.overdue",
+                              "exam.daily_plan",
+                              "course.qa_answered",
+                              "seller.qa_new",
+                              "order.paid",
+                              "order.refunded",
+                              "request.published",
+                              "seller.course_decision",
+                              "seller.payout_paid",
+                              "seller.new_enrollment",
+                              "seller.application_result",
+                              "admin.broadcast"
+                            ]
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "link": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "read": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "title",
+                          "body",
+                          "link",
+                          "createdAt",
+                          "read"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "nextCursor": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications/read": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Mark read (ids or all)",
+        "operationId": "postNotificationsRead",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  "all": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications/unread-count": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Unread count for the bell",
+        "operationId": "getNotificationsUnreadCount",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/notification-preferences": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Per type × channel toggles",
+        "operationId": "getMeNotificationPreferences",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "classroom.assignment_new",
+                              "classroom.material_new",
+                              "classroom.announcement",
+                              "classroom.graded",
+                              "classroom.due_24h",
+                              "classroom.due_2h",
+                              "classroom.overdue",
+                              "exam.daily_plan",
+                              "course.qa_answered",
+                              "seller.qa_new",
+                              "order.paid",
+                              "order.refunded",
+                              "request.published",
+                              "seller.course_decision",
+                              "seller.payout_paid",
+                              "seller.new_enrollment",
+                              "seller.application_result",
+                              "admin.broadcast"
+                            ]
+                          },
+                          "channel": {
+                            "type": "string",
+                            "enum": [
+                              "in_app",
+                              "push",
+                              "email",
+                              "sms"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "channel",
+                          "enabled"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Update toggles",
+        "operationId": "putMeNotificationPreferences",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "classroom.assignment_new",
+                            "classroom.material_new",
+                            "classroom.announcement",
+                            "classroom.graded",
+                            "classroom.due_24h",
+                            "classroom.due_2h",
+                            "classroom.overdue",
+                            "exam.daily_plan",
+                            "course.qa_answered",
+                            "seller.qa_new",
+                            "order.paid",
+                            "order.refunded",
+                            "request.published",
+                            "seller.course_decision",
+                            "seller.payout_paid",
+                            "seller.new_enrollment",
+                            "seller.application_result",
+                            "admin.broadcast"
+                          ]
+                        },
+                        "channel": {
+                          "type": "string",
+                          "enum": [
+                            "in_app",
+                            "push",
+                            "email",
+                            "sms"
+                          ]
+                        },
+                        "enabled": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "channel",
+                        "enabled"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "classroom.assignment_new",
+                              "classroom.material_new",
+                              "classroom.announcement",
+                              "classroom.graded",
+                              "classroom.due_24h",
+                              "classroom.due_2h",
+                              "classroom.overdue",
+                              "exam.daily_plan",
+                              "course.qa_answered",
+                              "seller.qa_new",
+                              "order.paid",
+                              "order.refunded",
+                              "request.published",
+                              "seller.course_decision",
+                              "seller.payout_paid",
+                              "seller.new_enrollment",
+                              "seller.application_result",
+                              "admin.broadcast"
+                            ]
+                          },
+                          "channel": {
+                            "type": "string",
+                            "enum": [
+                              "in_app",
+                              "push",
+                              "email",
+                              "sms"
+                            ]
+                          },
+                          "enabled": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "channel",
+                          "enabled"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/push-tokens": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Register FCM/APNs/Web Push token",
+        "operationId": "postMePushTokens",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platform": {
+                    "type": "string",
+                    "enum": [
+                      "web",
+                      "android",
+                      "ios"
+                    ]
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 4096
+                  }
+                },
+                "required": [
+                  "platform",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Remove a push token (logout)",
+        "operationId": "deleteMePushTokens",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 4096
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Home dashboard aggregate (per-widget sections + error flags)",
+        "operationId": "getDashboard",
+        "x-auth": "user",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "header": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "institutionShort": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "departmentShort": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "semester": {
+                          "nullable": true,
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "unreadNotifications": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "classroom": {
+                          "type": "object",
+                          "properties": {
+                            "connected": {
+                              "type": "boolean"
+                            },
+                            "status": {
+                              "nullable": true,
+                              "type": "string",
+                              "enum": [
+                                "active",
+                                "needs_reauth",
+                                "workspace_blocked",
+                                "error",
+                                "syncing"
+                              ]
+                            },
+                            "email": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "lastSyncAt": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "lastFullSyncAt": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "nextManualSyncAt": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "errorCode": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "courseCount": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "isFake": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "connected",
+                            "status",
+                            "email",
+                            "lastSyncAt",
+                            "lastFullSyncAt",
+                            "nextManualSyncAt",
+                            "errorCode",
+                            "courseCount",
+                            "isFake"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "institutionShort",
+                        "departmentShort",
+                        "semester",
+                        "unreadNotifications",
+                        "classroom"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "dueSoon": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "groups": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string",
+                                    "enum": [
+                                      "overdue",
+                                      "today",
+                                      "tomorrow",
+                                      "this_week"
+                                    ]
+                                  },
+                                  "items": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "courseId": {
+                                          "type": "string"
+                                        },
+                                        "courseName": {
+                                          "type": "string"
+                                        },
+                                        "courseColor": {
+                                          "type": "string"
+                                        },
+                                        "title": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        },
+                                        "workType": {
+                                          "type": "string"
+                                        },
+                                        "dueAt": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        },
+                                        "maxPoints": {
+                                          "nullable": true,
+                                          "type": "number"
+                                        },
+                                        "status": {
+                                          "type": "string",
+                                          "enum": [
+                                            "pending",
+                                            "turned_in",
+                                            "graded",
+                                            "missing"
+                                          ]
+                                        },
+                                        "late": {
+                                          "type": "boolean"
+                                        },
+                                        "grade": {
+                                          "nullable": true,
+                                          "type": "number"
+                                        },
+                                        "materials": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "kind": {
+                                                "type": "string",
+                                                "enum": [
+                                                  "drive",
+                                                  "link",
+                                                  "youtube",
+                                                  "form"
+                                                ]
+                                              },
+                                              "title": {
+                                                "type": "string"
+                                              },
+                                              "url": {
+                                                "nullable": true,
+                                                "type": "string"
+                                              },
+                                              "thumbnailUrl": {
+                                                "nullable": true,
+                                                "type": "string"
+                                              },
+                                              "mime": {
+                                                "nullable": true,
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "kind",
+                                              "title",
+                                              "url",
+                                              "thumbnailUrl",
+                                              "mime"
+                                            ],
+                                            "additionalProperties": false
+                                          }
+                                        },
+                                        "alternateLink": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        },
+                                        "postedAt": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "courseId",
+                                        "courseName",
+                                        "courseColor",
+                                        "title",
+                                        "description",
+                                        "workType",
+                                        "dueAt",
+                                        "maxPoints",
+                                        "status",
+                                        "late",
+                                        "grade",
+                                        "materials",
+                                        "alternateLink",
+                                        "postedAt"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "items"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "total": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "groups",
+                            "total"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "feed": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                                  },
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": [
+                                      "assignment",
+                                      "material",
+                                      "announcement",
+                                      "graded"
+                                    ]
+                                  },
+                                  "refId": {
+                                    "type": "string"
+                                  },
+                                  "courseId": {
+                                    "type": "string"
+                                  },
+                                  "courseName": {
+                                    "type": "string"
+                                  },
+                                  "courseColor": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  },
+                                  "body": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  },
+                                  "materials": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "kind": {
+                                          "type": "string",
+                                          "enum": [
+                                            "drive",
+                                            "link",
+                                            "youtube",
+                                            "form"
+                                          ]
+                                        },
+                                        "title": {
+                                          "type": "string"
+                                        },
+                                        "url": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        },
+                                        "thumbnailUrl": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        },
+                                        "mime": {
+                                          "nullable": true,
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "kind",
+                                        "title",
+                                        "url",
+                                        "thumbnailUrl",
+                                        "mime"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "grade": {
+                                    "nullable": true,
+                                    "type": "object",
+                                    "properties": {
+                                      "assigned": {
+                                        "nullable": true,
+                                        "type": "number"
+                                      },
+                                      "max": {
+                                        "nullable": true,
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "assigned",
+                                      "max"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "alternateLink": {
+                                    "nullable": true,
+                                    "type": "string"
+                                  },
+                                  "occurredAt": {
+                                    "type": "string"
+                                  },
+                                  "read": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "refId",
+                                  "courseId",
+                                  "courseName",
+                                  "courseColor",
+                                  "title",
+                                  "body",
+                                  "materials",
+                                  "grade",
+                                  "alternateLink",
+                                  "occurredAt",
+                                  "read"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "unread": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "items",
+                            "unread"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "exam": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "planId": {
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                            },
+                            "subjectName": {
+                              "type": "string"
+                            },
+                            "courseCode": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "examType": {
+                              "type": "string"
+                            },
+                            "examDate": {
+                              "type": "string"
+                            },
+                            "daysLeft": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "readiness": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "planId",
+                            "subjectName",
+                            "courseCode",
+                            "examType",
+                            "examDate",
+                            "daysLeft",
+                            "readiness"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "continueLearning": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "courseId": {
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                            },
+                            "courseSlug": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "courseCode": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "sellerName": {
+                              "type": "string"
+                            },
+                            "progressPercent": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "completedLessons": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "totalLessons": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "lastLessonId": {
+                              "nullable": true,
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                            },
+                            "lastLessonTitle": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "coverColor": {
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "courseId",
+                            "courseSlug",
+                            "title",
+                            "courseCode",
+                            "sellerName",
+                            "progressPercent",
+                            "completedLessons",
+                            "totalLessons",
+                            "lastLessonId",
+                            "lastLessonTitle",
+                            "coverColor"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "week": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "date": {
+                                "type": "string"
+                              },
+                              "deadlines": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "exams": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "date",
+                              "deadlines",
+                              "exams"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "recommendations": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "nullable": true,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "courseCode": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "institutionShort": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "sellerName": {
+                                "type": "string"
+                              },
+                              "sellerVerified": {
+                                "type": "boolean"
+                              },
+                              "examType": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "compareAtPrice": {
+                                "nullable": true,
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "ratingAvg": {
+                                "type": "number"
+                              },
+                              "ratingCount": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "coverUrl": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "coverColor": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "compatibility": {
+                                "type": "string",
+                                "enum": [
+                                  "match",
+                                  "mismatch",
+                                  "general"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "slug",
+                              "title",
+                              "courseCode",
+                              "institutionShort",
+                              "sellerName",
+                              "sellerVerified",
+                              "examType",
+                              "price",
+                              "compareAtPrice",
+                              "ratingAvg",
+                              "ratingCount",
+                              "coverUrl",
+                              "coverColor",
+                              "compatibility"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "error": {
+                          "nullable": true,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data",
+                        "error"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "generatedAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "dueSoon",
+                    "feed",
+                    "exam",
+                    "continueLearning",
+                    "week",
+                    "recommendations",
+                    "generatedAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/webhooks/google-pubsub": {
+      "post": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Classroom push notifications via Pub/Sub push subscription",
+        "operationId": "postWebhooksGooglePubsub",
+        "x-auth": "public",
+        "security": [],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "string"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "messageId": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "subscription": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -246,5 +246,118 @@ export const endpoints = {
       "path": "/admin/catalog/institution-subjects/:id",
       "auth": "admin"
     }
+  },
+  "classroom": {
+    "connectUrl": {
+      "method": "GET",
+      "path": "/classroom/connect-url",
+      "auth": "user"
+    },
+    "connect": {
+      "method": "POST",
+      "path": "/classroom/connect",
+      "auth": "user"
+    },
+    "status": {
+      "method": "GET",
+      "path": "/classroom/status",
+      "auth": "user"
+    },
+    "disconnect": {
+      "method": "DELETE",
+      "path": "/classroom/connection",
+      "auth": "user"
+    },
+    "sync": {
+      "method": "POST",
+      "path": "/classroom/sync",
+      "auth": "user"
+    },
+    "courses": {
+      "method": "GET",
+      "path": "/classroom/courses",
+      "auth": "user"
+    },
+    "stream": {
+      "method": "GET",
+      "path": "/classroom/courses/:id/stream",
+      "auth": "user"
+    },
+    "assignments": {
+      "method": "GET",
+      "path": "/classroom/assignments",
+      "auth": "user"
+    },
+    "assignment": {
+      "method": "GET",
+      "path": "/classroom/assignments/:id",
+      "auth": "user"
+    },
+    "calendar": {
+      "method": "GET",
+      "path": "/classroom/calendar",
+      "auth": "user"
+    },
+    "feed": {
+      "method": "GET",
+      "path": "/classroom/feed",
+      "auth": "user"
+    },
+    "feedRead": {
+      "method": "POST",
+      "path": "/classroom/feed/read",
+      "auth": "user"
+    }
+  },
+  "notifications": {
+    "list": {
+      "method": "GET",
+      "path": "/notifications",
+      "auth": "user"
+    },
+    "read": {
+      "method": "POST",
+      "path": "/notifications/read",
+      "auth": "user"
+    },
+    "unreadCount": {
+      "method": "GET",
+      "path": "/notifications/unread-count",
+      "auth": "user"
+    },
+    "preferences": {
+      "method": "GET",
+      "path": "/me/notification-preferences",
+      "auth": "user"
+    },
+    "updatePreferences": {
+      "method": "PUT",
+      "path": "/me/notification-preferences",
+      "auth": "user"
+    },
+    "registerPush": {
+      "method": "POST",
+      "path": "/me/push-tokens",
+      "auth": "user"
+    },
+    "unregisterPush": {
+      "method": "DELETE",
+      "path": "/me/push-tokens",
+      "auth": "user"
+    }
+  },
+  "dashboard": {
+    "get": {
+      "method": "GET",
+      "path": "/dashboard",
+      "auth": "user"
+    }
+  },
+  "webhooks": {
+    "googlePubsub": {
+      "method": "POST",
+      "path": "/webhooks/google-pubsub",
+      "auth": "public"
+    }
   }
 } as unknown as typeof C;

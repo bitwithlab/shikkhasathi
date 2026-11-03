@@ -4,6 +4,7 @@ import { closeRedis, redis } from '../src/common/redis';
 import { invalidateSettingsCache } from '../src/modules/settings/settings.service';
 import { FakeEmailProvider } from '../src/services/email/fake';
 import { FakeSmsProvider } from '../src/services/sms';
+import { FakePushProvider } from '../src/services/push';
 
 async function truncateAll(sql: typeof coreSql) {
   const rows = await sql<{ tablename: string }[]>`select tablename from pg_tables where schemaname = 'public'`;
@@ -15,6 +16,7 @@ beforeEach(async () => {
   invalidateSettingsCache();
   FakeEmailProvider.outbox.length = 0;
   FakeSmsProvider.outbox.length = 0;
+  FakePushProvider.sent.length = 0;
 });
 
 afterAll(async () => {
