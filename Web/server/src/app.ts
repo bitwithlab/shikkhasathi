@@ -7,7 +7,7 @@ import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
 import compress from '@fastify/compress';
-import { env, isProd, isTest } from './config/env';
+import { env, isProd } from './config/env';
 import { loggerOptions } from './common/logger';
 import { AppError } from './common/errors';
 import { redis } from './common/redis';
@@ -65,7 +65,7 @@ export async function buildApp() {
     global: true,
     max: 300,
     timeWindow: '1 minute',
-    ...(isTest ? {} : { redis: redis() }),
+    redis: redis(), // tests use Redis db 15, flushed before each test
     keyGenerator: (req) => req.ip,
     // Static assets are not rate limited; only the API is.
     allowList: (req) => !req.url.startsWith('/api/'),

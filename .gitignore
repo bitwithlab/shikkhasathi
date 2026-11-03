@@ -18,3 +18,4 @@ App/mobile/.kotlin/
 *.iml
 .idea/
 .DS_Store
+dump.rdb

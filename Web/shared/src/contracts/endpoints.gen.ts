@@ -553,5 +553,91 @@ export const endpoints = {
       "path": "/me/wishlist",
       "auth": "user"
     }
+  },
+  "commerce": {
+    "createOrder": {
+      "method": "POST",
+      "path": "/orders",
+      "auth": "user"
+    },
+    "getOrder": {
+      "method": "GET",
+      "path": "/orders/:id",
+      "auth": "user"
+    },
+    "pay": {
+      "method": "POST",
+      "path": "/orders/:id/pay",
+      "auth": "user"
+    },
+    "myOrders": {
+      "method": "GET",
+      "path": "/me/orders",
+      "auth": "user"
+    },
+    "invoice": {
+      "method": "GET",
+      "path": "/orders/:id/invoice",
+      "auth": "user"
+    },
+    "refundRequest": {
+      "method": "POST",
+      "path": "/orders/:id/refund-request",
+      "auth": "user"
+    },
+    "validateCoupon": {
+      "method": "POST",
+      "path": "/coupons/validate",
+      "auth": "user"
+    },
+    "bundle": {
+      "method": "GET",
+      "path": "/bundles/:slug",
+      "auth": "optional"
+    }
+  },
+  "sellerMoney": {
+    "coupons": {
+      "method": "GET",
+      "path": "/seller/coupons",
+      "auth": "seller"
+    },
+    "createCoupon": {
+      "method": "POST",
+      "path": "/seller/coupons",
+      "auth": "verified_seller"
+    },
+    "updateCoupon": {
+      "method": "PATCH",
+      "path": "/seller/coupons/:id",
+      "auth": "seller"
+    },
+    "ledger": {
+      "method": "GET",
+      "path": "/seller/ledger",
+      "auth": "seller"
+    },
+    "createBundle": {
+      "method": "POST",
+      "path": "/seller/bundles",
+      "auth": "verified_seller"
+    }
+  },
+  "adminCommerce": {
+    "orders": {
+      "method": "GET",
+      "path": "/admin/orders",
+      "auth": "admin"
+    },
+    "refunds": {
+      "method": "GET",
+      "path": "/admin/refunds",
+      "auth": "admin"
+    },
+    "decideRefund": {
+      "method": "PATCH",
+      "path": "/admin/refunds/:id",
+      "auth": "admin"
+    }
   }
 } as unknown as typeof C;
