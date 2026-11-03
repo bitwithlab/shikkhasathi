@@ -52,7 +52,12 @@ export async function buildApp() {
       },
     },
     crossOriginEmbedderPolicy: false,
+    // YouTube/Bunny embeds need the origin as referrer; never the full URL cross-origin
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
+  });
+  app.addHook('onSend', async (_req, reply) => {
+    reply.header('permissions-policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(self)');
   });
   await app.register(cors, {
     // Same-origin web; mobile apps don't need CORS. Allow APP_URL only (+ Vite dev).
