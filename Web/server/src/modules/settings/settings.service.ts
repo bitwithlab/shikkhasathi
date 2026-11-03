@@ -75,6 +75,8 @@ export async function integrationMode(provider: IntegrationProvider): Promise<In
   const def = integrationDef(provider);
   const { values, sources } = await resolve(provider);
   if (def.requiredKeys.length === 0) return 'configured';
+  // A selector explicitly set to the fake adapter (e.g. gateway=fake) means fake, whatever else is set.
+  if (values.gateway === 'fake' || values.provider === 'fake') return isProd ? 'disabled' : 'fake';
   const ok = def.requiredKeys.every((k) => !!values[k]);
   if (!ok) return isProd ? 'disabled' : 'fake';
   return def.requiredKeys.every((k) => sources[k] === 'admin') ? 'configured' : 'env';

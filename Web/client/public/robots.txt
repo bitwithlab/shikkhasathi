@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /home
+Disallow: /classroom
+Disallow: /my-courses
+Disallow: /learn/
+Disallow: /checkout/
+Disallow: /teach
+Disallow: /admin
+Disallow: /profile
+Sitemap: https://shikkhasathi.com/sitemap.xml

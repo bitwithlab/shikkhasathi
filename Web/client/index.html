@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="bn" data-theme="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>শিক্ষাসাথী — আপনার ক্লাস, কোর্স আর পরীক্ষার প্রস্তুতি এক জায়গায়</title>
+    <meta name="description" content="Google Classroom-এর সব অ্যাসাইনমেন্ট এক ড্যাশবোর্ডে, আর যেকোনো ইউনিভার্সিটির শিক্ষকের পরীক্ষাকেন্দ্রিক কোর্স। Metropolitan, NSU, BRAC সহ বাংলাদেশের শিক্ষার্থীদের জন্য।" />
+    <meta name="theme-color" content="#4F46E5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B1020" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href="https://shikkhasathi.com/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ShikkhaSathi" />
+    <meta property="og:title" content="শিক্ষাসাথী — ShikkhaSathi" />
+    <meta property="og:description" content="আপনার ক্লাস, আপনার কোর্স, আপনার পরীক্ষার প্রস্তুতি — এক জায়গায়।" />
+    <meta property="og:image" content="https://shikkhasathi.com/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Apply saved theme before paint (no flash). Values: system | light | dark
+      try {
+        var t = localStorage.getItem('ss-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        var l = localStorage.getItem('ss-locale');
+        if (l === 'en') document.documentElement.lang = 'en';
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--ssr--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,4 +1,7 @@
 import Fastify, { type FastifyError } from 'fastify';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
@@ -13,6 +16,14 @@ import { serveClient } from './static';
 import './services/email';
 import './services/sms';
 
+/** sha256 hashes of inline <script> blocks in the built index.html (theme bootstrap) for a strict CSP. */
+function inlineScriptHashes(): string[] {
+  const file = join(resolve(process.cwd(), env.CLIENT_DIST_DIR), 'index.html');
+  if (!existsSync(file)) return [];
+  const html = readFileSync(file, 'utf8');
+  return [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => `'sha256-${createHash('sha256').update(m[1]!).digest('base64')}'`);
+}
+
 export async function buildApp() {
   const app = Fastify({
     logger: loggerOptions,
@@ -26,7 +37,7 @@ export async function buildApp() {
       useDefaults: true,
       directives: {
         'default-src': ["'self'"],
-        'script-src': ["'self'", 'https://accounts.google.com/gsi/client'],
+        'script-src': ["'self'", 'https://accounts.google.com/gsi/client', ...inlineScriptHashes()],
         'style-src': ["'self'", "'unsafe-inline'", 'https://accounts.google.com/gsi/style'],
         'img-src': ["'self'", 'data:', 'blob:', 'https:'],
         'media-src': ["'self'", 'blob:', 'https:'],
@@ -56,6 +67,8 @@ export async function buildApp() {
     timeWindow: '1 minute',
     ...(isTest ? {} : { redis: redis() }),
     keyGenerator: (req) => req.ip,
+    // Static assets are not rate limited; only the API is.
+    allowList: (req) => !req.url.startsWith('/api/'),
     errorResponseBuilder: (_req, ctx) => ({ error: { code: 'RATE_LIMITED', message: 'একটু বেশি চেষ্টা হয়ে গেছে। কিছুক্ষণ পর আবার চেষ্টা করুন।', details: { retryAfterSec: Math.ceil(ctx.ttl / 1000) } }, statusCode: 429 }),
   });
 
@@ -74,7 +87,7 @@ export async function buildApp() {
   await app.register(apiV1, { prefix: '/api/v1' });
   app.setNotFoundHandler((req, reply) => {
     if (req.url.startsWith('/api/')) return reply.status(404).send({ error: { code: 'NOT_FOUND', message: new AppError('NOT_FOUND').message } });
-    return reply.callNotFound();
+    return reply.status(404).type('text/plain').send('Not found');
   });
   await serveClient(app);
   return app;

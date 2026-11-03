@@ -8,7 +8,8 @@
     "./contracts": "./src/contracts/index.ts",
     "./types": "./src/types/index.ts",
     "./tokens": "./src/tokens/index.ts",
-    "./tokens/tailwind.css": "./src/tokens/tokens.gen.css"
+    "./tokens/tailwind.css": "./src/tokens/tokens.gen.css",
+    "./endpoints": "./src/contracts/endpoints.gen.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",

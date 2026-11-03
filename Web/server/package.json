@@ -14,7 +14,7 @@
     "db:generate": "drizzle-kit generate --config drizzle.core.config.ts && drizzle-kit generate --config drizzle.content.config.ts",
     "db:migrate": "tsx --env-file-if-exists=../../.env src/database/migrate.ts",
     "db:seed": "tsx --env-file-if-exists=../../.env src/database/seed/index.ts",
-    "gen:openapi": "tsx scripts/gen-openapi.ts"
+    "gen:openapi": "tsx scripts/gen-openapi.ts && tsx scripts/gen-endpoints.ts"
   },
   "dependencies": {
     "@fastify/compress": "^8.1.0",
