@@ -8,7 +8,9 @@ import { LessonEditor } from './LessonEditor';
 import { Resources } from './Resources';
 import { useUploads } from './uploads';
 import { LESSON_ICON } from './icons';
-import { AlertTriangle, ChevronUp, formatDuration, GripVertical, ListTree, Plus, Star, Trash2 } from '../../parts';
+import { Link } from 'react-router';
+import { Block } from './StepBasics';
+import { AlertTriangle, ArrowRight, ChevronUp, ListChecks, formatDuration, GripVertical, ListTree, Plus, Star, Trash2 } from '../../parts';
 
 type DragItem = { kind: 'section'; s: number } | { kind: 'chapter'; s: number; c: number } | { kind: 'lesson'; s: number; c: number; l: number };
 type Over = { key: string; after: boolean } | null;
@@ -244,6 +246,8 @@ export function StepContent() {
 
       <Resources />
 
+      <ExamTools />
+
       <p className="sr-only" aria-live="polite">
         {announce}
       </p>
@@ -351,5 +355,20 @@ function IconBtn({ label, onClick, disabled, danger, children }: { label: string
     >
       {children}
     </button>
+  );
+}
+
+/** Entry to the mock test & flashcard authoring view (same route, ?tool=exam). */
+function ExamTools() {
+  const t = useT();
+  const { id, flushAll } = useWizard();
+  return (
+    <Block id="exam-tools" title={t('wiz.exam.title')} body={t('wiz.exam.body')} aside={<ListChecks className="size-5 text-muted" strokeWidth={1.75} aria-hidden />}>
+      <Button asChild variant="soft" icon={<ArrowRight className="size-4" aria-hidden />}>
+        <Link to={`/teach/courses/${id}/edit?tool=exam`} onClick={() => void flushAll()}>
+          {t('wiz.exam.open')}
+        </Link>
+      </Button>
+    </Block>
   );
 }

@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { Field, Input, Switch } from '@/components';
 import { formatTaka, localDigits, useT } from '@/lib/i18n';
 import { cn } from '@/lib/cn';
@@ -77,7 +78,12 @@ export function StepPricing() {
         )}
       </Block>
 
-      <p className="rounded-card border border-dashed border-border-strong px-4 py-3 text-sm text-muted">{t('wiz.price.couponsSoon')}</p>
+      <p className="flex flex-col gap-2 rounded-card border border-dashed border-border-strong px-4 py-3 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <span>{t('wiz.price.couponsSoon')}</span>
+        <Link to="/teach/coupons" className="inline-flex h-11 shrink-0 items-center gap-1.5 self-start rounded-control px-2 font-semibold text-primary-fg hover:bg-primary-soft sm:self-auto">
+          <Tag className="size-4" aria-hidden /> {t('wiz.price.couponsLink')}
+        </Link>
+      </p>
     </div>
   );
 }

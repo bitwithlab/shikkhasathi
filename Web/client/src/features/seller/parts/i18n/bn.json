@@ -184,5 +184,6 @@
   "seller.store.removeCover": "কাভার সরান",
   "seller.store.preview": "শিক্ষার্থীরা যেভাবে দেখবে",
   "seller.store.noProfile": "স্টোরফ্রন্ট এখনো তৈরি হয়নি",
-  "seller.store.noProfileBody": "শিক্ষক হিসেবে আবেদন করলে আপনার পাবলিক পেজ তৈরি হবে।"
+  "seller.store.noProfileBody": "শিক্ষক হিসেবে আবেদন করলে আপনার পাবলিক পেজ তৈরি হবে।",
+  "seller.courses.action.exam": "মক টেস্ট"
 }

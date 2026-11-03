@@ -184,5 +184,6 @@
   "seller.store.removeCover": "Remove cover",
   "seller.store.preview": "What students see",
   "seller.store.noProfile": "No storefront yet",
-  "seller.store.noProfileBody": "Your public page is created when you apply as a teacher."
+  "seller.store.noProfileBody": "Your public page is created when you apply as a teacher.",
+  "seller.courses.action.exam": "Mock tests"
 }

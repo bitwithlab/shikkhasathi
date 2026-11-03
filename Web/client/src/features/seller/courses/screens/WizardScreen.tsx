@@ -1,5 +1,5 @@
 import '../i18n';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { SellerCourse } from '@shikkhasathi/shared';
@@ -21,8 +21,18 @@ import { StepReview } from '../wizard/StepReview';
 import { useUploads } from '../wizard/uploads';
 import { ArrowLeft, ArrowRight, Counter, Lightbulb, StatusBadge, VerificationBanner, type DocInfo } from '../../parts';
 
+// Mock tests & flashcards live on the same route (?tool=exam) so no router change is needed; own lazy chunk.
+const MockAuthoring = lazy(() => import('./MockAuthoringScreen'));
+
 export default function CourseWizardPage() {
   const { id } = useParams();
+  const [params] = useSearchParams();
+  if (id && params.get('tool') === 'exam')
+    return (
+      <Suspense fallback={<WizardSkeleton />}>
+        <MockAuthoring key={id} courseId={id} />
+      </Suspense>
+    );
   return id ? <EditCourse key={id} id={id} /> : <NewCourse />;
 }
 

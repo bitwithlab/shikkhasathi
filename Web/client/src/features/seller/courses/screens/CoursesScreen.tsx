@@ -5,7 +5,7 @@ import type { CourseStatus } from '@shikkhasathi/shared/types';
 import { Button, Card, Chip, Dialog, EmptyState, ErrorState, Illustration, Skeleton, toast } from '@/components';
 import { api, ApiError, contracts } from '@/lib/api';
 import { formatNumber, formatTaka, localDigits, relativeTime, useT } from '@/lib/i18n';
-import { Archive, ExternalLink, EyeOff, MessageSquareWarning, PencilLine, Plus, RotateCw, Star, StatusBadge, Trash2, type CourseItem } from '../../parts';
+import { Archive, ExternalLink, ListChecks, EyeOff, MessageSquareWarning, PencilLine, Plus, RotateCw, Star, StatusBadge, Trash2, type CourseItem } from '../../parts';
 
 type Filter = 'all' | 'draft' | 'in_review' | 'changes_requested' | 'published' | 'unlisted' | 'archived';
 const FILTERS: Filter[] = ['all', 'draft', 'in_review', 'changes_requested', 'published', 'unlisted', 'archived'];
@@ -166,6 +166,9 @@ function Row({ c, onAction }: { c: CourseItem; onAction: (k: NonNullable<Pending
             <ExternalLink className="size-[18px]" aria-hidden />
           </Link>
         )}
+        <Link to={`/teach/courses/${c.id}/edit?tool=exam`} className={iconBtn} aria-label={t('seller.courses.action.exam')} title={t('seller.courses.action.exam')}>
+          <ListChecks className="size-[18px]" aria-hidden />
+        </Link>
         {c.status === 'published' && (
           <button type="button" className={iconBtn} onClick={() => onAction('unlisted')} aria-label={t('seller.courses.action.unlisted')} title={t('seller.courses.action.unlisted')}>
             <EyeOff className="size-[18px]" aria-hidden />
