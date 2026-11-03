@@ -3,8 +3,8 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 8 — Exam Mode & Mock Test (Phases 0–7 are done)
-- **Next step:** Phase 8 server: `modules/exam` covering exam plans (subject, exam type, date, linked courses), a study-plan generator (⭐ important first, last day = revision, recompute on progress via `exam.replan`), readiness (lessons 60% · mock 30% · flashcards 10%), syllabus checklist, flashcards, seller mock-test authoring (MCQ), timed attempts held server-side with resume, auto-submit, results with chapter breakdown. Then web `/exam-mode`, `/mock-tests`, `/mock-test/:id`, results; wire `nearestExam` and the countdown into `/home`.
+- **Current phase:** 9 — Dashboard completion (Phases 0–8 are done)
+- **Next step:** Phase 9: verify every `/home` widget uses real data (continue learning ✅, exam countdown ✅ from exam plans, recommendations ✅), test Classroom edge cases (revoked token, Workspace blocked, quota backoff, disconnect wipes cache, push renewal), write the Google verification checklist in `docs/CLASSROOM_INTEGRATION.md`, and screenshot `/home` with demo data (sadman has DS + Algorithms and a DS midterm plan).
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
 - **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
@@ -66,8 +66,12 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] tests: 6 server integration, 5 client
 - Wishlist was done in Phase 5. Teacher Q&A/reviews pages → Phase 10 (APIs exist).
 
-### Phase 8 — Exam Mode & Mock Test
-- [ ] exam plan, countdown, daily plan, syllabus checklist, flashcards, timed mock test + results
+### Phase 8 — Exam Mode & Mock Test ✅
+- [x] server `modules/exam`: plans (owned courses only), pure planner (⭐ first, balanced minutes, last day = revision, mid-way mock when ≥ 6 days), readiness 60/30/10 with renormalisation (stored for the dashboard), syllabus checklist, ⭐ topics, short lectures, previous questions, revision pack (T-1), flashcards + reviews, timed attempts (server-held, shuffled questions/options, autosave, resume, auto-submit after deadline + 30 s grace), results with chapter breakdown + review, seller MCQ/flashcard authoring, `exam.replan` + `exam.dailyPlan` jobs
+- [x] web: `/exam-mode` (create form per reference → detail with gradient countdown + readiness ring, today's checklist with confetti, syllabus, upcoming days, flashcard swipe deck), `/mock-tests`, `/mock-test/:id` (timer with server-skew, navigator, flag, keyboard 1–6/←/→, offline retry), `/mock-test/:attemptId/result`
+- [x] seed: DS/Algorithms mock tests + flashcards; demo student enrolled with a DS midterm plan
+- [x] tests: server 6 integration + 5 planner unit; client 2
+- Seller mock/flashcard authoring UI → Phase 10 (APIs exist).
 
 ### Phase 9 — Dashboard completion
 - [ ] real widgets wired, Classroom edge cases, verification checklist
@@ -95,3 +99,4 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Phase 6 done: checkout server + web (see checklist). Server 85 tests, client 63 tests green. Landing initial is 146.6 KB gzip after splitting landing i18n out. Next: Phase 7.
 - **2026-11-03** — Teacher Studio web UI done: apply/verification, dashboard, courses list, 5-step wizard with autosave + live preview, curriculum drag & drop, TUS/PDF uploads, storefront. Fixed zod-4 `.partial()` default injection with `patchOf()` (ADR-021). Seller follow-ups: `reviewNote` in the course list, a documents-delete endpoint → Phase 10.
 - **2026-11-03** — Phase 7 done: learning server + player/My Courses/Notes web. Server 92 tests, client 70. hls.js light build (87 KB, lazy, player only). Next: Phase 8.
+- **2026-11-03** — Phase 8 done: Exam Mode + mock tests (server + web). Server 103 tests, client 73. Next: Phase 9.

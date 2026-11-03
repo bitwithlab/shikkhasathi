@@ -85,3 +85,7 @@ zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field 
 - **Watch time:** forward progress only, at real-time speed. Each heartbeat delta is capped at 30 s, and the total at 2× the lesson duration. The lesson completes at 90 %.
 - **hls.js light build** (87 KB gzip vs 121 KB): it fits the 100 KB chunk budget and is loaded only when the player needs MSE (Safari plays HLS natively). It drops in-manifest subtitles, alternate audio and EME. Captions will come as sidecar WebVTT `<track>`s, and DRM isn't planned (protection = signed URLs + watermark + device limit).
 - **Public names:** students appear as "first name + 2 letters." on Q&A and reviews. Teachers appear with their storefront display name.
+
+### ADR-023 · 2026-11-03 · Study plan computed on read; attempts held on the server
+- The daily plan is **recomputed on every read** from current progress instead of being stored. It's cheap (one course outline), always reflects progress (spec: "recomputes when progress changes"), and needs no migration. Lessons finished today stay ticked in today's list, so the checklist doesn't jump around. `readiness` is stored, so the dashboard reads one column.
+- Mock attempts live on the server. Question order is shuffled per attempt; option order is shuffled deterministically by attempt id, so resume keeps the same order. Correct answers are never sent before submit. Any read after the deadline plus 30 s grace auto-submits the attempt.
