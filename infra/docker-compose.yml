@@ -1,0 +1,45 @@
+# Local stack: two Postgres databases (CORE + CONTENT, mirroring the two Supabase projects), Redis, Meilisearch,
+# plus the server and worker. `docker compose -f infra/docker-compose.yml up -d db-core db-content redis meilisearch`
+name: shikkhasathi
+services:
+  db-core:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres, POSTGRES_DB: shikkhasathi_core }
+    ports: ['5433:5432']
+    volumes: [core-data:/var/lib/postgresql/data]
+    healthcheck: { test: ['CMD-SHELL', 'pg_isready -U postgres'], interval: 5s, retries: 10 }
+  db-content:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres, POSTGRES_DB: shikkhasathi_content }
+    ports: ['5434:5432']
+    volumes: [content-data:/var/lib/postgresql/data]
+    healthcheck: { test: ['CMD-SHELL', 'pg_isready -U postgres'], interval: 5s, retries: 10 }
+  redis:
+    image: redis:7-alpine
+    ports: ['6379:6379']
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    environment: { MEILI_MASTER_KEY: dev-meili-master-key, MEILI_ENV: development }
+    ports: ['7700:7700']
+    volumes: [meili-data:/meili_data]
+  server:
+    build: { context: .., dockerfile: infra/Dockerfile, target: server }
+    env_file: [../.env]
+    environment:
+      CORE_DATABASE_URL: postgres://postgres:postgres@db-core:5432/shikkhasathi_core
+      CONTENT_DATABASE_URL: postgres://postgres:postgres@db-content:5432/shikkhasathi_content
+      REDIS_URL: redis://redis:6379
+      MEILI_HOST: http://meilisearch:7700
+    ports: ['3000:3000']
+    depends_on: [db-core, db-content, redis]
+    profiles: [app]
+  worker:
+    build: { context: .., dockerfile: infra/Dockerfile, target: worker }
+    env_file: [../.env]
+    environment:
+      CORE_DATABASE_URL: postgres://postgres:postgres@db-core:5432/shikkhasathi_core
+      CONTENT_DATABASE_URL: postgres://postgres:postgres@db-content:5432/shikkhasathi_content
+      REDIS_URL: redis://redis:6379
+    depends_on: [db-core, db-content, redis]
+    profiles: [app]
+volumes: { core-data: {}, content-data: {}, meili-data: {} }

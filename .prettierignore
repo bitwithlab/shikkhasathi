@@ -1,0 +1,6 @@
+Reference/
+docs/
+**/dist/
+**/migrations/
+pnpm-lock.yaml
+App/

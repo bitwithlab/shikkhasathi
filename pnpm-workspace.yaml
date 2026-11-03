@@ -1,0 +1,8 @@
+packages:
+  - Web/shared
+  - Web/server
+  - Web/client
+onlyBuiltDependencies:
+  - argon2
+  - esbuild
+  - msgpackr-extract

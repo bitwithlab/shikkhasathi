@@ -1,0 +1,16 @@
+# One public origin: shikkhasathi.com → server (serves client build + /api/v1). TLS automatic.
+shikkhasathi.com, www.shikkhasathi.com {
+	encode zstd gzip
+	@www host www.shikkhasathi.com
+	redir @www https://shikkhasathi.com{uri} permanent
+	reverse_proxy server:3000
+}
+admin.shikkhasathi.com {
+	redir / https://shikkhasathi.com/admin 302
+	redir * https://shikkhasathi.com/admin{uri} 302
+}
+media.shikkhasathi.com {
+	root * /srv/media
+	header Cache-Control "public, max-age=31536000, immutable"
+	file_server
+}
