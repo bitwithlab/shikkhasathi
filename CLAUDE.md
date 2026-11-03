@@ -13,6 +13,9 @@ The spec files call it "CampusCourse" — that was a working name. **Everywhere 
 | `admin.shikkhasathi.com` | Optional alias → same app, opens `/admin` |
 | `media.shikkhasathi.com` | Static assets / CDN (video stays on the video provider with signed URLs) |
 | Mobile bundle id | `com.shikkhasathi.app` (Android + iOS) |
+| Git repository | https://github.com/bitwithlab/shikkhasathi |
+| Database | **Supabase** — two projects: `core` and `content` (§0B) |
+| Email | **Brevo** (app.brevo.com) — credentials set from the Admin panel (§0B) |
 
 ---
 
@@ -23,7 +26,7 @@ Build the **complete, production-quality** ShikkhaSathi platform — a **unified
 | Surface | Stack | Folder |
 |---|---|---|
 | All web interfaces (public, student, seller/teacher, admin) | **React + Vite + TypeScript** | `Web/client` |
-| Website + API server | **Node.js + TypeScript (Fastify)**, PostgreSQL, Redis | `Web/server` |
+| Website + API server | **Node.js + TypeScript (Fastify)**, **Supabase Postgres (2 databases)**, Supabase Storage, Redis, Brevo email | `Web/server` |
 | Shared types, Zod schemas, API contracts, design tokens | TypeScript | `Web/shared` |
 | Mobile app (Android first, iOS from the same code) | **Kotlin + Jetpack Compose (Compose Multiplatform)** | `App/mobile` |
 | Infra / deploy | Docker, docker-compose, CI, Nginx/Caddy | `infra/` |
@@ -64,6 +67,69 @@ Done means: every screen in the design reference exists, works against the real 
 - **Notifications we generate** (in-app center + FCM/APNs push + web push; SMS optional): new assignment, new material, new announcement, grade returned, reminders 24 h and 2 h before due, one overdue nudge. Each type toggleable in Settings. Dedupe by (user, item id, event type).
 - **Failure copy (Bangla, friendly):** revoked token → "আবার সংযুক্ত করুন"; university Workspace blocks third-party apps → explain + suggest asking IT / using personal account; quota errors → back off, show last-synced time.
 - **Google verification prerequisites** (track in `docs/PROGRESS.md`): verified domain `shikkhasathi.com`, live `/privacy` and `/terms`, consent screen with ShikkhaSathi name + logo, scope justification + demo video. Until verified the app runs in Testing mode with limited test users.
+
+---
+
+## 0B. Data, configuration & email (Supabase + Brevo)
+
+### Two Supabase databases
+The platform uses **two separate Supabase projects**. Each has its own Postgres database and its own Storage.
+
+| Database | What lives there |
+|---|---|
+| **CORE** (`ShikkhaSathi Core`): people, money, private data | `users` (contact info, phone, email, `password_hash` with argon2id), `auth_otps`, `sessions`, `student_profiles`, `seller_profiles` (incl. payout details, masked), `orders`, `order_items`, `payments`, **`invoices`**, `refunds`, `coupons`, `coupon_redemptions`, `enrollments`, `ledger_entries`, `payouts`, `lesson_progress`, `notes`, `bookmarks`, `reviews`, `questions`, `answers`, `exam_plans`, `mock_attempts`, `mock_answers`, `wishlists`, `course_requests`, `course_request_votes`, `google_connections`, all `classroom_*`, `notifications`, `notification_preferences`, `push_tokens`, `reports`, `audit_logs`, `settings`, `integration_settings`, `email_logs`. Storage buckets: `invoices`, `verification-docs`, `avatars` (all private) |
+| **CONTENT** (`ShikkhaSathi Content`): catalog & learning material | `institutions`, `institution_requests`, `departments`, `programs`, `subject_masters`, `institution_subjects`, `courses`, `course_targets`, `course_sections`, `course_chapters`, `lessons`, **`video_assets`** (provider + provider id **or external video link**), **`documents`** (PDF/notes/previous-question links + storage keys), `course_revisions`, `bundles`, `bundle_items`, `mock_tests`, `mock_questions`, `mock_options`, `flashcards`. Storage buckets: `course-docs` (private), `course-covers` (public) |
+
+**Rules**
+- Use separate Drizzle schema folders and clients: `Web/server/src/database/core/` and `Web/server/src/database/content/`. Each has its own `schema/`, `migrations/` and `seed/`, and its own drizzle-kit config.
+- **No foreign keys across databases.** Reference rows in the other database by uuid and validate in the service layer. When you join data across the two databases, do it in services with batched lookups (`WHERE id = ANY($1)`), never one query per row (N+1).
+- A cross-database flow such as "payment succeeded → enrollment" must be idempotent and retry-safe. Keep an outbox or job record so a half-finished step completes on retry.
+- **Connections are server-only.**
+  - The app connects through the Supabase **connection pooler** in transaction mode (port 6543). With postgres.js this requires `prepare: false`.
+  - Migrations use the **direct** connection (port 5432).
+  - The service-role key and DB passwords never reach the web client or the mobile app. The client and the mobile app talk only to our `/api/v1`.
+- **Lock down the Supabase Data API.** Enable RLS on every table with **no policies** (deny-all), so that the public anon key can read nothing. Add a migration test that fails if any table has RLS disabled. We do not use Supabase Auth; auth is ours (spec §6.1).
+- **Files go in Supabase Storage**, served via short-lived signed URLs issued by the API. Videos go through the video-provider adapter (Bunny Stream default), or an `external_link` type for already-hosted links; playback URLs are always issued by the API to enrolled users only.
+- **Local dev/tests:** two Postgres containers in `infra/docker-compose.yml` (`db-core`, `db-content`), or the Supabase CLI. The same migrations run everywhere.
+
+### Configuration: env vs Admin panel
+- **Bootstrap secrets come from environment variables only**, because the server needs them before the admin panel exists:
+  - `CORE_DATABASE_URL`, `CORE_DIRECT_URL`, `CONTENT_DATABASE_URL`, `CONTENT_DIRECT_URL`
+  - `SUPABASE_CORE_URL`, `SUPABASE_CORE_SERVICE_ROLE_KEY`, `SUPABASE_CONTENT_URL`, `SUPABASE_CONTENT_SERVICE_ROLE_KEY`
+  - `REDIS_URL`, `ENCRYPTION_KEY`, `JWT_*`, `APP_URL`
+
+  The admin panel shows **read-only health** for both databases (connected, latency, migration version). It never lets anyone edit the DB URLs.
+- **Every other integration is editable from Admin → সেটিংস → Integrations**, with the matching env var as fallback:
+  - Brevo email, payment gateway, SMS provider, video provider, Google OAuth client id/secret, Pub/Sub, FCM/APNs/Web Push, Meilisearch
+  - business settings: commission, refund window, feature flags
+- **Storage of these settings:** they are stored in CORE `integration_settings` (`provider`, `key`, `value_encrypted` with AES-256-GCM using `ENCRYPTION_KEY`, `is_secret`, `updated_by`, `updated_at`).
+- **Effective value:** the Admin panel value if set, otherwise the env var, otherwise the integration is disabled and its Fake adapter is used in dev.
+- **Caching:** values are cached about 60 s and the cache is invalidated on save.
+- **Secrets are write-only.** The API never returns them, and the UI shows only `••••1234`. Every change is audit-logged. Each integration has a "সংযোগ পরীক্ষা করুন" (test connection) button.
+
+### Email via Brevo
+- **Admin → সেটিংস → Email (Brevo)** has these fields:
+  - Brevo API key (v3)
+  - sender name (default "ShikkhaSathi")
+  - sender email (e.g. `no-reply@shikkhasathi.com`; must be a verified sender/domain in Brevo)
+  - reply-to
+  - optional SMTP fallback: `smtp-relay.brevo.com`, port 587, SMTP login, SMTP key
+
+  It has "সেভ করুন" and "টেস্ট মেইল পাঠান" buttons, and shows the last success or failure.
+- **Implementation:** `services/email/` has an `EmailProvider` interface with three implementations:
+  - `BrevoApiProvider`: transactional API `POST https://api.brevo.com/v3/smtp/email` with the `api-key` header
+  - `BrevoSmtpProvider`: nodemailer, used as fallback
+  - `FakeEmailProvider`: dev/tests; writes to `email_logs` and the console
+- **Sending:** every email goes through the BullMQ `email.send` queue with retries and backoff, and is logged in CORE `email_logs` (to, template, status, provider message id, error). **Never log OTPs or secrets.**
+- **Templates** live in code, in bn + en, branded ShikkhaSathi, with a plain-text alternative:
+  - welcome / email verification
+  - email OTP and password reset
+  - order paid + invoice (PDF link or attachment)
+  - refund
+  - seller application result, course review decision, payout paid
+  - Classroom deadline reminders (when the email channel is on)
+  - admin broadcast
+- **Domain records:** document in `docs/RUNBOOK.md` the DNS records Brevo needs for `shikkhasathi.com` (SPF, DKIM, DMARC).
 
 ---
 
@@ -168,10 +234,11 @@ Inspect what already exists in these folders first; extend, don't blindly overwr
 
 ## 4. Server rules (`Web/server`)
 
-- Node.js 22 LTS, TypeScript strict, **Fastify**, **Drizzle ORM** + drizzle-kit migrations, PostgreSQL 16, Redis, **BullMQ** for jobs (separate worker entry `src/worker.ts`).
+- Node.js 22 LTS, TypeScript strict, **Fastify**, **Drizzle ORM** + drizzle-kit migrations on **two Supabase Postgres databases (CORE + CONTENT, §0B)**, Supabase Storage, Redis, **BullMQ** for jobs (separate worker entry `src/worker.ts`), Brevo for email.
 - Validation + contracts: every route validates with the Zod schema from `Web/shared/contracts`; OpenAPI is generated from those schemas (`scripts/gen-openapi`) and consumed by the mobile app.
 - Layering: `api/v1` (HTTP) → `modules/*/service` (business logic) → `repository` (DB). No business logic in handlers. External calls only through `services/` adapters.
-- Data model: follow spec §15 exactly (institutions → departments → programs → institution_subjects; subject_masters; courses + **course_targets** one-to-many; sections/lessons; enrollments; progress; orders/payments; ledger; exam_plans; course_requests) + `classroom_*` cache tables + `notifications`, `push_tokens`.
+- Data model: follow `docs/PROJECT_SPEC.md` §7 exactly, with each table in the database assigned by §0B (CORE vs CONTENT).
+- Settings module: `modules/settings` (integration settings, encryption, cache, test-connection endpoints) used by every adapter in `services/`.
 - Search: **Meilisearch** (Bangla + English, typo tolerance, synonyms DS = Data Structures, DBMS = Database Management); index courses × targets; Postgres FTS fallback.
 - Ranking: spec §6 score as a pure, unit-tested function.
 - Auth: phone OTP (primary) + email + Google; JWT access (short) + refresh (httpOnly cookie on web, secure storage on mobile). Roles: guest, student, seller, admin. RBAC guards in `common/`.
@@ -281,7 +348,7 @@ Do phases in order; don't start the next until the current one passes its checks
 | # | Phase | Must deliver |
 |---|---|---|
 | 0 | Audit & plan | Inventory `Reference/` → `docs/SCREEN_MAP.md`; inspect existing folders; write `docs/ARCHITECTURE.md`, `docs/DESIGN_SYSTEM.md`, phase plan in `docs/PROGRESS.md` |
-| 1 | Foundation | pnpm workspace (`client`, `server`, `shared`); docker-compose (Postgres, Redis, Meilisearch); Fastify skeleton + Drizzle + migrations; auth (OTP + email + Google login); tokens → CSS vars + Tailwind preset + Compose theme; client shells (Public, Student sidebar, Seller, Admin) with guards; mobile project skeleton (android + ios + src modules); OpenAPI generation; CI lint/type/test |
+| 1 | Foundation | pnpm workspace (`client`, `server`, `shared`); docker-compose (db-core, db-content, Redis, Meilisearch); Fastify skeleton + **two Drizzle databases (CORE + CONTENT) with migrations, RLS deny-all check, health endpoint**; **settings/integrations module (encrypted, admin-editable, env fallback) + Brevo email adapter + email queue + test-send**; auth (OTP + email + Google login); tokens → CSS vars + Tailwind preset + Compose theme; client shells (Public, Student sidebar, Seller, Admin) with guards; mobile project skeleton (android + ios + src modules); OpenAPI generation; CI lint/type/test |
 | 2 | Master data | Institutions/departments/programs/subjects + admin approval + institution requests; seed |
 | 3 | **Home dashboard + Google Classroom** | OAuth connect/disconnect; full + incremental sync; Pub/Sub push + renewal job; notification center + push + reminders; `/home` with all §0A widgets (course/exam widgets show placeholders until later phases); `/classroom/*`, calendar, notifications screens on web + mobile; fake Classroom seed; `docs/CLASSROOM_INTEGRATION.md` |
 | 4 | Teacher Studio (seller) | Seller verification, 5-step course wizard with live preview, course targets, section/chapter/lesson builder, video + PDF upload, Draft→Review→Published |

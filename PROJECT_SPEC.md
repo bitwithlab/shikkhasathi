@@ -1,6 +1,6 @@
 # ShikkhaSathi (শিক্ষাসাথী) — Full Project Specification
 
-> **Location:** `docs/PROJECT_SPEC.md` · **Status:** v1.0 (2026-11-03) · **Owner:** Mahdi
+> **Location:** `docs/PROJECT_SPEC.md` · **Status:** v1.1 (2026-11-03) · **Owner:** Mahdi · **Repo:** https://github.com/bitwithlab/shikkhasathi
 > This is the **single source of truth** for what ShikkhaSathi is and how it works. It supersedes `docs/CAMPUS_MARKETPLACE_SPEC.md` (kept as background) wherever they differ. Coding rules live in the root `CLAUDE.md`; the one-page brief is `docs/PROJECT.md`; screen prompts are in `docs/UI_PROMPTS.md`.
 
 ---
@@ -95,14 +95,14 @@ Unverified sellers may draft courses but cannot submit them for review.
             ┌──────────────────────── shikkhasathi.com ────────────────────────┐
  Browser ──▶│ Web/server (Fastify)                                              │
             │  ├─ serves Web/client build (prerendered public pages + SPA)      │
-            │  └─ /api/v1/* REST API ──▶ modules ──▶ PostgreSQL                 │
+            │  └─ /api/v1/* REST API ──▶ modules ──▶ Supabase CORE db + CONTENT db │
  Mobile ───▶│                         │            ├─▶ Redis (cache, rate limit, BullMQ)
             │                         │            ├─▶ Meilisearch (course search)
             └─────────────────────────┼────────────────────────────────────────┘
                                       │ services/ adapters
        ┌──────────────┬───────────────┼──────────────┬──────────────┬─────────────┐
-   Google APIs    Payment gateway   Video provider   Object storage   SMS gateway   FCM / APNs
- (Classroom +     (SSLCommerz/      (Bunny/CF/Mux,   (R2/S3)                        Web Push
+   Google APIs    Payment gateway   Video provider   Supabase Storage  SMS gateway   FCM / APNs   Brevo
+ (Classroom +     (SSLCommerz/      (Bunny/CF/Mux,   (signed URLs)                    Web Push     (email)
   Pub/Sub push)    aamarPay/bKash)   HLS + signed)
 
  Worker process (Web/server src/worker.ts, BullMQ): Classroom sync, Pub/Sub consumer,
@@ -114,13 +114,15 @@ Unverified sellers may draft courses but cannot submit them for review.
 |---|---|---|
 | Web client | React 19 + Vite + TypeScript, React Router (lazy routes), TanStack Query, Zustand (UI only), Tailwind + Radix UI, React Hook Form + Zod, hls.js, Lucide | One app for public/student/seller/admin; seller & admin are separate lazy chunks |
 | Server | Node.js 22 + TypeScript + Fastify | Also serves the client build |
-| ORM / DB | Drizzle ORM + drizzle-kit, PostgreSQL 16 | |
+| ORM / DB | Drizzle ORM + drizzle-kit on **Supabase Postgres — two projects: CORE and CONTENT** | Table placement in §7.0; server-only access via pooler; RLS deny-all |
 | Cache / queue | Redis + BullMQ | |
 | Search | Meilisearch | Bangla + English, typo tolerance, synonyms |
 | Contracts | Zod schemas in `Web/shared` → OpenAPI | Single source for client, server, mobile |
 | Mobile | Kotlin + Jetpack Compose (Compose Multiplatform), Koin, Ktor, kotlinx.serialization, Room KMP, DataStore, Coil 3, Navigation Compose | Media3 (Android) / AVPlayer (iOS) via expect/actual |
 | Video | Bunny Stream (default) behind an adapter | HLS, signed URLs |
-| Storage | Cloudflare R2 (S3 API) | PDFs, images, invoices |
+| Storage | Supabase Storage (CORE: invoices, verification-docs, avatars · CONTENT: course-docs, course-covers) | Private buckets + API-issued signed URLs |
+| Email | **Brevo** transactional API (SMTP fallback) | Credentials editable in Admin → Settings → Email; env fallback |
+| Config | Bootstrap secrets in env; all integrations editable in Admin panel (encrypted) | §16.1 |
 | Payments | SSLCommerz or aamarPay (bKash, Nagad, Rocket, cards); bKash tokenized optional | Adapter interface |
 | Auth | Phone OTP, email + password, Google sign-in; JWT access + refresh | |
 | Push | FCM (Android/web), APNs (iOS), Web Push | |
@@ -310,7 +312,7 @@ Students post requests (institution, subject, exam type, note); others upvote; s
 - Other pages: students list, Q&A inbox, reviews (reply), analytics (views, conversion, completion), coupons CRUD, earnings ledger + payouts, storefront settings (slug, bio, cover).
 
 ### 6.13 Admin panel
-Dashboard (GMV, orders, new users, pending approvals, refund rate) · Seller verification queue · Institution requests (approve, merge duplicates, aliases, logo) · Catalog (departments, programs, subject master, institution subjects/course codes) · Course review queue (table + side drawer with checklist: content quality, no guarantee claims, correct targeting, copyright) · Orders & refunds · Payouts approval · Users (search, roles, suspend) · Reports/moderation (copyright reports, abuse) · Broadcast notifications · Settings (commission defaults, refund window, feature flags) · Audit log. Every admin action is audit-logged.
+Dashboard (GMV, orders, new users, pending approvals, refund rate) · Seller verification queue · Institution requests (approve, merge duplicates, aliases, logo) · Catalog (departments, programs, subject master, institution subjects/course codes) · Course review queue (table + side drawer with checklist: content quality, no guarantee claims, correct targeting, copyright) · Orders & refunds · Payouts approval · Users (search, roles, suspend) · Reports/moderation (copyright reports, abuse) · Broadcast notifications · Settings (commission defaults, refund window, feature flags) · **Integrations** (Brevo email with "টেস্ট মেইল পাঠান", payment gateway, SMS, video provider, Google OAuth + Pub/Sub, push, search; secrets write-only and masked; "সংযোগ পরীক্ষা করুন" per integration) · **System health** (CORE + CONTENT database status, migration version, queue status; read-only) · Email logs · Audit log. Every admin action is audit-logged.
 
 ### 6.14 Profile & settings
 Academic info (editable; changing institution re-ranks feed) · Google Classroom connection (status, last sync, disconnect) · notification preferences per type × channel · devices (sign out remotely) · payment history + invoices · language (বাংলা/English) · theme (system/light/dark) · low-data mode · delete account (30-day grace, then hard delete except legally required financial records).
@@ -319,7 +321,20 @@ Academic info (editable; changing institution re-ranks feed) · Google Classroom
 
 ## 7. Data model
 
-PostgreSQL; all tables have `id` (uuid v7), `created_at`, `updated_at`; soft delete (`deleted_at`) where noted. Money stored as integer **paisa**.
+### 7.0 Two Supabase databases
+| Database | Tables (sections below) |
+|---|---|
+| **CORE** — people, money, private data | §7.1 Identity · §7.4 Commerce (incl. **invoices**) · learning *activity* from §7.5 (`lesson_progress`, `notes`, `bookmarks`, `questions`, `answers`, `reviews`, `exam_plans`, `mock_attempts`, `mock_answers`, `wishlists`, `course_requests`, `course_request_votes`) · §7.6 Classroom · §7.7 Notifications & system |
+| **CONTENT** — catalog & learning material | §7.2 Catalog · §7.3 Courses & content (incl. **video links/assets and document links**) · learning *material* from §7.5 (`mock_tests`, `mock_questions`, `mock_options`, `flashcards`) |
+
+Rules:
+- No foreign keys across databases. Cross-references are uuids validated in services; cross-database reads are batched.
+- Each database has its own migrations and seed.
+- Access is server-only (pooler port 6543 for the app, direct 5432 for migrations).
+- RLS is enabled with no policies on every table.
+- Storage buckets live with the data they belong to.
+
+All tables have `id` (uuid v7), `created_at` and `updated_at`; soft delete (`deleted_at`) where noted. Money is stored as integer **paisa**.
 
 ### 7.1 Identity
 | Table | Key fields |
@@ -346,9 +361,9 @@ PostgreSQL; all tables have `id` (uuid v7), `created_at`, `updated_at`; soft del
 | `courses` | seller_id, title, slug, short_description, description, cover_url, intro_video_id, language, exam_type, course_type, price, compare_at_price, access_type, access_days, status, published_at, rating_avg, rating_count, enrollment_count, deleted_at |
 | `course_targets` | course_id, institution_id (null = general), department_id, program_id, semester, subject_master_id, institution_subject_id, course_code, batches[], sections[], is_general |
 | `course_sections` / `course_chapters` | course_id / section_id, title, position |
-| `lessons` | chapter_id, title, type (video/pdf/text/quiz/mock), position, duration_sec, video_asset_id, file_id, body, is_preview, is_important |
-| `video_assets` | provider, provider_video_id, status, duration_sec |
-| `files` | owner_id, kind, storage_key, mime, size |
+| `lessons` | chapter_id, title, type (video/pdf/text/quiz/mock), position, duration_sec, video_asset_id, document_id, body, is_preview, is_important |
+| `video_assets` | provider (bunny/cloudflare/mux/external_link), provider_video_id, external_url, status, duration_sec |
+| `documents` | course_id, owner_id, kind (notes/pdf/previous_questions/slides/link), title, storage_bucket, storage_key, external_url, mime, size |
 | `course_revisions` | course_id, payload_json, status, reviewer_id, notes |
 | `bundles` / `bundle_items` | title, price / bundle_id, course_id |
 
@@ -364,7 +379,7 @@ PostgreSQL; all tables have `id` (uuid v7), `created_at`, `updated_at`; soft del
 | `refunds` | order_id, requested_by, reason, status, amount, processed_by |
 | `ledger_entries` | seller_id, type (sale/commission/refund/payout/adjustment), amount (+/-), order_id, payout_id, available_at, balance_after |
 | `payouts` | seller_id, amount, method, status, reference, processed_by |
-| `invoices` | order_id, number, file_id |
+| `invoices` | order_id, user_id, number (e.g. SS-2026-000123), billing_name, billing_phone, billing_email, items_json, subtotal, discount, total, storage_key (PDF in CORE `invoices` bucket), emailed_at |
 
 ### 7.5 Learning
 | Table | Key fields |
@@ -400,7 +415,9 @@ PostgreSQL; all tables have `id` (uuid v7), `created_at`, `updated_at`; soft del
 | `push_tokens` | user_id, platform, token, last_seen_at |
 | `reports` | reporter_id, target_type, target_id, reason, status |
 | `audit_logs` | actor_id, action, entity, entity_id, before_json, after_json, ip |
-| `settings` | key, value_json |
+| `settings` | key, value_json (non-secret business settings) |
+| `integration_settings` | provider (brevo/payment/sms/video/google/push/search), key, value_encrypted, is_secret, updated_by, updated_at |
+| `email_logs` | to_email, template, locale, status (queued/sent/failed), provider (brevo_api/brevo_smtp/fake), provider_message_id, error, related_entity, created_at |
 
 ### 7.8 Indexes (minimum)
 `course_targets(institution_id, department_id, semester, subject_master_id)`, `course_targets(course_code)`, `courses(status, published_at)`, `enrollments(student_id, course_id) unique`, `lesson_progress(student_id, lesson_id) unique`, `payments(gateway, gateway_trx_id) unique`, `classroom_coursework(user_id, due_at)`, `classroom_feed_items(user_id, occurred_at desc)`, `notifications(user_id, read_at, created_at desc)`, `ledger_entries(seller_id, created_at)`.
@@ -449,9 +466,10 @@ Rate limits (per IP + user): OTP request 5/hour/phone, login 10/15 min, payment 
 | `ledger.release` | daily | Move held earnings to available after 7 days |
 | `video.processed` | provider webhook | Mark asset ready, store duration |
 | `exam.replan` | daily + on progress | Recompute study plans |
+| `email.send` | on event | Render template, send via Brevo API (SMTP fallback), retry with backoff, write `email_logs` |
 | `cleanup` | daily | Expired OTPs, sessions, orphan uploads, deleted accounts after grace |
 
-Integrations are behind interfaces in `Web/server/src/services/`: `PaymentGateway`, `VideoProvider`, `ObjectStorage`, `SmsProvider`, `PushProvider`, `GoogleClassroomClient`, `SearchClient` — each with a fake implementation for local dev and tests.
+Integrations are behind interfaces in `Web/server/src/services/`: `PaymentGateway`, `VideoProvider`, `ObjectStorage` (Supabase Storage), `EmailProvider` (Brevo API / Brevo SMTP), `SmsProvider`, `PushProvider`, `GoogleClassroomClient`, `SearchClient`. Each has a fake implementation for local dev and tests. Each reads its credentials from the settings module (Admin panel value → env fallback → disabled/fake).
 
 ---
 
@@ -472,6 +490,7 @@ Integrations are behind interfaces in `Web/server/src/services/`: `PaymentGatewa
 | `seller.course_decision` / `seller.payout_paid` / `seller.new_enrollment` | seller events | in-app, push, email |
 | `admin.broadcast` | admin | chosen |
 
+The email channel is delivered through Brevo (§16.1).
 Rules: dedupe key per (user, type, ref); quiet hours 23:00–07:00 for non-urgent push; batch Classroom bursts (> 3 items in 10 min → one summary push); every type toggleable per channel; deep links to the right screen.
 
 ---
@@ -484,6 +503,8 @@ Rules: dedupe key per (user, type, ref); quiet hours 23:00–07:00 for non-urgen
 - Video: signed URLs, watermark, device & concurrent-stream limits, DMCA/report flow.
 - Payments: server-side validation, idempotency, reconciliation, no card data touches our servers.
 - RBAC on every route; admin actions audited; principle of least privilege for DB users.
+- Supabase: RLS enabled with no policies on every table in both databases, so the anon key can read nothing. The service-role key and DB URLs are server-only. A CI test fails if any table lacks RLS.
+- Integration secrets (Brevo, gateways, SMS, Google client secret, etc.) are stored AES-256-GCM-encrypted in CORE `integration_settings`, are write-only via the API, masked in the UI, and every change is audit-logged.
 - Privacy policy, terms, refund policy, copyright/takedown policy published at `shikkhasathi.com`. Data deletion on request. Final legal text reviewed by a lawyer.
 - Backups: daily encrypted DB backup, 30-day retention, monthly restore test.
 
@@ -544,13 +565,35 @@ Full rules: `CLAUDE.md` §7 and `docs/DESIGN_SYSTEM.md`. Visual reference: `Refe
 
 | Env | URL | Notes |
 |---|---|---|
-| local | `localhost` | docker-compose (postgres, redis, meilisearch), fake providers, seed data incl. fake Classroom |
-| staging | `staging.shikkhasathi.com` | real sandbox gateways, Google OAuth testing mode |
-| production | `shikkhasathi.com` | |
+| local | `localhost` | docker-compose (db-core, db-content, redis, meilisearch) or Supabase CLI; fake providers; seed data incl. fake Classroom |
+| staging | `staging.shikkhasathi.com` | separate Supabase CORE + CONTENT projects; sandbox gateways; Google OAuth testing mode |
+| production | `shikkhasathi.com` | production Supabase CORE + CONTENT projects |
 
 Deploy: Docker images for `server` (serves client build) and `worker`; Caddy/Nginx with TLS; GitHub Actions (lint → test → build → deploy); DB migrations run as a release step.
 
-Environment variables (see `.env.example`): `NODE_ENV, APP_URL, API_URL, DATABASE_URL, REDIS_URL, MEILI_HOST, MEILI_MASTER_KEY, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, ENCRYPTION_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_PUBSUB_TOPIC, GOOGLE_PUBSUB_VERIFICATION_TOKEN, PAYMENT_GATEWAY, SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWORD, SSLCOMMERZ_SANDBOX, VIDEO_PROVIDER, BUNNY_STREAM_LIBRARY_ID, BUNNY_STREAM_API_KEY, BUNNY_TOKEN_KEY, S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY, S3_SECRET_KEY, SMS_PROVIDER, SMS_API_KEY, SMS_SENDER_ID, FCM_SERVICE_ACCOUNT_JSON, APNS_KEY_ID, APNS_TEAM_ID, APNS_PRIVATE_KEY, WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY, SENTRY_DSN`.
+Environment variables (see `.env.example`):
+- **Bootstrap (env only):**
+  - app: `NODE_ENV, APP_URL, API_URL`
+  - CORE database: `CORE_DATABASE_URL` (pooler, 6543), `CORE_DIRECT_URL` (5432), `SUPABASE_CORE_URL`, `SUPABASE_CORE_SERVICE_ROLE_KEY`
+  - CONTENT database: `CONTENT_DATABASE_URL`, `CONTENT_DIRECT_URL`, `SUPABASE_CONTENT_URL`, `SUPABASE_CONTENT_SERVICE_ROLE_KEY`
+  - secrets & infra: `REDIS_URL, ENCRYPTION_KEY, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, SENTRY_DSN`
+- **Integrations (env fallback; Admin panel overrides):**
+  - email: `BREVO_API_KEY, BREVO_SENDER_NAME, BREVO_SENDER_EMAIL, BREVO_REPLY_TO, BREVO_SMTP_HOST, BREVO_SMTP_PORT, BREVO_SMTP_LOGIN, BREVO_SMTP_KEY`
+  - Google: `GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_ANDROID_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_PUBSUB_TOPIC, GOOGLE_PUBSUB_VERIFICATION_TOKEN`
+  - payments: `PAYMENT_GATEWAY, SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWORD, SSLCOMMERZ_SANDBOX`
+  - video: `VIDEO_PROVIDER, BUNNY_STREAM_LIBRARY_ID, BUNNY_STREAM_API_KEY, BUNNY_TOKEN_KEY`
+  - SMS: `SMS_PROVIDER, SMS_API_KEY, SMS_SENDER_ID`
+  - push: `FCM_SERVICE_ACCOUNT_JSON, APNS_KEY_ID, APNS_TEAM_ID, APNS_PRIVATE_KEY, WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY`
+  - search: `MEILI_HOST, MEILI_MASTER_KEY`
+
+### 16.1 Configuration precedence & Admin-panel settings
+1. **Bootstrap secrets** (database URLs, Supabase service keys, Redis, encryption/JWT keys) come **only from env**. The Admin panel shows database health read-only and never edits these.
+2. **Integration credentials and business settings** are editable in **Admin → সেটিংস → Integrations**. They are stored encrypted in CORE `integration_settings`. **Effective value** = Admin panel value if set → else env var → else the integration is disabled (its Fake adapter is used outside production).
+3. Values are cached for ~60 s and invalidated on save. Secrets are write-only and masked (`••••1234`). Each integration has a test button. Every change is audit-logged.
+4. **Brevo email:**
+   - Admin fields: API key, sender name, sender email (verified in Brevo), reply-to, optional SMTP fallback (smtp-relay.brevo.com:587 + SMTP login/key).
+   - Buttons: "টেস্ট মেইল পাঠান" sends a branded test email to the admin.
+   - Before going live: add Brevo's SPF/DKIM/DMARC DNS records for `shikkhasathi.com` (documented in `docs/RUNBOOK.md`).
 
 ---
 
