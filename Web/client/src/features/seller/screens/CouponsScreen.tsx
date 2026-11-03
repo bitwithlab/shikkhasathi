@@ -313,15 +313,17 @@ function BundleSection({ courses, loading, error, onRetry }: { courses: CourseIt
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [errors, setErrors] = useState<{ courses?: string; title?: string; price?: string }>({});
-  const [made, setMade] = useState<{ slug: string; title: string; price: number; sum: number }[]>([]);
+  const qc = useQueryClient();
+  const mine = useQuery({ queryKey: ['seller', 'bundles'], queryFn: () => api(contracts.sellerMoney.bundles) });
+  const made = (mine.data?.items ?? []).map((b) => ({ slug: b.slug, title: b.title, price: b.price, sum: b.compareAtPrice ?? b.price }));
   const [serverErr, setServerErr] = useState<string | null>(null);
   const sum = published.filter((c) => picked.includes(c.id)).reduce((a, c) => a + c.price, 0);
   const pricePaisa = takaToPaisa(price);
   const saving = pricePaisa != null && !Number.isNaN(pricePaisa) && pricePaisa < sum ? sum - pricePaisa : 0;
   const create = useMutation({
     mutationFn: () => api(contracts.sellerMoney.createBundle, { body: { title: title.trim(), description: description.trim() || undefined, courseIds: picked, price: pricePaisa ?? 0 } }),
-    onSuccess: (r) => {
-      setMade((m) => [{ slug: r.slug, title: title.trim(), price: pricePaisa ?? 0, sum }, ...m]);
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['seller', 'bundles'] });
       toast.success(t('ops.bd.created'));
       setPicked([]);
       setTitle('');

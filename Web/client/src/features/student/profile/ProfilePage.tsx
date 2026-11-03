@@ -2,7 +2,7 @@ import '../i18n';
 import '@/features/auth/i18n';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Bell, GraduationCap, KeyRound, Laptop, LogOut, Monitor, Palette, Presentation, Smartphone, Trash2, UserRound } from 'lucide-react';
+import { Bell, GraduationCap, KeyRound, Laptop, LogOut, Monitor, Palette, Presentation, ReceiptText, Smartphone, Trash2, UserRound } from 'lucide-react';
 import type { NotificationChannel, NotificationType } from '@shikkhasathi/shared';
 import { Avatar, Badge, Button, Dialog, ErrorState, Field, Input, Select, Skeleton, Switch, toast } from '@/components';
 import { api, ApiError, contracts } from '@/lib/api';
@@ -11,6 +11,7 @@ import { ordinal, relativeTime, useT } from '@/lib/i18n';
 import { LangToggle, ThemeSwitcher } from '@/app/shells/Prefs';
 import { ConnectClassroomButton } from '../classroom/ConnectClassroomButton';
 import { SyncStatus } from '../classroom/parts';
+import { OrdersList } from './OrdersPanel';
 
 const onErr = (t: ReturnType<typeof useT>) => (e: unknown) => toast.error(e instanceof ApiError ? e.message : t('state.errorBody'));
 
@@ -47,6 +48,7 @@ export default function ProfilePage() {
         {[
           ['academic', 'prof.academic'],
           ['classroom', 'nav.classroom'],
+          ['orders', 'prof.orders'],
           ['notifications', 'nav.notifications'],
           ['devices', 'prof.devices'],
           ['prefs', 'prof.prefs'],
@@ -60,6 +62,9 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-5">
         <AcademicPanel />
         <ClassroomPanel />
+        <Panel id="orders" icon={<ReceiptText className="size-5 text-primary" strokeWidth={1.75} aria-hidden />} title={t('prof.orders')} desc={t('prof.ordersDesc')}>
+          <OrdersList />
+        </Panel>
         <NotificationPanel />
         <DevicesPanel />
         <PrefsPanel />

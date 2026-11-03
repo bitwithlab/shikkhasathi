@@ -617,6 +617,11 @@ export const endpoints = {
       "path": "/seller/ledger",
       "auth": "seller"
     },
+    "bundles": {
+      "method": "GET",
+      "path": "/seller/bundles",
+      "auth": "seller"
+    },
     "createBundle": {
       "method": "POST",
       "path": "/seller/bundles",

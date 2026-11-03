@@ -25,14 +25,15 @@ export default function CalendarPage() {
   const from = new Date(first.getTime() - lead * 86_400_000);
   const to = new Date(first.getTime() + (daysInMonth + 14) * 86_400_000);
   const q = useQuery({ queryKey: ['classroom', 'calendar', month], queryFn: () => api(contracts.classroom.calendar, { query: { from: from.toISOString(), to: to.toISOString() } }) });
+  const events = q.data?.items;
   const byDay = useMemo(() => {
-    const map = new Map<string, NonNullable<typeof q.data>['items']>();
-    for (const e of q.data?.items ?? []) {
+    const map = new Map<string, NonNullable<typeof events>>();
+    for (const e of events ?? []) {
       const k = dhakaDay(new Date(e.at));
       map.set(k, [...(map.get(k) ?? []), e]);
     }
     return map;
-  }, [q.data]);
+  }, [events]);
   const cells = Array.from({ length: Math.ceil((lead + daysInMonth) / 7) * 7 }, (_, i) => dhakaDay(new Date(from.getTime() + i * 86_400_000 + 6 * 3_600_000)));
   const shift = (n: number) => {
     const d = new Date(Date.UTC(y, m - 1 + n, 1));

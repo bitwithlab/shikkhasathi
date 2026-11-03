@@ -41,12 +41,18 @@ describe('coupon helpers', () => {
 
 describe('Seller coupons page', () => {
   function api(items: unknown[] = [coupon()], courses = [course(), course({ id: uuid(2), slug: 'oop', title: 'OOP Java Final', price: 19900 })]) {
+    const bundles: unknown[] = [];
     return mockApi((url, method, body) => {
       if (url.endsWith('/seller/courses')) return json({ items: courses });
       if (url.endsWith('/seller/coupons') && method === 'POST') return json(coupon({ id: uuid(41), ...(body as object) }), 201);
       if (url.endsWith('/seller/coupons')) return json({ items });
       if (url.includes('/seller/coupons/') && method === 'PATCH') return json(coupon({ ...(body as object) }));
-      if (url.endsWith('/seller/bundles')) return json({ id: uuid(50), slug: 'midterm-final-ab12c' }, 201);
+      if (url.endsWith('/seller/bundles') && method === 'POST') {
+        const b = body as { title: string; price: number };
+        bundles.unshift({ id: uuid(50), slug: 'midterm-final-ab12c', title: b.title, price: b.price, compareAtPrice: 54800, courseCount: 2 });
+        return json({ id: uuid(50), slug: 'midterm-final-ab12c' }, 201);
+      }
+      if (url.endsWith('/seller/bundles')) return json({ items: bundles });
       return undefined;
     });
   }
@@ -95,6 +101,6 @@ describe('Seller coupons page', () => {
     expect(within(section).getByText(/৳৯৯ \(২০%\)/)).toBeInTheDocument();
     await u.click(within(section).getByRole('button', { name: 'বান্ডেল তৈরি করুন' }));
     expect(await within(section).findByRole('link', { name: '/checkout/bundle?slug=midterm-final-ab12c' })).toHaveAttribute('href', '/checkout/bundle?slug=midterm-final-ab12c');
-    expect(calls.find((c) => c.url.endsWith('/seller/bundles'))?.body).toEqual({ title: 'Midterm + Final Combo', courseIds: [uuid(1), uuid(2)], price: 39900 });
+    expect(calls.find((c) => c.method === 'POST' && c.url.endsWith('/seller/bundles'))?.body).toEqual({ title: 'Midterm + Final Combo', courseIds: [uuid(1), uuid(2)], price: 39900 });
   });
 });

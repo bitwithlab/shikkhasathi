@@ -185,5 +185,10 @@
   "seller.store.preview": "শিক্ষার্থীরা যেভাবে দেখবে",
   "seller.store.noProfile": "স্টোরফ্রন্ট এখনো তৈরি হয়নি",
   "seller.store.noProfileBody": "শিক্ষক হিসেবে আবেদন করলে আপনার পাবলিক পেজ তৈরি হবে।",
-  "seller.courses.action.exam": "মক টেস্ট"
+  "seller.courses.action.exam": "মক টেস্ট",
+  "seller.dash.balance": "আপনার আয়",
+  "seller.dash.available": "উত্তোলনযোগ্য",
+  "seller.dash.held": "৭ দিনের হোল্ডে",
+  "seller.dash.pendingPayout": "পেআউট প্রক্রিয়াধীন",
+  "seller.dash.toEarnings": "আয় ও পেআউট"
 }

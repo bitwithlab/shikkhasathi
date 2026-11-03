@@ -106,17 +106,7 @@ export default function SellerDashboardPage() {
         </section>
 
         <aside className="flex flex-col gap-4">
-          <section className="rounded-card border border-dashed border-border-strong p-5" aria-labelledby="earn-soon">
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-control bg-success-soft text-success-fg">
-                <Wallet className="size-5" strokeWidth={1.75} aria-hidden />
-              </span>
-              <h2 id="earn-soon" className="font-semibold">
-                {t('seller.dash.earnSoon')}
-              </h2>
-            </div>
-            <p className="mt-3 text-sm text-muted">{t('seller.dash.earnSoonBody')}</p>
-          </section>
+          <BalanceCard />
           <section className="surface-card p-5" aria-labelledby="tips">
             <h2 id="tips" className="font-semibold">
               {t('seller.dash.tipsTitle')}
@@ -186,4 +176,35 @@ function CourseRow({ c }: { c: CourseItem }) {
 export function firstName(full: string) {
   const parts = full.trim().split(/\s+/).filter(Boolean);
   return parts.find((w) => !w.endsWith('.')) ?? parts[0] ?? '';
+}
+
+function BalanceCard() {
+  const t = useT();
+  const q = useQuery({ queryKey: ['seller', 'ledger', 'summary'], queryFn: () => api(contracts.sellerMoney.ledger, { query: { limit: 1 } }) });
+  const b = q.data?.balance;
+  return (
+    <section className="surface-card p-5" aria-labelledby="earn-h">
+      <div className="flex items-center gap-3">
+        <span className="flex size-10 items-center justify-center rounded-control bg-success-soft text-success-fg">
+          <Wallet className="size-5" strokeWidth={1.75} aria-hidden />
+        </span>
+        <h2 id="earn-h" className="font-semibold">{t('seller.dash.balance')}</h2>
+      </div>
+      {q.isLoading ? (
+        <Skeleton className="mt-4 h-16 rounded-control" />
+      ) : q.isError || !b ? (
+        <ErrorState compact onRetry={() => void q.refetch()} />
+      ) : (
+        <>
+          <p className="mt-4 text-sm text-muted">{t('seller.dash.available')}</p>
+          <p className="text-3xl font-bold tnum">{formatTaka(b.available, t.locale)}</p>
+          <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
+            <div className="rounded-control bg-surface-2 px-3 py-2"><dt className="text-xs text-muted">{t('seller.dash.held')}</dt><dd className="font-semibold tnum">{formatTaka(b.held, t.locale)}</dd></div>
+            <div className="rounded-control bg-surface-2 px-3 py-2"><dt className="text-xs text-muted">{t('seller.dash.pendingPayout')}</dt><dd className="font-semibold tnum">{formatTaka(b.pendingPayouts, t.locale)}</dd></div>
+          </dl>
+          <Button asChild variant="secondary" size="sm" className="mt-4" block><Link to="/teach/earnings">{t('seller.dash.toEarnings')}<ArrowRight className="size-4" aria-hidden /></Link></Button>
+        </>
+      )}
+    </section>
+  );
 }

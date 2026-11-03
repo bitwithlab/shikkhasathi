@@ -72,6 +72,7 @@ export const sellerMoney = {
   createCoupon: endpoint({ method: 'POST', path: '/seller/coupons', summary: 'Create coupon (seller- or course-scoped)', tag: 'seller', auth: 'verified_seller', body: CouponUpsert, response: Coupon, status: 201 }),
   updateCoupon: endpoint({ method: 'PATCH', path: '/seller/coupons/:id', summary: 'Update / deactivate coupon', tag: 'seller', auth: 'seller', params: IdParams, body: patchOf(CouponUpsert), response: Coupon }),
   ledger: endpoint({ method: 'GET', path: '/seller/ledger', summary: 'Earnings ledger + balance', tag: 'seller', auth: 'seller', query: CursorQuery, response: page(LedgerEntry).extend({ balance: Balance }) }),
+  bundles: endpoint({ method: 'GET', path: '/seller/bundles', summary: 'My bundles', tag: 'seller', auth: 'seller', response: z.object({ items: z.array(z.object({ id: z.uuid(), slug: z.string(), title: z.string(), price: z.number().int(), compareAtPrice: z.number().int().nullable(), courseCount: z.number().int() })) }) }),
   createBundle: endpoint({ method: 'POST', path: '/seller/bundles', summary: 'Bundle own published courses', tag: 'seller', auth: 'verified_seller', body: z.object({ title: z.string().trim().min(5).max(160), description: z.string().max(1000).optional(), courseIds: z.array(z.uuid()).min(2).max(10), price: z.number().int().min(0) }), response: z.object({ id: z.uuid(), slug: z.string() }), status: 201 }),
 };
 

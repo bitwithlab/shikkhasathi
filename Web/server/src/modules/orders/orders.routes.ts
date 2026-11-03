@@ -43,6 +43,7 @@ export async function orderRoutes(app: FastifyInstance) {
   route(app, s.createCoupon, ({ user, body }) => money.createCoupon(user.id, body));
   route(app, s.updateCoupon, ({ user, params: p, body }) => money.updateCoupon(user.id, p.id, body));
   route(app, s.ledger, ({ user, query }) => money.ledger(user.id, query));
+  route(app, s.bundles, ({ user }) => money.listBundles(user.id));
   route(app, s.createBundle, ({ user, body }) => money.createBundle(user.id, body));
 
   const a = contracts.adminCommerce;

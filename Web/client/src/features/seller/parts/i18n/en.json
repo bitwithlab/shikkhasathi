@@ -185,5 +185,10 @@
   "seller.store.preview": "What students see",
   "seller.store.noProfile": "No storefront yet",
   "seller.store.noProfileBody": "Your public page is created when you apply as a teacher.",
-  "seller.courses.action.exam": "Mock tests"
+  "seller.courses.action.exam": "Mock tests",
+  "seller.dash.balance": "Your earnings",
+  "seller.dash.available": "Available",
+  "seller.dash.held": "On 7-day hold",
+  "seller.dash.pendingPayout": "Payout in progress",
+  "seller.dash.toEarnings": "Earnings & payouts"
 }

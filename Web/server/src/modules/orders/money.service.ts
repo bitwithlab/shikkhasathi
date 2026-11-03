@@ -146,6 +146,12 @@ export async function createBundle(sellerId: string, d: { title: string; descrip
   return { id, slug };
 }
 
+export async function listBundles(sellerId: string) {
+  const bs = await contentDb.select().from(bundles).where(eq(bundles.sellerId, sellerId)).orderBy(desc(bundles.createdAt));
+  const counts = bs.length ? await contentDb.select({ id: bundleItems.bundleId, n: sql<number>`count(*)::int` }).from(bundleItems).where(inArray(bundleItems.bundleId, bs.map((b) => b.id))).groupBy(bundleItems.bundleId) : [];
+  return { items: bs.map((b) => ({ id: b.id, slug: b.slug, title: b.title, price: b.price, compareAtPrice: b.compareAtPrice, courseCount: counts.find((c) => c.id === b.id)?.n ?? 0 })) };
+}
+
 export async function getBundle(slug: string) {
   const [b] = await contentDb.select().from(bundles).where(and(eq(bundles.slug, slug), eq(bundles.status, 'published')));
   if (!b) throw notFound('বান্ডেলটি পাওয়া যায়নি।');
