@@ -1,11 +1,11 @@
 import './i18n';
-import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router';
-import { ArrowRight, BellRing, CalendarClock, CheckCircle2, ChevronDown, ClipboardCheck, CreditCard, FileText, Lock, PlayCircle, Search, Star, Timer, Zap } from 'lucide-react';
+import { Link } from 'react-router';
+import { BellRing, CalendarClock, CheckCircle2, ChevronDown, ClipboardCheck, CreditCard, FileText, Lock, PlayCircle, Search, Star, Timer, Zap } from 'lucide-react';
 import { Badge, Button } from '@/components';
 import { localDigits, useT } from '@/lib/i18n';
 import { cn } from '@/lib/cn';
 import { LandingCourses, LandingTeachers } from './landing/LiveSections';
+import { SearchBox } from './SearchBox';
 
 const POPULAR = ['Metropolitan University', 'Data Structures', 'CSE-2203', 'Algorithms', 'Midterm', 'BRAC CSE-111'];
 
@@ -29,12 +29,6 @@ export default function LandingPage() {
 
 function Hero() {
   const t = useT();
-  const nav = useNavigate();
-  const [q, setQ] = useState('');
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    nav(q.trim() ? `/explore?q=${encodeURIComponent(q.trim())}` : '/explore');
-  };
   return (
     <section className="relative overflow-hidden">
       <div className="gradient-brand absolute inset-x-0 top-0 -z-10 h-[520px] opacity-[0.07]" aria-hidden />
@@ -49,16 +43,9 @@ function Hero() {
             <span className="text-primary">{t('landing.hero.title2')}</span>
           </h1>
           <p className="mt-4 max-w-xl text-[17px] text-muted">{t('landing.hero.body')}</p>
-          <form onSubmit={submit} role="search" className="mt-7 flex max-w-xl items-center gap-2 rounded-[14px] border border-border bg-surface p-1.5 shadow-e2 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/15">
-            <Search className="ml-2.5 size-5 shrink-0 text-muted" aria-hidden />
-            <label htmlFor="hero-q" className="sr-only">
-              {t('landing.hero.searchLabel')}
-            </label>
-            <input id="hero-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('landing.hero.searchPlaceholder')} className="h-11 min-w-0 flex-1 bg-transparent text-[15px] placeholder:text-muted focus:outline-none" />
-            <Button type="submit" icon={<ArrowRight className="size-4" aria-hidden />} className="shrink-0">
-              <span className="hidden sm:inline">{t('common.search')}</span>
-            </Button>
-          </form>
+          <div className="mt-7 max-w-xl">
+            <SearchBox />
+          </div>
           <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             <span className="shrink-0 text-sm text-muted">{t('landing.hero.popular')}</span>
             {POPULAR.map((p) => (

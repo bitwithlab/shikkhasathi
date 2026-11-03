@@ -123,5 +123,10 @@
   "courseStatus.rejected": "Rejected",
   "courseStatus.published": "Published",
   "courseStatus.unlisted": "Unlisted",
-  "courseStatus.archived": "Archived"
+  "courseStatus.archived": "Archived",
+  "courseType.crash": "Crash course",
+  "courseType.full": "Full syllabus",
+  "courseType.solve": "Question solving",
+  "courseType.suggestion": "Suggestion",
+  "courseType.lab": "Lab & viva"
 }

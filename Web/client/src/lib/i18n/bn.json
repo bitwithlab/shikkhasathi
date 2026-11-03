@@ -123,5 +123,10 @@
   "courseStatus.rejected": "বাতিল",
   "courseStatus.published": "প্রকাশিত",
   "courseStatus.unlisted": "লুকানো",
-  "courseStatus.archived": "আর্কাইভ"
+  "courseStatus.archived": "আর্কাইভ",
+  "courseType.crash": "ক্র্যাশ কোর্স",
+  "courseType.full": "পূর্ণ সিলেবাস",
+  "courseType.solve": "প্রশ্ন সমাধান",
+  "courseType.suggestion": "সাজেশন",
+  "courseType.lab": "ল্যাব ও ভাইভা"
 }
