@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { ChevronDown, Megaphone, RotateCcw, SlidersHorizontal, X } from 'lucide-react';
 import { COURSE_TYPES } from '@shikkhasathi/shared/types';
+import type { SearchQuery } from '@shikkhasathi/shared';
 import { Button, EmptyState, ErrorState, Illustration, Select, Skeleton } from '@/components';
 import { CourseCard } from '@/components/CourseCard';
 import { api, contracts } from '@/lib/api';
@@ -38,7 +39,7 @@ export default function ExplorePage() {
     rating: filters.rating ? Number(filters.rating) : undefined,
     sort,
     limit: 24,
-  } as Parameters<typeof api<typeof contracts.discovery.search>>[1] extends { query?: infer Q } ? Q : never;
+  } as SearchQuery;
 
   const res = useInfiniteQuery({
     queryKey: ['search', q, filters, sort],

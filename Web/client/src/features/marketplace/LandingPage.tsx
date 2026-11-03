@@ -1,4 +1,4 @@
-import './i18n';
+import './landing/i18n';
 import { Link } from 'react-router';
 import { BellRing, CalendarClock, CheckCircle2, ChevronDown, ClipboardCheck, CreditCard, FileText, Lock, PlayCircle, Search, Star, Timer, Zap } from 'lucide-react';
 import { Badge, Button } from '@/components';

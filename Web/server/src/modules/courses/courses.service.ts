@@ -21,7 +21,9 @@ async function sellerCard(sellerId: string) {
 }
 
 export async function courseDetail(slug: string, userId?: string, roles: string[] = []): Promise<CourseDetail> {
-  const [c] = await contentDb.select().from(courses).where(and(eq(courses.slug, slug), isNull(courses.deletedAt)));
+  // checkout links by id; public pages by slug
+  const bySlugOrId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug) ? eq(courses.id, slug) : eq(courses.slug, slug);
+  const [c] = await contentDb.select().from(courses).where(and(bySlugOrId, isNull(courses.deletedAt)));
   const isOwner = !!c && c.sellerId === userId;
   if (!c || (c.status !== 'published' && !isOwner && !roles.includes('admin'))) throw notFound('কোর্সটি পাওয়া যায়নি।');
   const student = await studentContext(userId);
