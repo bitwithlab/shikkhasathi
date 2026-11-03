@@ -16,6 +16,8 @@ enum class Str(val key: String, val bn: String, val en: String) {
     // --- common ---
     CommonRetry("common.retry", "আবার চেষ্টা করুন", "Try again"),
     CommonOr("common.or", "অথবা", "or"),
+    CommonPleaseWait("common.pleaseWait", "অপেক্ষা করুন", "Please wait"),
+    CommonBack("common.back", "ফিরে যান", "Back"),
     ErrorTitle("error.title", "দুঃখিত, লোড করা গেল না", "Sorry, this didn’t load"),
     ErrorNetwork("error.network", "ইন্টারনেট সংযোগ পাওয়া যাচ্ছে না। সংযোগ দেখে আবার চেষ্টা করুন।", "No internet connection. Check your connection and try again."),
     ErrorGeneric("error.generic", "কিছু একটা ঠিকমতো হয়নি। একটু পরে আবার চেষ্টা করুন।", "Something went wrong. Please try again in a moment."),

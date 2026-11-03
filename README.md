@@ -1,39 +1,21 @@
-# ShikkhaSathi
+# ShikkhaSathi (শিক্ষাসাথী)
 
-ShikkhaSathi is organized as one deployable web platform plus a separate mobile app.
+**shikkhasathi.com** — a unified academic dashboard (Google Classroom, read-only) plus a multi-university exam-prep course marketplace for Bangladeshi students.
 
-## Main structure
+| Folder | What |
+|---|---|
+| `Web/client` | React 19 + Vite — public site, student panel (`/home` dashboard), Teacher Studio (`/teach`), Admin (`/admin`) |
+| `Web/server` | Node 22 + Fastify — REST API `/api/v1`, BullMQ worker, serves the built client |
+| `Web/shared` | Zod contracts (→ OpenAPI), enums, design tokens |
+| `App/mobile` | Kotlin + Compose Multiplatform (Android first, iOS from the same code) |
+| `infra/` | docker-compose (db-core, db-content, redis, meilisearch), Dockerfile, Caddyfile |
+| `scripts/` | token generator, bundle budget check, check-all |
+| `docs/` | all documentation — start with `docs/PROGRESS.md` and `docs/RUNBOOK.md` |
 
-- `Web/client` — public website, student dashboard, seller panel and admin panel.
-- `Web/server` — the single backend that serves the built website and exposes all APIs.
-- `Web/shared` — shared API contracts and types.
-- `App/mobile` — independent Android/iOS application source code.
-- `Reference` — design references, research and approved assets.
-- `docs` — architecture, API, database and deployment documentation.
+Quick start:
 
-## One domain and one port
+```bash
+pnpm install && cp .env.example .env && pnpm db:migrate && pnpm db:seed && pnpm dev
+```
 
-In production, the web server should serve both the frontend and API:
-
-- `/` — public website
-- `/courses/...` — marketplace/course pages
-- `/student/...` — student portal
-- `/seller/...` — seller portal
-- `/admin/...` — admin panel
-- `/api/v1/...` — API used by the website and mobile app
-
-The mobile app is built and distributed separately, but calls the same `/api/v1` backend.
-
-The server must serve the frontend build for browser routes while reserving `/api/*`
-for API routes. Configure the production server/reverse proxy to expose one public
-origin and port. Do not deploy a second public API origin unless there is a deliberate
-scaling or infrastructure reason.
-
-## Development
-
-The development setup should also expose one browser origin/port. The server can
-proxy frontend dev requests internally, or the frontend can be built and served by
-the backend. Internal processes may use different ports, but users and clients should
-use one public origin.
-
-See `docs/architecture/deployment-and-routing.md`.
+Everything runs without real credentials (Fake adapters for email, SMS, payments, video, Classroom, push, search). Add real credentials in **Admin → সেটিংস → Integrations**.

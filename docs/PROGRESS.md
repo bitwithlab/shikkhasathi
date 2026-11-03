@@ -3,8 +3,9 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 1 — Foundation
-- **Next step:** create pnpm workspace (`Web/shared`, `Web/server`, `Web/client`) + `infra/` + `scripts/`.
+- **Current phase:** 1 — Foundation (only the mobile skeleton remains) → then Phase 2 Master data
+- **Next step:** finish/verify `App/mobile` skeleton (`./gradlew :shared:desktopTest`), commit; start Phase 2 (catalog API + admin approval + onboarding screens + seed).
+- **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`) and `redis-server --daemonize yes`.
 - **Known blockers:** no Docker daemon (use local Postgres 16 + Redis, ADR-002); Android SDK not downloadable (ADR-006); Meilisearch binary not downloadable (ADR-005).
 
 ## Phase checklist
@@ -23,14 +24,15 @@ Plan:
 4. `Web/client`: Vite + React 19 + Tailwind (token preset), i18n bn/en, API client + TanStack Query, shells (Public, Student sidebar, Seller, Admin) with guards, auth screens, admin integrations screen.
 5. `App/mobile`: Gradle KMP skeleton (android, ios, src/core, shared, features), theme from tokens.
 6. `infra/docker-compose.yml`, Dockerfile, Caddyfile, GitHub Actions CI; `scripts/check-all.sh`.
-- [ ] workspace + tooling
-- [ ] shared (tokens, contracts, OpenAPI)
-- [ ] server foundation (env, app, DBs, RLS, health)
-- [ ] settings/integrations + Brevo + email queue
-- [ ] auth (OTP, email, Google) + RBAC
-- [ ] client shells + auth + admin integrations
-- [ ] mobile skeleton
-- [ ] infra + CI
+- [x] workspace + tooling (pnpm, TS strict, ESLint, Prettier)
+- [x] shared (tokens + generator, enums, contracts, OpenAPI generation, zod-free endpoint map)
+- [x] server foundation (Zod env, Fastify, contract routes + RBAC, error envelope, two Drizzle DBs, migrations, RLS deny-all + test, health/system-health)
+- [x] settings/integrations (AES-256-GCM, admin → env → default, cache, audit, test buttons) + Brevo API/SMTP/Fake + `email.send` queue + email_logs + bn/en templates
+- [x] auth: phone OTP, email+password (argon2id), Google ID token, refresh rotation + reuse detection, web cookie + CSRF, sessions list/revoke
+- [x] client: tokens → Tailwind, i18n (feature-split), API client, shells (Public, Student sidebar, Seller, Admin) + guards, Auth page, Admin Integrations + System health, landing v1
+- [ ] mobile skeleton (in progress — sub-agent)
+- [x] infra (docker-compose, Dockerfile, Caddyfile) + CI workflow + `scripts/check-all.sh`
+- [x] docs: RUNBOOK (incl. Brevo SPF/DKIM/DMARC), API, DB_SCHEMA, TESTING, PERFORMANCE
 
 ### Phase 2 — Master data
 - [ ] institutions/departments/programs/subjects API + admin approval + institution requests + seed; onboarding screens
@@ -73,4 +75,5 @@ Plan:
 - [ ] Testing mode with test users until verified
 
 ## Session log
-- **2026-11-03** — Phase 0 done: docs moved, screen map, architecture, design system, decisions. Next: Phase 1 workspace.
+- **2026-11-03** — Phase 0 done: docs moved, screen map, architecture, design system, decisions.
+- **2026-11-03** — Phase 1: workspace, shared, server foundation (55 tests green: server 30, client 21, shared 4), client shells/auth/admin integrations, infra, CI, docs. User asked to commit directly on `main` — all work now goes to `main`.
