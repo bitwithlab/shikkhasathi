@@ -3,8 +3,8 @@
 Resumable log. A new session reads **Current state** and continues from **Next step**.
 
 ## Current state
-- **Current phase:** 7 — Learning (Phases 0–6 are done)
-- **Next step:** Phase 7 server first: `modules/learning` covering playback (signed URL from the video adapter, enrolled only, device limit, watermark data), `lesson_progress` heartbeat + completion, My Courses (with progress), Q&A, reviews (enrolled only, one per course, rating aggregates), notes/bookmarks. Then web `/learn/:courseId/:lessonId` (hls.js player shell), `/my-courses`, `/notes`. Then wire `continueLearning` into the dashboard provider.
+- **Current phase:** 8 — Exam Mode & Mock Test (Phases 0–7 are done)
+- **Next step:** Phase 8 server: `modules/exam` covering exam plans (subject, exam type, date, linked courses), a study-plan generator (⭐ important first, last day = revision, recompute on progress via `exam.replan`), readiness (lessons 60% · mock 30% · flashcards 10%), syllabus checklist, flashcards, seller mock-test authoring (MCQ), timed attempts held server-side with resume, auto-submit, results with chapter breakdown. Then web `/exam-mode`, `/mock-tests`, `/mock-test/:id`, results; wire `nearestExam` and the countdown into `/home`.
 - After changing any contract run `pnpm gen:openapi` (regenerates OpenAPI + the client endpoint map; a test fails if stale).
 - **Run locally:** see `docs/RUNBOOK.md` §1. Local dev here uses the system Postgres 16 (`pg_ctlcluster 16 main start`, password `postgres`) and `redis-server --daemonize yes`. Seed: `cd Web/server && npx tsx src/database/seed/index.ts`; demo password `shikkhasathi123`.
 - **Dev payments:** with no gateway configured, checkout uses the Fake gateway. `/api/v1/payments/fake/:trxId` is a hosted page with success and fail buttons (it does not exist in production).
@@ -60,8 +60,11 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - [x] tests: 9 server integration (orders.test.ts), 3 client component (checkout.test.tsx)
 - Admin orders/refunds pages and seller earnings/coupons pages → Phase 10 (APIs exist).
 
-### Phase 7 — Learning
-- [ ] player, progress, My Courses, Q&A, reviews, wishlist, notes/bookmarks
+### Phase 7 — Learning ✅
+- [x] server `modules/learning`: outline with lock state, lesson access (active enrollment within access period / preview / owner), signed playback (≤ 2 h; device limit 3 per 30 days; single active stream with takeover), heartbeat (15 s, capped deltas, 90 % auto-complete), manual complete, course progress %, My Courses (filters), notes + bookmarks (search), lesson Q&A (notifications both ways, seller inbox), verified reviews (≥ 20 % progress, one per course, rating aggregate, seller reply once), course resource signed URLs; dashboard continue-learning is real
+- [x] web: `/learn/:courseId/:lessonId` (custom HLS player: speed, quality, low-data 360p, captions, resume, shortcuts, moving watermark; PDF + text lessons; curriculum sidebar / sheet; notes, Q&A, resources, review tabs), `/my-courses`, `/notes`
+- [x] tests: 6 server integration, 5 client
+- Wishlist was done in Phase 5. Teacher Q&A/reviews pages → Phase 10 (APIs exist).
 
 ### Phase 8 — Exam Mode & Mock Test
 - [ ] exam plan, countdown, daily plan, syllabus checklist, flashcards, timed mock test + results
@@ -91,3 +94,4 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - **2026-11-03** — Phases 3–5 done: Classroom (connect, sync, push, reminders, notifications), `/home` dashboard, `/classroom/*`; Teacher Studio server (verification, wizard API, curriculum, uploads, review queue); discovery (search + ranking, autocomplete, browse pages, course details, storefront, requests).
 - **2026-11-03** — Phase 6 done: checkout server + web (see checklist). Server 85 tests, client 63 tests green. Landing initial is 146.6 KB gzip after splitting landing i18n out. Next: Phase 7.
 - **2026-11-03** — Teacher Studio web UI done: apply/verification, dashboard, courses list, 5-step wizard with autosave + live preview, curriculum drag & drop, TUS/PDF uploads, storefront. Fixed zod-4 `.partial()` default injection with `patchOf()` (ADR-021). Seller follow-ups: `reviewNote` in the course list, a documents-delete endpoint → Phase 10.
+- **2026-11-03** — Phase 7 done: learning server + player/My Courses/Notes web. Server 92 tests, client 70. hls.js light build (87 KB, lazy, player only). Next: Phase 8.

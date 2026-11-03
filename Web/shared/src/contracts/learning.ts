@@ -120,6 +120,8 @@ export const learning = {
   progress: endpoint({ method: 'POST', path: '/lessons/:id/progress', summary: 'Heartbeat (~15 s): position + watched delta; auto-complete at 90%', tag: 'learning', auth: 'user', params: IdParams, body: ProgressBody, response: ProgressResponse }),
   complete: endpoint({ method: 'POST', path: '/lessons/:id/complete', summary: 'Mark lesson complete / not complete', tag: 'learning', auth: 'user', params: IdParams, body: z.object({ completed: z.boolean() }), response: ProgressResponse }),
 
+  document: endpoint({ method: 'GET', path: '/documents/:id/url', summary: 'Signed URL for a course resource (enrolled / owner)', tag: 'learning', auth: 'user', params: IdParams, response: z.object({ url: z.string(), title: z.string() }) }),
+
   notes: endpoint({ method: 'GET', path: '/notes', summary: 'My notes (search, course filter)', tag: 'learning', auth: 'user', query: CursorQuery.extend({ courseId: z.uuid().optional(), lessonId: z.uuid().optional(), q: z.string().max(80).optional() }), response: page(Note) }),
   createNote: endpoint({ method: 'POST', path: '/notes', summary: 'Add a timestamped note', tag: 'learning', auth: 'user', body: z.object({ lessonId: z.uuid(), timestampSec: z.number().int().min(0).nullable().optional(), body: z.string().trim().min(1).max(5000) }), response: Note, status: 201 }),
   updateNote: endpoint({ method: 'PATCH', path: '/notes/:id', summary: 'Edit note', tag: 'learning', auth: 'user', params: IdParams, body: z.object({ body: z.string().trim().min(1).max(5000) }), response: Note }),

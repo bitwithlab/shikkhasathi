@@ -39,9 +39,9 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done (real API + seed,
 | Subjects list / detail (#6) | `/subjects`, `/s/:slug` | `SubjectsScreen` | 5 | ⬜ |
 | Course request board (#14) | `/requests` | `RequestsScreen` | 5 | ⬜ |
 | Checkout + processing/success/failure (#8) | `/checkout/:courseId`, `/checkout/result` | `CheckoutScreen` | 6 | ✅ web |
-| Course player (#10) | `/learn/:courseId/:lessonId` | `PlayerScreen` | 7 | ⬜ |
-| My Courses (#9) | `/my-courses` | `MyCoursesScreen` | 7 | ⬜ |
-| Notes & bookmarks | `/notes` | `NotesScreen` | 7 | ⬜ |
+| Course player (#10) | `/learn/:courseId/:lessonId` | `PlayerScreen` | 7 | ✅ web |
+| My Courses (#9) | `/my-courses` | `MyCoursesScreen` | 7 | ✅ web |
+| Notes & bookmarks | `/notes` | `NotesScreen` | 7 | ✅ web |
 | Mock test pre/question/submit/result (#12) | `/mock-tests`, `/mock-test/:id`, `/mock-test/:id/result` | `MockTestScreen` | 8 | ⬜ |
 | Profile & settings (#20) | `/profile`, `/settings` | `ProfileScreen`, `SettingsScreen` | 3/9 | ⬜ |
 | Teacher dashboard (#15) | `/teach` | `SellerLiteScreen` | 4/10 | ⬜ |

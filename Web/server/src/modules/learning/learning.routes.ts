@@ -14,6 +14,7 @@ export async function learningRoutes(app: FastifyInstance) {
   route(app, l.progress, ({ user, params, body }) => svc.heartbeat(user.id, params.id, body), { rateLimit: { max: 20, timeWindow: '1 minute' } });
   route(app, l.complete, ({ user, params, body }) => svc.setComplete(user.id, params.id, body.completed));
 
+  route(app, l.document, ({ user, params }) => svc.documentUrl(user.id, params.id, user.roles));
   route(app, l.notes, ({ user, query }) => svc.listNotes(user.id, query));
   route(app, l.createNote, ({ user, body }) => svc.createNote(user.id, body), { rateLimit: { max: 120, timeWindow: '1 hour' } });
   route(app, l.updateNote, ({ user, params, body }) => svc.updateNote(user.id, params.id, body.body));

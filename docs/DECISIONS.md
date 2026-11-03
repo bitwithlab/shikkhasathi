@@ -78,3 +78,10 @@ Spec §6.11 "duplicate detection by (institution, subject master, exam type)". �
 
 ### ADR-021 · 2026-11-03 · PATCH schemas strip defaults (`patchOf`)
 zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field silently reset the others. All update contracts now use `patchOf(schema)`, which unwraps defaults and makes every field optional. A shared test covers it.
+
+### ADR-022 · 2026-11-03 · Playback limits, hls.js light, public names
+- **Device limit:** a Redis sorted set per user (`pd:<id>`) holds the device ids of the last 30 days, max 3. A device inactive for 30 days drops out automatically. Web uses a random id in localStorage; mobile will use its install id.
+- **One stream at a time:** each playback issues a stream token (`ps:<id>`, TTL 90 s, refreshed by the heartbeat). A new playback takes over, and the old player gets `streamActive: false`, pauses, and offers "এখানে চালান". A stream that was taken over earns no watch time.
+- **Watch time:** forward progress only, at real-time speed. Each heartbeat delta is capped at 30 s, and the total at 2× the lesson duration. The lesson completes at 90 %.
+- **hls.js light build** (87 KB gzip vs 121 KB): it fits the 100 KB chunk budget and is loaded only when the player needs MSE (Safari plays HLS natively). It drops in-manifest subtitles, alternate audio and EME. Captions will come as sidecar WebVTT `<track>`s, and DRM isn't planned (protection = signed URLs + watermark + device limit).
+- **Public names:** students appear as "first name + 2 letters." on Q&A and reviews. Teachers appear with their storefront display name.

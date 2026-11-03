@@ -671,6 +671,11 @@ export const endpoints = {
       "path": "/lessons/:id/complete",
       "auth": "user"
     },
+    "document": {
+      "method": "GET",
+      "path": "/documents/:id/url",
+      "auth": "user"
+    },
     "notes": {
       "method": "GET",
       "path": "/notes",

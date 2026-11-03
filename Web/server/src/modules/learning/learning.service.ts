@@ -332,6 +332,16 @@ export async function playback(userId: string, lessonId: string, b: { deviceId: 
   return { kind, url, expiresAt: new Date(Date.now() + PLAYBACK_TTL_SEC * 1000).toISOString(), streamToken, watermark, startAtSec: l.durationSec && pos > l.durationSec - 10 ? 0 : pos };
 }
 
+export async function documentUrl(userId: string, id: string, roles: string[]) {
+  const [d] = await contentDb.select().from(documents).where(eq(documents.id, id));
+  if (!d?.courseId) throw notFound();
+  const a = await access(userId, d.courseId, roles);
+  if (!canSeeAll(a)) throw forbidden('এই রিসোর্স দেখতে কোর্সটি কিনুন।');
+  const url = d.storageKey && d.storageBucket ? await storage().signedDownloadUrl(d.storageBucket as Bucket, d.storageKey, 900) : (d.externalUrl ?? '');
+  if (!url) throw notFound();
+  return { url, title: d.title };
+}
+
 // ---------------------------------------------------------------- notes & bookmarks
 
 async function lessonTitles(lessonIds: string[]) {
