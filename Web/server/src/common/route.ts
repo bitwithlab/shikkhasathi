@@ -1,3 +1,4 @@
+import { redis } from './redis';
 import type { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
 import type { z } from 'zod';
 import type { Endpoint } from '@shikkhasathi/shared';
@@ -40,7 +41,10 @@ export async function authenticate(req: FastifyRequest): Promise<AuthUser | unde
   if (!h) return undefined;
   const [scheme, token] = h.split(' ');
   if (scheme?.toLowerCase() !== 'bearer' || !token) throw unauthorized();
-  return verifyAccessToken(token);
+  const user = await verifyAccessToken(token);
+  // suspended accounts lose access immediately (access tokens live 15 min)
+  if (await redis().exists(`susp:${user.id}`).catch(() => 0)) throw forbidden('আপনার অ্যাকাউন্ট সাময়িকভাবে বন্ধ আছে। সাপোর্টে যোগাযোগ করুন।');
+  return user;
 }
 
 function parse<T extends z.ZodType>(schema: T | undefined, value: unknown, where: string): z.infer<T> | undefined {

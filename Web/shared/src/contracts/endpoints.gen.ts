@@ -852,5 +852,96 @@ export const endpoints = {
       "path": "/seller/courses/:courseId/flashcards",
       "auth": "seller"
     }
+  },
+  "sellerOps": {
+    "payouts": {
+      "method": "GET",
+      "path": "/seller/payouts",
+      "auth": "seller"
+    },
+    "requestPayout": {
+      "method": "POST",
+      "path": "/seller/payouts",
+      "auth": "verified_seller"
+    },
+    "students": {
+      "method": "GET",
+      "path": "/seller/students",
+      "auth": "seller"
+    },
+    "analytics": {
+      "method": "GET",
+      "path": "/seller/analytics",
+      "auth": "seller"
+    }
+  },
+  "adminOps": {
+    "payouts": {
+      "method": "GET",
+      "path": "/admin/payouts",
+      "auth": "admin"
+    },
+    "decidePayout": {
+      "method": "PATCH",
+      "path": "/admin/payouts/:id",
+      "auth": "admin"
+    },
+    "users": {
+      "method": "GET",
+      "path": "/admin/users",
+      "auth": "admin"
+    },
+    "updateUser": {
+      "method": "PATCH",
+      "path": "/admin/users/:id",
+      "auth": "admin"
+    },
+    "reports": {
+      "method": "GET",
+      "path": "/admin/reports",
+      "auth": "admin"
+    },
+    "resolveReport": {
+      "method": "PATCH",
+      "path": "/admin/reports/:id",
+      "auth": "admin"
+    },
+    "broadcasts": {
+      "method": "GET",
+      "path": "/admin/broadcasts",
+      "auth": "admin"
+    },
+    "broadcast": {
+      "method": "POST",
+      "path": "/admin/broadcasts",
+      "auth": "admin"
+    },
+    "broadcastPreview": {
+      "method": "POST",
+      "path": "/admin/broadcasts/preview",
+      "auth": "admin"
+    },
+    "emailLogs": {
+      "method": "GET",
+      "path": "/admin/email-logs",
+      "auth": "admin"
+    },
+    "audit": {
+      "method": "GET",
+      "path": "/admin/audit",
+      "auth": "admin"
+    },
+    "analytics": {
+      "method": "GET",
+      "path": "/admin/analytics",
+      "auth": "admin"
+    }
+  },
+  "reports": {
+    "create": {
+      "method": "POST",
+      "path": "/reports",
+      "auth": "user"
+    }
   }
 } as unknown as typeof C;

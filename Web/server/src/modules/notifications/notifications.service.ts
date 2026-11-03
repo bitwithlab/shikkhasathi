@@ -32,9 +32,9 @@ export const DEFAULT_CHANNELS: Record<NotificationType, NotificationChannel[]> =
 /** Never batched / silenced by quiet hours. */
 const URGENT = new Set<NotificationType>(['classroom.due_2h', 'order.paid', 'order.refunded']);
 
-async function channelsFor(userId: string, type: NotificationType) {
+async function channelsFor(userId: string, type: NotificationType, extraDefaults: NotificationChannel[] = []) {
   const rows = await coreDb.select().from(notificationPreferences).where(and(eq(notificationPreferences.userId, userId), eq(notificationPreferences.type, type)));
-  const set = new Set(DEFAULT_CHANNELS[type]);
+  const set = new Set([...DEFAULT_CHANNELS[type], ...extraDefaults]);
   for (const r of rows) {
     if (r.enabled) set.add(r.channel as NotificationChannel);
     else set.delete(r.channel as NotificationChannel);
@@ -52,11 +52,13 @@ export interface NotifyInput {
   /** Unique per (user, type, ref) — duplicates are ignored. */
   ref: string;
   email?: { template: Parameters<typeof sendEmail>[0]['template']; data: Record<string, string | number | null | undefined> };
+  /** turn email on for this notification unless the user explicitly switched it off (admin broadcasts) */
+  emailByDefault?: boolean;
 }
 
 /** Create an in-app notification (deduped) and fan out to push/email per preferences. Returns true if new. */
 export async function notify(n: NotifyInput): Promise<boolean> {
-  const channels = await channelsFor(n.userId, n.type);
+  const channels = await channelsFor(n.userId, n.type, n.emailByDefault ? ['email'] : []);
   const dedupeKey = `${n.userId}:${n.type}:${n.ref}`;
   const [row] = await coreDb
     .insert(notifications)

@@ -89,3 +89,11 @@ zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field 
 ### ADR-023 · 2026-11-03 · Study plan computed on read; attempts held on the server
 - The daily plan is **recomputed on every read** from current progress instead of being stored. It's cheap (one course outline), always reflects progress (spec: "recomputes when progress changes"), and needs no migration. Lessons finished today stay ticked in today's list, so the checklist doesn't jump around. `readiness` is stored, so the dashboard reads one column.
 - Mock attempts live on the server. Question order is shuffled per attempt; option order is shuffled deterministically by attempt id, so resume keeps the same order. Correct answers are never sent before submit. Any read after the deadline plus 30 s grace auto-submits the attempt.
+
+### ADR-024 · 2026-11-03 · Payouts, suspension, moderation, broadcasts
+- **Payouts:** a request holds the amount out of `available` until it is resolved. The ledger is debited (`payout:<id>`) only when the admin marks it paid with a transfer reference. Only one open request is allowed at a time, the minimum is `min_payout_bdt` (default ৳500), and every transition is audited.
+- **Suspension:** the account's sessions are revoked, and a Redis key `susp:<id>` (20 min, longer than any access token) makes `authenticate` reject tokens already issued. Role changes also end sessions, because roles live in the JWT.
+- **Moderation:** hiding a target resolves every open report on it. Hiding a review recomputes the course rating. Hiding a course unlists it, and hiding a user suspends them. Restore reverses the change.
+- **Broadcasts:** delivered through `notify` (dedupe key per broadcast). Email is on by default for that broadcast unless the user has explicitly switched broadcast email off. History is kept in `audit_logs` (`broadcast.send`).
+- **Audit log API** redacts keys that look like secrets (`*key*`, `*secret*`, `*token*`, `*password*`, `*otp*`).
+- **Known demo gap:** seeded courses carry demo rating totals without review rows. The first real review recomputes the totals from rows, so a seeded course can drop from "4.8 (340)" to "(1)". Phase 12 seeds real review rows.
