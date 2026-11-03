@@ -1,9 +1,13 @@
 package com.shikkhasathi.core.common
 
+import com.shikkhasathi.core.datastore.InstallId
+import com.shikkhasathi.core.datastore.KeyValueStore
 import com.shikkhasathi.core.datastore.KeychainTokenStore
 import com.shikkhasathi.core.datastore.TokenStore
 import com.shikkhasathi.core.model.ClientPlatform
 import com.shikkhasathi.core.model.DeviceInfo
+import com.shikkhasathi.core.player.AvMediaPlayer
+import com.shikkhasathi.core.player.MediaPlayerFactory
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.dsl.module
@@ -13,5 +17,15 @@ actual fun corePlatformModule() =
     module {
         single<HttpClientEngine> { Darwin.create() }
         single<TokenStore> { KeychainTokenStore() }
-        single { DeviceInfo(platform = ClientPlatform.Ios, deviceName = UIDevice.currentDevice.model.take(DeviceInfo.MAX_NAME_LENGTH)) }
+        single<KeyValueStore> { UserDefaultsKeyValueStore() }
+        single { InstallId(get()) }
+        single {
+            DeviceInfo(
+                platform = ClientPlatform.Ios,
+                deviceName = UIDevice.currentDevice.model.take(DeviceInfo.MAX_NAME_LENGTH),
+                deviceId = get<InstallId>().value,
+            )
+        }
+        single<ExternalBrowser> { IosExternalBrowser() }
+        single { MediaPlayerFactory { AvMediaPlayer() } }
     }

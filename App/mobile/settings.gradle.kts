@@ -76,6 +76,8 @@ include(":shared")
 if (ssAndroid) {
     check(ssCompose) { "ss.android=true requires ss.compose=true (the app hosts the Compose UI)." }
     include(":android")
+    // Macrobenchmark module that generates the Baseline + Startup profile on a device (docs/MOBILE_NOTES.md).
+    include(":baselineprofile")
 }
 
 println("ShikkhaSathi: ss.android=$ssAndroid, ss.compose=$ssCompose")

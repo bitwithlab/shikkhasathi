@@ -25,7 +25,7 @@ object SsLightColors {
     val surface = Color(0xFFFFFFFF)
     val surface2 = Color(0xFFF1F5F9)
     val text = Color(0xFF0F172A)
-    val muted = Color(0xFF64748B)
+    val muted = Color(0xFF556479)
     val border = Color(0xFFE2E8F0)
     val borderStrong = Color(0xFFCBD5E1)
 }

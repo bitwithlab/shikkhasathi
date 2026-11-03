@@ -17,6 +17,7 @@ import io.ktor.client.request.HttpResponseData
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
@@ -141,7 +142,9 @@ class ApiClientTest {
                         else -> json(unauthorized, HttpStatusCode.Unauthorized)
                     }
                 }
-            val expired = async { api.sessionExpired.first() }
+            // Subscribe before the call: the refresh runs on the engine's thread and may finish before a lazily
+            // dispatched `async` starts collecting (the expiry signal has no replay).
+            val expired = async(start = CoroutineStart.UNDISPATCHED) { api.sessionExpired.first() }
 
             val e = assertFailsWith<ApiException> { api.get<Me>("me") }
 

@@ -9,6 +9,12 @@ import io.ktor.http.encodeURLParameter
 fun withQuery(
     path: String,
     vararg params: Pair<String, Any?>,
+): String = withQuery(path, params.asList())
+
+/** List form of [withQuery] (no array copy when the parameters are built as a list). */
+fun withQuery(
+    path: String,
+    params: List<Pair<String, Any?>>,
 ): String {
     val query =
         params

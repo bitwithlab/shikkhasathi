@@ -448,6 +448,7 @@ fun RecommendationsWidget(
     widget: Widget<List<RecommendedCourse>>,
     onExplore: () -> Unit,
     onRetry: () -> Unit,
+    onOpenCourse: (slug: String) -> Unit = { onExplore() },
 ) {
     when (widget) {
         Widget.Hidden, Widget.Loading -> Unit
@@ -465,7 +466,7 @@ fun RecommendationsWidget(
                     contentPadding = PaddingValues(horizontal = SsSpace.s4),
                     horizontalArrangement = Arrangement.spacedBy(SsSpace.s3),
                 ) {
-                    items(widget.data, key = { it.id }) { course -> SmallCourseCard(course, onClick = onExplore) }
+                    items(widget.data, key = { it.id }) { course -> SmallCourseCard(course, onClick = { onOpenCourse(course.slug) }) }
                 }
             }
         }

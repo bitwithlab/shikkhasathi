@@ -35,16 +35,16 @@ import com.shikkhasathi.core.designsystem.t
 import com.shikkhasathi.core.i18n.Str
 import com.shikkhasathi.core.model.BdPhone
 import com.shikkhasathi.core.model.Me
-import com.shikkhasathi.features.auth.data.AuthRepository
+import com.shikkhasathi.features.auth.data.SignOut
 import com.shikkhasathi.shared.ui.ScreenHeader
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
-/** Phase 1 profile: identity card (initials avatar, never a stock photo) + sign out. */
+/** Profile: identity card (initials avatar, never a stock photo) + sign out (unregisters push, wipes downloads). */
 @Composable
 fun ProfileScreen(
     user: Me,
-    repository: AuthRepository = koinInject(),
+    signOut: SignOut = koinInject(),
 ) {
     val palette = SsTheme.palette
     val scope = rememberCoroutineScope()
@@ -72,7 +72,7 @@ fun ProfileScreen(
                 loading = signingOut,
                 onClick = {
                     signingOut = true
-                    scope.launch { repository.logout() }
+                    scope.launch { signOut() }
                 },
             )
         }

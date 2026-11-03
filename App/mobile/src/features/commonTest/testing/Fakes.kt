@@ -168,8 +168,18 @@ class FakeNotificationsRepository(
 
     override suspend fun updatePreferences(items: List<PreferenceRow>): List<PreferenceRow> = items
 
+    val pushCalls = mutableListOf<String>()
+    var pushError: ApiException? = null
+
     override suspend fun registerPush(
         platform: ClientPlatform,
         token: String,
-    ) = Unit
+    ) {
+        pushCalls += "register:${platform.name}:$token"
+        pushError?.let { throw it }
+    }
+
+    override suspend fun unregisterPush(token: String) {
+        pushCalls += "unregister:$token"
+    }
 }

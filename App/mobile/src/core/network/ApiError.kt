@@ -34,6 +34,7 @@ data class ApiError(
         const val NOT_FOUND = "NOT_FOUND"
         const val CONFLICT = "CONFLICT"
         const val RATE_LIMITED = "RATE_LIMITED"
+        const val PAYMENT_FAILED = "PAYMENT_FAILED"
         const val INTEGRATION_DISABLED = "INTEGRATION_DISABLED"
         const val CLASSROOM_REAUTH = "CLASSROOM_REAUTH"
         const val CLASSROOM_WORKSPACE_BLOCKED = "CLASSROOM_WORKSPACE_BLOCKED"

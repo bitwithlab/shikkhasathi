@@ -261,3 +261,8 @@ data class PushTokenBody(
     val platform: ClientPlatform,
     val token: String,
 )
+
+@Serializable
+data class PushTokenDeleteBody(
+    val token: String,
+)

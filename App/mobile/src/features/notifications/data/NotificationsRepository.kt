@@ -8,6 +8,7 @@ import com.shikkhasathi.core.model.OkResponse
 import com.shikkhasathi.core.model.Page
 import com.shikkhasathi.core.model.PreferenceRow
 import com.shikkhasathi.core.model.PushTokenBody
+import com.shikkhasathi.core.model.PushTokenDeleteBody
 import com.shikkhasathi.core.model.UnreadCount
 import com.shikkhasathi.core.network.ApiClient
 import com.shikkhasathi.core.network.withQuery
@@ -36,6 +37,9 @@ interface NotificationsRepository {
         platform: ClientPlatform,
         token: String,
     )
+
+    /** `DELETE /me/push-tokens` — called before signing out so this phone stops getting the account's pushes. */
+    suspend fun unregisterPush(token: String)
 
     companion object {
         const val DEFAULT_PAGE = 20
@@ -69,5 +73,9 @@ class ApiNotificationsRepository(private val api: ApiClient) : NotificationsRepo
         token: String,
     ) {
         api.post<PushTokenBody, OkResponse>("me/push-tokens", PushTokenBody(platform, token))
+    }
+
+    override suspend fun unregisterPush(token: String) {
+        api.deleteWithBody<PushTokenDeleteBody, OkResponse>("me/push-tokens", PushTokenDeleteBody(token))
     }
 }

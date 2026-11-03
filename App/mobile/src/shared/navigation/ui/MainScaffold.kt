@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -40,27 +41,51 @@ import com.shikkhasathi.core.designsystem.SsTheme
 import com.shikkhasathi.core.designsystem.t
 import com.shikkhasathi.core.i18n.Str
 import com.shikkhasathi.core.model.Me
+import com.shikkhasathi.features.checkout.ui.CheckoutResultScreen
+import com.shikkhasathi.features.checkout.ui.CheckoutScreen
 import com.shikkhasathi.features.classroom.ui.AssignmentsScreen
 import com.shikkhasathi.features.classroom.ui.CalendarScreen
 import com.shikkhasathi.features.classroom.ui.ClassStreamScreen
 import com.shikkhasathi.features.classroom.ui.ClassroomScreen
+import com.shikkhasathi.features.downloads.ui.DownloadsScreen
+import com.shikkhasathi.features.exam.ui.ExamModeScreen
+import com.shikkhasathi.features.exam.ui.ExamNavigation
+import com.shikkhasathi.features.exam.ui.FlashcardsScreen
+import com.shikkhasathi.features.exam.ui.MockAttemptScreen
+import com.shikkhasathi.features.exam.ui.MockResultScreen
+import com.shikkhasathi.features.exam.ui.MockTestsScreen
+import com.shikkhasathi.features.explore.ui.CourseDetailScreen
+import com.shikkhasathi.features.explore.ui.ExploreScreen
 import com.shikkhasathi.features.home.ui.HomeNavigation
 import com.shikkhasathi.features.home.ui.HomeScreen
+import com.shikkhasathi.features.learning.ui.MyCoursesScreen
+import com.shikkhasathi.features.learning.ui.NotesScreen
+import com.shikkhasathi.features.learning.ui.PlayerScreen
 import com.shikkhasathi.features.notifications.ui.NotificationsScreen
 import com.shikkhasathi.features.placeholder.ui.PlaceholderScreens
 import com.shikkhasathi.features.profile.ui.ProfileScreen
+import com.shikkhasathi.shared.navigation.AppLinkBus
 import com.shikkhasathi.shared.navigation.AssignmentsRoute
 import com.shikkhasathi.shared.navigation.CalendarRoute
+import com.shikkhasathi.shared.navigation.CheckoutResultRoute
+import com.shikkhasathi.shared.navigation.CheckoutRoute
 import com.shikkhasathi.shared.navigation.ClassStreamRoute
 import com.shikkhasathi.shared.navigation.ClassroomRoute
+import com.shikkhasathi.shared.navigation.CourseDetailRoute
+import com.shikkhasathi.shared.navigation.DownloadsRoute
 import com.shikkhasathi.shared.navigation.DrawerDestination
 import com.shikkhasathi.shared.navigation.ExamModeRoute
+import com.shikkhasathi.shared.navigation.ExamPlanRoute
 import com.shikkhasathi.shared.navigation.ExploreRoute
+import com.shikkhasathi.shared.navigation.FlashcardsRoute
 import com.shikkhasathi.shared.navigation.HomeRoute
+import com.shikkhasathi.shared.navigation.MockAttemptRoute
+import com.shikkhasathi.shared.navigation.MockResultRoute
 import com.shikkhasathi.shared.navigation.MockTestsRoute
 import com.shikkhasathi.shared.navigation.MyCoursesRoute
 import com.shikkhasathi.shared.navigation.NotesRoute
 import com.shikkhasathi.shared.navigation.NotificationsRoute
+import com.shikkhasathi.shared.navigation.PlayerRoute
 import com.shikkhasathi.shared.navigation.ProfileRoute
 import com.shikkhasathi.shared.navigation.RequestsRoute
 import com.shikkhasathi.shared.navigation.SettingsRoute
@@ -70,6 +95,7 @@ import com.shikkhasathi.shared.navigation.TopDestination
 import com.shikkhasathi.shared.navigation.WEB_ORIGIN
 import com.shikkhasathi.shared.navigation.routeForLink
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 /** Signed-in shell: bottom bar হোম · ক্লাসরুম · কোর্স · Exam · প্রোফাইল + a drawer opened from the home header. */
 @Composable
@@ -174,7 +200,8 @@ private fun SsNavHost(
 ) {
     val back: () -> Unit = { nav.popBackStack() }
     val uri = LocalUriHandler.current
-    // API links are web paths (`/classroom/assignments?id=…`): open the matching screen, else the website.
+    // API links are web paths (`/classroom/assignments?id=…`), App Links are full URLs: open the matching
+    // screen, else the website.
     val openLink: (String) -> Unit = { link ->
         val route = routeForLink(link)
         when {
@@ -183,6 +210,30 @@ private fun SsNavHost(
             else -> nav.navigate(route) { launchSingleTop = true }
         }
     }
+    val openPlayer: (String, String?) -> Unit = { courseId, lessonId ->
+        nav.navigate(PlayerRoute(courseId, lessonId)) {
+            launchSingleTop =
+                true
+        }
+    }
+    val openCourse: (String) -> Unit = { slug -> nav.navigate(CourseDetailRoute(slug)) { launchSingleTop = true } }
+    val examNavigation =
+        ExamNavigation(
+            openLesson = openPlayer,
+            openMock = { testId -> nav.navigate(MockAttemptRoute(testId)) },
+            openFlashcards = { planId -> nav.navigate(FlashcardsRoute(planId)) },
+            openMockTests = { nav.navigate(MockTestsRoute) { launchSingleTop = true } },
+        )
+
+    // Links from outside the UI (App Links, push taps, payment return): handled once the shell is up.
+    val links = koinInject<AppLinkBus>()
+    LaunchedEffect(links) {
+        links.pending.collect { link ->
+            links.consumed()
+            openLink(link)
+        }
+    }
+
     NavHost(navController = nav, startDestination = HomeRoute, modifier = Modifier.padding(padding)) {
         composable<HomeRoute> {
             HomeScreen(
@@ -192,8 +243,9 @@ private fun SsNavHost(
                     openAssignments = { nav.navigate(AssignmentsRoute()) { launchSingleTop = true } },
                     openCalendar = { nav.navigate(CalendarRoute) { launchSingleTop = true } },
                     openExamMode = { nav.navigateTopLevel(ExamModeRoute) },
-                    openMyCourses = { nav.navigateTopLevel(MyCoursesRoute) },
+                    openMyCourses = { course -> openPlayer(course.courseId, course.lastLessonId) },
                     exploreCourses = { nav.navigate(ExploreRoute) },
+                    openCourse = openCourse,
                 ),
             )
         }
@@ -212,12 +264,69 @@ private fun SsNavHost(
             AssignmentsScreen(courseId = entry.toRoute<AssignmentsRoute>().courseId, onBack = back)
         }
         composable<CalendarRoute> { CalendarScreen(onBack = back, onOpenLink = openLink) }
-        composable<MyCoursesRoute> { PlaceholderScreens.MyCourses(onExplore = { nav.navigate(ExploreRoute) }) }
-        composable<ExamModeRoute> { PlaceholderScreens.ExamMode() }
+        composable<MyCoursesRoute> { MyCoursesScreen(onResume = openPlayer, onExplore = { nav.navigate(ExploreRoute) }) }
+        composable<ExamModeRoute> { ExamModeScreen(planId = null, navigation = examNavigation) }
+        composable<ExamPlanRoute> { entry ->
+            ExamModeScreen(planId = entry.toRoute<ExamPlanRoute>().planId, navigation = examNavigation.copy(onBack = back))
+        }
+        composable<FlashcardsRoute> { entry -> FlashcardsScreen(planId = entry.toRoute<FlashcardsRoute>().planId, onBack = back) }
         composable<ProfileRoute> { ProfileScreen(user = user) }
-        composable<ExploreRoute> { PlaceholderScreens.Explore(onBack = back) }
-        composable<MockTestsRoute> { PlaceholderScreens.MockTests(onBack = back) }
-        composable<NotesRoute> { PlaceholderScreens.Notes(onBack = back) }
+        composable<ExploreRoute> { ExploreScreen(onBack = back, onOpenCourse = openCourse, onOpenLink = openLink) }
+        composable<CourseDetailRoute> { entry ->
+            CourseDetailScreen(
+                slug = entry.toRoute<CourseDetailRoute>().slug,
+                onBack = back,
+                onCheckout = { courseId, slug -> nav.navigate(CheckoutRoute(courseId, slug)) },
+                onLearn = openPlayer,
+            )
+        }
+        composable<CheckoutRoute> { entry ->
+            CheckoutScreen(
+                route = entry.toRoute<CheckoutRoute>(),
+                onBack = back,
+                onStartLearning = { path ->
+                    nav.popBackStack()
+                    openLink(path ?: "/my-courses")
+                },
+            )
+        }
+        composable<CheckoutResultRoute> { entry ->
+            CheckoutResultScreen(
+                route = entry.toRoute<CheckoutResultRoute>(),
+                onBack = back,
+                onStartLearning = { path ->
+                    nav.popBackStack()
+                    openLink(path ?: "/my-courses")
+                },
+                onMyCourses = { nav.navigateTopLevel(MyCoursesRoute) },
+            )
+        }
+        composable<PlayerRoute> { entry -> PlayerScreen(route = entry.toRoute<PlayerRoute>(), onBack = back) }
+        composable<MockTestsRoute> {
+            MockTestsScreen(
+                onBack = back,
+                onStart = { testId, attemptId -> nav.navigate(MockAttemptRoute(testId, attemptId)) },
+                onExplore = { nav.navigate(ExploreRoute) },
+            )
+        }
+        composable<MockAttemptRoute> { entry ->
+            MockAttemptScreen(
+                route = entry.toRoute<MockAttemptRoute>(),
+                onBack = back,
+                onFinished = { attemptId ->
+                    nav.navigate(MockResultRoute(attemptId)) { popUpTo<MockAttemptRoute> { inclusive = true } }
+                },
+            )
+        }
+        composable<MockResultRoute> { entry ->
+            MockResultScreen(
+                attemptId = entry.toRoute<MockResultRoute>().attemptId,
+                onBack = back,
+                onRetake = { testId -> nav.navigate(MockAttemptRoute(testId)) { popUpTo<MockResultRoute> { inclusive = true } } },
+            )
+        }
+        composable<NotesRoute> { NotesScreen(onBack = back, onOpenLesson = openPlayer) }
+        composable<DownloadsRoute> { DownloadsScreen(onBack = back, onOpenLesson = openPlayer) }
         composable<RequestsRoute> { PlaceholderScreens.Requests(onBack = back) }
         composable<NotificationsRoute> { NotificationsScreen(onBack = back, onOpenLink = openLink) }
         composable<SettingsRoute> { PlaceholderScreens.Settings(onBack = back) }

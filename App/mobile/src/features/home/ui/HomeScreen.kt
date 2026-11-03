@@ -76,6 +76,8 @@ data class HomeNavigation(
     val openExamMode: () -> Unit,
     val openMyCourses: (ContinueWidget) -> Unit,
     val exploreCourses: () -> Unit,
+    /** A recommended course → its page (`/c/:slug`). */
+    val openCourse: (slug: String) -> Unit = { exploreCourses() },
 )
 
 /**
@@ -176,7 +178,12 @@ fun HomeContent(
                         }
                         item(key = "week") { WeekWidget(state.week, onOpenCalendar = navigation.openCalendar, onRetry = onRetry) }
                         item(key = "recommendations") {
-                            RecommendationsWidget(state.recommendations, onExplore = navigation.exploreCourses, onRetry = onRetry)
+                            RecommendationsWidget(
+                                state.recommendations,
+                                onExplore = navigation.exploreCourses,
+                                onOpenCourse = navigation.openCourse,
+                                onRetry = onRetry,
+                            )
                         }
                     }
                 }

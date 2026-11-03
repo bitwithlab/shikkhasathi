@@ -126,6 +126,18 @@ class ApiClient(
 
     suspend inline fun <reified T> delete(path: String): T = decode(send(HttpMethod.Delete, path, authenticated = true) {})
 
+    /** DELETE with a JSON body (`DELETE /me/push-tokens { token }`). */
+    suspend inline fun <reified B : Any, reified T> deleteWithBody(
+        path: String,
+        body: B,
+    ): T =
+        decode(
+            send(HttpMethod.Delete, path, authenticated = true) {
+                contentType(ContentType.Application.Json)
+                setBody(body)
+            },
+        )
+
     /** Sends a request, transparently refreshing the access token once on `401`. */
     suspend fun send(
         method: HttpMethod,

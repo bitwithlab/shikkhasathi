@@ -115,6 +115,9 @@ kotlin {
                     implementation(libs.play.services.auth)
                     // ActivityResultLauncher for the consent screen (GoogleAuthorizationBridge).
                     implementation(libs.androidx.activity.compose)
+                    // Lesson player: ExoPlayer + HLS (core/androidMain/player/ExoMediaPlayer.kt).
+                    implementation(libs.media3.exoplayer)
+                    implementation(libs.media3.exoplayer.hls)
                 }
             }
         }

@@ -375,6 +375,309 @@ enum class Str(val key: String, val bn: String, val en: String) {
         "Editing your academic details and profile arrives in the next update."
     ),
     ProfileLogout("profile.logout", "লগ আউট", "Sign out"),
+
+    // --- Phase 11 (keys shared with the web catalogue where the web has them) ---
+    NavDownloads("nav.downloads", "ডাউনলোড", "Downloads"),
+    DurationMinutes("duration.minutes", "{{n}} মিনিট", "{{n}} min"),
+    DurationHours("duration.hours", "{{n}} ঘণ্টা", "{{n}} h"),
+    DurationHoursMinutes("duration.hoursMinutes", "{{h}} ঘণ্টা {{m}} মিনিট", "{{h}} h {{m}} min"),
+    SizeKb("size.kb", "{{n}} KB", "{{n}} KB"),
+    SizeMb("size.mb", "{{n}} MB", "{{n}} MB"),
+    SizeGb("size.gb", "{{n}} GB", "{{n}} GB"),
+    CheckoutCouponTooShort("checkout.couponTooShort", "কুপন কোডটি পুরো লিখুন", "Enter the full coupon code"),
+    CheckoutCouponInvalid("checkout.couponInvalid", "এই কুপনটি এই কোর্সে চলবে না", "This coupon doesn’t work for this course"),
+    CheckoutFailedBody(
+        "checkout.failedBody",
+        "পেমেন্ট সম্পন্ন হয়নি। টাকা কাটা হলে ২৪ ঘণ্টার মধ্যে ফেরত যাবে — আবার চেষ্টা করতে পারেন।",
+        "The payment didn’t go through. If money was deducted it returns within 24 hours — you can try again."
+    ),
+    CheckoutBrowserMissing(
+        "checkout.browserMissing",
+        "পেমেন্ট পেজ খোলা যায়নি। ফোনে একটি ব্রাউজার (যেমন Chrome) চালু আছে কিনা দেখুন।",
+        "Couldn’t open the payment page. Check that a browser (e.g. Chrome) is installed."
+    ),
+    PlayerLocked("player.locked", "এই লেসন দেখতে কোর্সটি কিনুন", "Buy the course to watch this lesson"),
+    PlayerNoLessons("player.noLessons", "এই কোর্সে এখনো কোনো লেসন নেই", "This course has no lessons yet"),
+    PlayerVideoError(
+        "player.videoError",
+        "ভিডিওটি চালানো যাচ্ছে না। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
+        "The video won’t play. Check your connection and try again."
+    ),
+    NotesBookmarked("notes.bookmarked", "বুকমার্ক করা হয়েছে", "Bookmarked"),
+    QaTooShort("qa.tooShort", "প্রশ্নটা একটু খুলে লিখুন (অন্তত ৫ অক্ষর)", "Write a little more (at least 5 characters)"),
+    QaAsked("qa.asked", "প্রশ্ন পাঠানো হয়েছে — উত্তর এলে নোটিফিকেশন পাবেন", "Question sent — you’ll be notified when it’s answered"),
+    ExamPlanCreated("exam.planCreated", "পরীক্ষার প্ল্যান তৈরি হয়েছে", "Exam plan created"),
+    ExamFormSubjectRequired("exam.form.subjectRequired", "বিষয়ের নাম লিখুন", "Enter the subject name"),
+    ExamFormTypeRequired("exam.form.typeRequired", "পরীক্ষার ধরন বেছে নিন", "Choose the exam type"),
+    ExamFormDateRequired("exam.form.dateRequired", "পরীক্ষার তারিখ দিন", "Pick the exam date"),
+    ExamFormDatePast("exam.form.datePast", "তারিখটি আজ বা পরের কোনো দিন হতে হবে", "The date must be today or later"),
+    MockAutoSubmitted("mt.autoSubmitted", "সময় শেষ — উত্তরগুলো স্বয়ংক্রিয়ভাবে জমা হয়েছে", "Time’s up — your answers were submitted"),
+    DownloadStarted("download.started", "ডাউনলোড শুরু হয়েছে — ডাউনলোড পেজে দেখুন", "Download started — see Downloads"),
+    DownloadUnavailable("download.unavailable", "এই লেসনটি এখন অফলাইনে রাখা যাচ্ছে না", "This lesson can’t be saved offline right now"),
+
+    // --- common (Phase 11) ---
+    CommonCancel("common.cancel", "বাতিল", "Cancel"),
+    CommonDelete("common.delete", "মুছুন", "Delete"),
+    CommonEdit("common.edit", "সম্পাদনা", "Edit"),
+    CommonOk("common.ok", "ঠিক আছে", "OK"),
+    CommonSave("common.save", "সেভ করুন", "Save"),
+    BrandDisclaimerUniversity(
+        "brand.disclaimerUniversity",
+        "কোনো বিশ্ববিদ্যালয়ের সঙ্গে অফিসিয়ালি যুক্ত নয়",
+        "Not officially affiliated with any university"
+    ),
+    NavMyCourses("nav.myCourses", "আমার কোর্স", "My courses"),
+    NavExamMode("nav.examMode", "Exam Mode", "Exam Mode"),
+
+    // --- explore + course page ---
+    ExploreSearchPlaceholder(
+        "explore.searchPlaceholder",
+        "বিষয়, কোর্স কোড বা শিক্ষক (যেমন CSE-2203)",
+        "Subject, course code or teacher (e.g. CSE-2203)"
+    ),
+    ExploreClear("explore.clear", "খোঁজা মুছুন", "Clear search"),
+    ExploreInterpreted("explore.interpreted", "“{{term}}” মানে ধরে নিচ্ছি: {{meaning}}", "Treating “{{term}}” as: {{meaning}}"),
+    ExploreResultCount("explore.resultCount", "{{n}}টি কোর্স", "{{n}} courses"),
+    ExploreNoResultsTitle("explore.noResults.title", "মিলে যায় এমন কোর্স পাওয়া যায়নি", "No matching courses"),
+    ExploreNoResultsBody(
+        "explore.noResults.body",
+        "কোর্স কোড বা বিষয়ের নাম অন্যভাবে লিখে দেখুন। না পেলে কোর্স অনুরোধ করুন — শিক্ষকরা অনুরোধ দেখে কোর্স বানান।",
+        "Try the course code or subject name another way. Still nothing? Request the course — teachers build from requests."
+    ),
+    SuggestInstitution("explore.suggest.institution", "ইউনিভার্সিটি", "University"),
+    SuggestSubject("explore.suggest.subject", "বিষয়", "Subject"),
+    SuggestCode("explore.suggest.code", "কোর্স কোড", "Course code"),
+    SuggestTeacher("explore.suggest.teacher", "শিক্ষক", "Teacher"),
+    SuggestCourse("explore.suggest.course", "কোর্স", "Course"),
+    SortBest("sort.best", "সবচেয়ে মানানসই", "Best match"),
+    SortNewest("sort.newest", "নতুন", "Newest"),
+    SortRating("sort.rating", "রেটিং", "Top rated"),
+    SortPriceAsc("sort.priceAsc", "দাম: কম থেকে বেশি", "Price: low to high"),
+    SortPriceDesc("sort.priceDesc", "দাম: বেশি থেকে কম", "Price: high to low"),
+    SortPopular("sort.popular", "জনপ্রিয়", "Popular"),
+    CourseFree("course.free", "ফ্রি", "Free"),
+    CourseRating("course.rating", "{{avg}} ({{n}})", "{{avg}} ({{n}})"),
+    CourseStudents("course.students", "{{n}} জন শিক্ষার্থী", "{{n}} students"),
+    CourseLessonsLength("course.lessonsLength", "{{n}}টি লেসন · {{length}}", "{{n}} lessons · {{length}}"),
+    CourseLearnings("course.learnings", "যা শিখবেন", "What you’ll learn"),
+    CourseCurriculum("course.curriculum", "কোর্সের সূচি", "Curriculum"),
+    CourseResources("course.resources", "কোর্সে যা যা আছে", "What’s included"),
+    CourseNotFor("course.notFor", "এই কোর্স কাদের জন্য নয়", "Who this course is not for"),
+    CourseFaq("course.faq", "সাধারণ প্রশ্ন", "FAQ"),
+    CourseExamDisclaimer(
+        "course.examDisclaimer",
+        "“সম্ভাব্য গুরুত্বপূর্ণ টপিক” শিক্ষকের অভিজ্ঞতা থেকে বাছাই করা — পরীক্ষায় আসবেই এমন নিশ্চয়তা নেই।",
+        "“Likely important topics” are picked from the teacher’s experience — not a guarantee of what the exam will ask."
+    ),
+    CourseBuy("course.buy", "কোর্সটি কিনুন", "Buy course"),
+    CourseEnrollFree("course.enrollFree", "ফ্রি-তে এনরোল করুন", "Enroll for free"),
+    CourseStart("course.start", "পড়া শুরু করুন", "Start learning"),
+    CoursePreviewOwn("course.previewOwn", "নিজের কোর্স দেখুন", "Preview your course"),
+    CourseWishlistAdd("course.wishlistAdd", "পরে দেখার জন্য সেভ করুন", "Save for later"),
+    CourseWishlistRemove("course.wishlistRemove", "সেভ থেকে সরান", "Remove from saved"),
+    ResourceVideos("course.res.videos", "{{n}}টি ভিডিও লেসন", "{{n}} video lessons"),
+    ResourceNotes("course.res.notes", "{{n}}টি PDF নোট", "{{n}} PDF notes"),
+    ResourcePreviousQuestions("course.res.previousQuestions", "আগের বছরের প্রশ্ন: {{years}}", "Previous questions: {{years}}"),
+    ResourceMockTests("course.res.mockTests", "{{n}}টি মক টেস্ট", "{{n}} mock tests"),
+    ResourceFlashcards("course.res.flashcards", "{{n}}টি ফ্ল্যাশকার্ড", "{{n}} flashcards"),
+    LessonImportant("lesson.important", "সম্ভাব্য গুরুত্বপূর্ণ", "Likely important"),
+    LessonPreview("lesson.preview", "ফ্রি প্রিভিউ", "Free preview"),
+    LessonLocked("lesson.locked", "কোর্সটি কিনলে খুলবে", "Unlocks with the course"),
+
+    // --- checkout ---
+    CheckoutTitle("checkout.title", "পেমেন্ট", "Checkout"),
+    CheckoutSubtotal("checkout.subtotal", "কোর্সের দাম", "Price"),
+    CheckoutDiscount("checkout.discount", "কুপন ছাড়", "Coupon discount"),
+    CheckoutTotal("checkout.total", "মোট", "Total"),
+    CheckoutCouponLabel("checkout.couponLabel", "কুপন কোড", "Coupon code"),
+    CheckoutCouponApply("checkout.couponApply", "প্রয়োগ করুন", "Apply"),
+    CheckoutCouponApplied("checkout.couponApplied", "{{code}} প্রয়োগ হয়েছে — {{amount}} ছাড়", "{{code}} applied — {{amount}} off"),
+    CheckoutCouponRemove("checkout.couponRemove", "সরান", "Remove"),
+    CheckoutMethod("checkout.method", "কীভাবে পেমেন্ট করবেন?", "How would you like to pay?"),
+    PayBkash("checkout.pay.bkash", "বিকাশ", "bKash"),
+    PayNagad("checkout.pay.nagad", "নগদ", "Nagad"),
+    PayRocket("checkout.pay.rocket", "রকেট", "Rocket"),
+    PayCard("checkout.pay.card", "ডেবিট / ক্রেডিট কার্ড", "Debit / credit card"),
+    CheckoutPay("checkout.pay", "{{amount}} পেমেন্ট করুন", "Pay {{amount}}"),
+    CheckoutSecureNote(
+        "checkout.secureNote",
+        "পেমেন্ট হবে গেটওয়ের নিরাপদ পেজে — আপনার পিন বা কার্ডের তথ্য শিক্ষাসাথী কখনো দেখে না।",
+        "You pay on the gateway’s secure page — ShikkhaSathi never sees your PIN or card details."
+    ),
+    CheckoutRefundNote(
+        "checkout.refundNote",
+        "কেনার ৪৮ ঘণ্টার মধ্যে আর ২০%-এর কম দেখা হলে রিফান্ড চাইতে পারবেন।",
+        "You can ask for a refund within 48 hours if you’ve watched less than 20%."
+    ),
+    CheckoutWaitingTitle("checkout.waitingTitle", "পেমেন্ট শেষ হওয়ার অপেক্ষায়", "Waiting for the payment"),
+    CheckoutWaitingBody(
+        "checkout.waitingBody",
+        "গেটওয়ে পেজে পেমেন্ট শেষ করে এই অ্যাপে ফিরে আসুন — আমরা নিজে থেকেই যাচাই করে কোর্স খুলে দেব।",
+        "Finish paying on the gateway page and come back — we’ll verify it and unlock the course automatically."
+    ),
+    CheckoutCheckAgain("checkout.checkAgain", "আবার যাচাই করুন", "Check again"),
+    CheckoutChangeMethod("checkout.changeMethod", "অন্যভাবে পেমেন্ট করুন", "Pay another way"),
+    CheckoutVerifying("checkout.verifying", "পেমেন্ট যাচাই হচ্ছে…", "Verifying the payment…"),
+    CheckoutPendingTitle("checkout.pendingTitle", "পেমেন্ট এখনো নিশ্চিত হয়নি", "Payment not confirmed yet"),
+    CheckoutPendingBody(
+        "checkout.pendingBody",
+        "কখনো কখনো গেটওয়ে একটু সময় নেয়। টাকা কাটা হলে কয়েক মিনিটের মধ্যে কোর্সটি আমার কোর্সে চলে আসবে।",
+        "Gateways sometimes take a moment. If money was deducted, the course appears in My courses within minutes."
+    ),
+    CheckoutSuccessTitle("checkout.successTitle", "পেমেন্ট সফল হয়েছে", "Payment successful"),
+    CheckoutSuccessBody("checkout.successBody", "{{title}} এখন আপনার। চলুন শুরু করি!", "{{title}} is yours now. Let’s begin!"),
+    CheckoutInvoice("checkout.invoice", "ইনভয়েস নম্বর: {{number}}", "Invoice: {{number}}"),
+    CheckoutFailedTitle("checkout.failedTitle", "পেমেন্ট হয়নি", "Payment didn’t go through"),
+
+    // --- my courses ---
+    MyCoursesInProgress("myCourses.inProgress", "চলছে", "In progress"),
+    MyCoursesCompleted("myCourses.completed", "শেষ", "Completed"),
+    MyCoursesExpiring("myCourses.expiring", "মেয়াদ শেষ হচ্ছে", "Expiring"),
+    MyCoursesExpiringSoon("myCourses.expiringSoon", "মেয়াদ শেষ হচ্ছে শিগগিরই", "Access ends soon"),
+    MyCoursesExpired("myCourses.expired", "মেয়াদ শেষ", "Expired"),
+    MyCoursesFilterEmpty("myCourses.filterEmpty", "এই ফিল্টারে কোনো কোর্স নেই", "No courses in this filter"),
+    MyCoursesAccessUntil("myCourses.accessUntil", "মেয়াদ: {{date}}", "Access until {{date}}"),
+
+    // --- player ---
+    PlayerTabLessons("player.tab.lessons", "লেসন", "Lessons"),
+    PlayerTabNotes("player.tab.notes", "নোট", "Notes"),
+    PlayerTabQa("player.tab.qa", "প্রশ্নোত্তর", "Q&A"),
+    PlayerProgress("player.progress", "{{done}}/{{total}} লেসন", "{{done}}/{{total}} lessons"),
+    PlayerPlay("player.play", "চালান", "Play"),
+    PlayerPause("player.pause", "থামান", "Pause"),
+    PlayerBack10("player.backTen", "১০ সেকেন্ড পেছনে", "Back 10 seconds"),
+    PlayerForward10("player.forwardTen", "১০ সেকেন্ড সামনে", "Forward 10 seconds"),
+    PlayerShowControls("player.showControls", "কন্ট্রোল দেখান বা লুকান", "Show or hide controls"),
+    PlayerResumedAt("player.resumedAt", "{{time}} থেকে চালু হয়েছে", "Resumed at {{time}}"),
+    PlayerTakenOver(
+        "player.takenOver",
+        "অন্য ডিভাইসে এই অ্যাকাউন্টে ভিডিও চলছে। একসঙ্গে একটি ডিভাইসেই দেখা যায়।",
+        "This account is playing on another device. Only one device can play at a time."
+    ),
+    PlayerPlayHere("player.playHere", "এখানে চালান", "Play here"),
+    PlayerYoutubeBody("player.youtubeBody", "এই লেসনটি YouTube-এ রাখা আছে।", "This lesson is hosted on YouTube."),
+    PlayerOpenYoutube("player.openYoutube", "YouTube-এ দেখুন", "Watch on YouTube"),
+    PlayerOpenPdf("player.openPdf", "PDF খুলুন", "Open PDF"),
+    PlayerMarkComplete("player.markComplete", "সম্পন্ন হিসেবে চিহ্নিত করুন", "Mark as complete"),
+    PlayerCompleted("player.completed", "সম্পন্ন", "Completed"),
+    PlayerNext("player.next", "পরের লেসন", "Next lesson"),
+    PlayerPrevious("player.previous", "আগের লেসন", "Previous lesson"),
+    NotesPlaceholder("notes.placeholder", "নোট লিখুন…", "Write a note…"),
+    NotesAttachTime("notes.attachTime", "ভিডিওর এই সময় যোগ করুন", "Attach the current video time"),
+    NotesBookmark("notes.bookmark", "এই মুহূর্ত বুকমার্ক করুন", "Bookmark this moment"),
+    NotesBookmarks("notes.bookmarks", "বুকমার্ক", "Bookmarks"),
+    NotesBookmarksEmpty("notes.bookmarksEmpty", "কোনো বুকমার্ক নেই", "No bookmarks"),
+    NotesSearch("notes.search", "নোটে খুঁজুন", "Search notes"),
+    NotesLessonEmptyTitle("notes.lessonEmpty.title", "এই লেসনে এখনো নোট নেই", "No notes on this lesson yet"),
+    NotesLessonEmptyBody(
+        "notes.lessonEmpty.body",
+        "গুরুত্বপূর্ণ মুহূর্তে নোট রাখুন — পরীক্ষার আগে এক জায়গায় পাবেন।",
+        "Note the key moments — you’ll find them in one place before the exam."
+    ),
+    QaPlaceholder("qa.placeholder", "আপনার প্রশ্ন লিখুন — কোন অংশে আটকে গেছেন?", "Write your question — where did you get stuck?"),
+    QaAsk("qa.ask", "প্রশ্ন পাঠান", "Send question"),
+    QaEmptyTitle("qa.empty.title", "এখনো কেউ প্রশ্ন করেনি", "No questions yet"),
+    QaEmptyBody("qa.empty.body", "প্রথম প্রশ্নটা আপনিই করুন — শিক্ষক নোটিফিকেশন পাবেন।", "Ask the first one — your teacher gets notified."),
+    QaTeacher("qa.teacher", "শিক্ষক", "Teacher"),
+    QaAnswered("qa.answered", "উত্তর দেওয়া হয়েছে", "Answered"),
+
+    // --- downloads ---
+    DownloadKeepOffline("download.keepOffline", "অফলাইনে রাখুন", "Keep offline"),
+    DownloadDone("download.done", "ডাউনলোড হয়েছে", "Downloaded"),
+    DownloadsEmptyTitle("downloads.empty.title", "কোনো ডাউনলোড নেই", "No downloads"),
+    DownloadsEmptyBody(
+        "downloads.empty.body",
+        "PDF লেসনে “অফলাইনে রাখুন” চাপলে ইন্টারনেট ছাড়াও পড়তে পারবেন — শুধু এই ফোনে, এই অ্যাকাউন্টে।",
+        "Tap “Keep offline” on a PDF lesson to read without internet — on this phone and account only."
+    ),
+    DownloadsTotal("downloads.total", "মোট {{size}}", "{{size}} in total"),
+    DownloadsDownloading("downloads.downloading", "ডাউনলোড হচ্ছে", "Downloading"),
+    DownloadsFailed("downloads.failed", "ডাউনলোড হয়নি", "Failed"),
+    DownloadsReady("downloads.ready", "অফলাইনে আছে", "Available offline"),
+    DownloadsNeedsOnline("downloads.needsOnline", "একবার অনলাইনে আসুন", "Go online once"),
+    DownloadsExpired("downloads.expired", "মেয়াদ শেষ", "Expired"),
+    DownloadsPrivacyNote(
+        "downloads.privacyNote",
+        "ফাইলগুলো এনক্রিপ্ট করা থাকে, শুধু এই ফোনে খোলে। লগ আউট করলে বা কোর্সের মেয়াদ শেষ হলে মুছে যায়।",
+        "Files are encrypted and open only on this phone. They’re removed when you sign out or your access ends."
+    ),
+
+    // --- exam mode + flashcards ---
+    ExamAddPlan("exam.addPlan", "নতুন পরীক্ষা যোগ করুন", "Add an exam"),
+    ExamTodayPlan("exam.todayPlan", "আজকের প্ল্যান", "Today’s plan"),
+    ExamRevisionDay("exam.revisionDay", "রিভিশনের দিন", "Revision day"),
+    ExamTodayEmpty("exam.todayEmpty", "আজ কোনো কাজ বাকি নেই", "Nothing left for today"),
+    ExamSyllabus("exam.syllabus", "সিলেবাস চেকলিস্ট", "Syllabus checklist"),
+    ExamImportant("exam.important", "সম্ভাব্য গুরুত্বপূর্ণ টপিক", "Likely important topics"),
+    ExamPractice("exam.practice", "অনুশীলন", "Practice"),
+    ExamFlashcards("exam.flashcards", "ফ্ল্যাশকার্ড", "Flashcards"),
+    ExamFlashcardsKnown("exam.flashcardsKnown", "{{known}}/{{total}} জানা", "{{known}}/{{total}} known"),
+    ExamFlashcardsToday("exam.flashcardsToday", "{{n}}টি ফ্ল্যাশকার্ড", "{{n}} flashcards"),
+    ExamNoPractice(
+        "exam.noPractice",
+        "যুক্ত কোর্সে মক টেস্ট বা ফ্ল্যাশকার্ড থাকলে এখানে দেখাবে।",
+        "Mock tests and flashcards from linked courses appear here."
+    ),
+    ExamRevision("exam.revision", "রিভিশন", "Revision"),
+    ExamRevisionPack("exam.revisionPack", "পরীক্ষার আগের রাত", "The night before"),
+    ExamRevisionPackBody(
+        "exam.revisionPackBody",
+        "{{lessons}}টি গুরুত্বপূর্ণ লেসন · {{notes}}টি নোট · {{wrong}}টি ভুল উত্তর",
+        "{{lessons}} key lessons · {{notes}} notes · {{wrong}} wrong answers"
+    ),
+    ExamBreakdown("exam.breakdown", "লেসন {{lessons}}% · মক টেস্ট {{mock}}%", "Lessons {{lessons}}% · mock tests {{mock}}%"),
+    ExamStart("exam.start", "শুরু করুন", "Start"),
+    ExamFormSubject("exam.form.subject", "বিষয়ের নাম", "Subject name"),
+    ExamFormCode("exam.form.code", "কোর্স কোড (ঐচ্ছিক)", "Course code (optional)"),
+    ExamFormType("exam.form.type", "পরীক্ষার ধরন", "Exam type"),
+    ExamFormPickDate("exam.form.pickDate", "পরীক্ষার তারিখ বেছে নিন", "Pick the exam date"),
+    ExamFormTime("exam.form.time", "শুরুর সময়", "Start time"),
+    FlashcardsEmptyTitle("flashcards.empty.title", "এই কোর্সগুলোতে ফ্ল্যাশকার্ড নেই", "No flashcards in these courses"),
+    FlashcardsEmptyBody(
+        "flashcards.empty.body",
+        "শিক্ষক ফ্ল্যাশকার্ড যোগ করলে এখানে পাবেন।",
+        "They’ll appear here when the teacher adds them."
+    ),
+    FlashcardsPosition("flashcards.position", "{{n}} / {{total}}", "{{n}} / {{total}}"),
+    FlashcardsFront("flashcards.front", "প্রশ্ন", "Question"),
+    FlashcardsBack("flashcards.back", "উত্তর", "Answer"),
+    FlashcardsFlip("flashcards.flip", "উল্টে দেখুন", "Flip"),
+    FlashcardsTapHint("flashcards.tapHint", "কার্ডে চাপ দিলে উত্তর দেখাবে", "Tap the card to see the answer"),
+    FlashcardsKnown("flashcards.known", "জানি", "I know it"),
+    FlashcardsNotYet("flashcards.notYet", "আবার দেখব", "Not yet"),
+    FlashcardsDone("flashcards.done", "সব কার্ড দেখা শেষ!", "All cards done!"),
+    FlashcardsSummary("flashcards.summary", "{{known}}টি জানা, {{notYet}}টি আবার দেখবেন।", "{{known}} known, {{notYet}} to review again."),
+    FlashcardsAgain("flashcards.again", "আবার দেখব যেগুলো", "Review the rest"),
+
+    // --- mock tests ---
+    MockQuestions("mock.questions", "{{n}}টি প্রশ্ন", "{{n}} questions"),
+    MockBestScore("mock.bestScore", "সেরা {{p}}%", "Best {{p}}%"),
+    MockResume("mock.resume", "চালিয়ে যান", "Resume"),
+    MockRetake("mock.retake", "আবার দিন", "Retake"),
+    MockQuestionOf("mock.questionOf", "প্রশ্ন {{n}} / {{total}}", "Question {{n}} of {{total}}"),
+    MockTimeLeft("mock.timeLeft", "বাকি সময়", "Time left"),
+    MockFlag("mock.flag", "রিভিউর জন্য চিহ্নিত করুন", "Flag for review"),
+    MockUnflag("mock.unflag", "চিহ্ন সরান", "Remove flag"),
+    MockUnsaved("mock.unsaved", "সংযোগ নেই — উত্তর আবার সেভ করার চেষ্টা চলছে", "Offline — retrying to save answers"),
+    MockPrevious("mock.previous", "আগের", "Previous"),
+    MockNext("mock.next", "পরের", "Next"),
+    MockSubmit("mock.submit", "জমা দিন", "Submit"),
+    MockSubmitTitle("mock.submitTitle", "টেস্ট জমা দেবেন?", "Submit the test?"),
+    MockSubmitUnanswered("mock.submitUnanswered", "{{n}}টি প্রশ্নের উত্তর বাকি আছে।", "{{n}} questions are unanswered."),
+    MockSubmitAllAnswered("mock.submitAllAnswered", "সব প্রশ্নের উত্তর দেওয়া হয়েছে।", "All questions are answered."),
+    MockKeepGoing("mock.keepGoing", "আরও দেখব", "Keep going"),
+    MockResultTitle("mock.resultTitle", "ফলাফল", "Result"),
+    MockScoreLine(
+        "mock.scoreLine",
+        "সঠিক {{correct}} · ভুল {{wrong}} · বাদ {{skipped}}",
+        "Correct {{correct}} · wrong {{wrong}} · skipped {{skipped}}"
+    ),
+    MockTimeUsed("mock.timeUsed", "সময় লেগেছে {{time}}", "Time used {{time}}"),
+    MockByChapter("mock.byChapter", "চ্যাপ্টার অনুযায়ী", "By chapter"),
+    MockOnlyMistakes("mock.onlyMistakes", "শুধু ভুল ও বাদ দেখান", "Show only wrong and skipped"),
+    MockCorrectAnswer("mock.correctAnswer", "সঠিক উত্তর", "Correct answer"),
+    MockYourAnswer("mock.yourAnswer", "আপনার উত্তর", "Your answer"),
+    MockSkipped("mock.skipped", "উত্তর দেননি", "Not answered"),
     ;
 
     fun text(
@@ -433,6 +736,9 @@ sealed interface UiText {
     /** "নভেম্বর ২০২৬". */
     data class MonthYear(val month: Int, val year: Int) : UiText
 
+    /** Pre-formatted digits/punctuation shown in the locale's numerals: "05:23" → "০৫:২৩", "2.4" → "২.৪". */
+    data class Digits(val text: String) : UiText
+
     fun resolve(locale: AppLocale = AppLocale.Bn): String =
         when (this) {
             is Res -> str.render(locale, args)
@@ -442,6 +748,7 @@ sealed interface UiText {
             is Weekday -> DateText.weekday(locale, isoDay, short)
             is Count -> DateText.digits(locale, value.toString())
             is MonthYear -> DateText.monthName(locale, month) + " " + DateText.digits(locale, year.toString())
+            is Digits -> DateText.digits(locale, text)
         }
 }
 

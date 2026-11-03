@@ -9,6 +9,7 @@ buildscript {
         if (ssAndroid) {
             classpath(libs.android.gradlePlugin)
             classpath(libs.google.services.gradlePlugin)
+            classpath(libs.androidx.baselineprofile.gradlePlugin)
         }
     }
 }
