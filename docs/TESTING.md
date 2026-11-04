@@ -41,18 +41,16 @@
 - teacher and admin access;
 - no horizontal scroll at phone width (Pixel 7 project).
 
-Run it against the Java backend serving a seeded database, with the built website in front of it (`pnpm preview` proxies `/api` to :8080):
+Full run, using the production topology (Caddy routes `/c/<slug>` to the backend, which the SEO spec needs):
 
 ```bash
-cd backend && ./mvnw spring-boot:run
+docker compose -f infra/docker-compose.yml --profile app up -d --build
 ```
 
 ```bash
-cd website && pnpm build && pnpm preview
+cd website && E2E_BASE_URL=http://localhost:8000 pnpm e2e
 ```
 
-```bash
-cd website && E2E_BASE_URL=http://localhost:4173 pnpm e2e
-```
+A quicker run uses the backend from source plus `pnpm build && pnpm preview` (`E2E_BASE_URL=http://localhost:4173`). The preview only proxies `/api` and `/sitemap.xml`, so the SEO spec fails there, and the other 16 pass.
 
 The specs share one seeded database and run serially. Chromium comes from `PW_CHROMIUM`, falling back to `/opt/pw-browsers/chromium` when present.
