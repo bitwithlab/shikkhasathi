@@ -67,6 +67,7 @@ class ContractCoverageTest extends IntegrationTest {
   }
 
   @org.springframework.beans.factory.annotation.Autowired
+  @org.springframework.beans.factory.annotation.Qualifier("requestMappingHandlerMapping")
   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping mappings;
 
   private boolean mapped(String method, String path) {

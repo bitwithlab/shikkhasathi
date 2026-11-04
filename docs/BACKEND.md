@@ -91,3 +91,75 @@ com.shikkhasathi
   - `contract(...)` for contract checks.
 - `ContractCoverageTest` checks that every contract endpoint exists and enforces its auth level.
 - `CompatibilityTest` proves the backend reads what the previous API wrote: ciphertexts, token signatures, cursors, argon2 hashes and the seed.
+
+## Platform services API
+
+Shared services that domain modules build on. Inject them as Spring beans. Every external adapter has a Fake that
+is used outside production when the integration is not configured, and a tester behind "সংযোগ পরীক্ষা করুন"
+(registered with `IntegrationService.registerTester`). Adapters call out through `common.http.HttpTransport`
+(production bean `JdkHttpTransport`), so tests pass a lambda that records requests and returns canned responses.
+
+### Storage — `com.shikkhasathi.file.service`
+- `StorageService` (bean): `SupabaseStorage` when all four `SUPABASE_*` env vars are set, else `LocalStorage` (refuses to start in production without Supabase).
+  - `signedUploadUrl(Bucket, key, mime)` → `UploadTarget(url, headers)` (client PUTs the file there)
+  - `signedDownloadUrl(Bucket, key, ttlSec, downloadName)` / `signedDownloadUrl(Bucket, key)` (10 min)
+  - `publicUrl(Bucket, key)` (public buckets only), `put`, `get`, `exists`
+- `Bucket`: `INVOICES`, `VERIFICATION_DOCS`, `AVATARS` (CORE) and `COURSE_DOCS`, `COURSE_COVERS` (CONTENT, the only public one). `Bucket.of("course-docs")`.
+- `StorageKeys.objectKey(prefix, filename)` → `prefix/<16 hex>.<ext>`; `EXT_BY_MIME`, `mimeFor(key)`.
+- Local routes (dev/test only, 404 with Supabase): `PUT /api/v1/files/upload?token=`, `GET /api/v1/files/download?token=`, `GET /api/v1/files/public/{bucket}/**`. Tokens are `JwtService` purpose tokens (`upload`: b,k,m; `download`: b,k,n).
+
+### Email — `com.shikkhasathi.notification.email`
+- `EmailService.send(to, toName, EmailTemplate, data, locale, relatedEntity, attachments)` → email_logs id. There is also a short form `send(to, template, data)`. It inserts `email_logs` (`queued`) and enqueues `email.send`; OTP templates (`EMAIL_OTP`, `PASSWORD_RESET`, `WELCOME`) are enqueued as sensitive. Template data is never stored.
+- `email.send` (`EmailSendJob`) delivers through Brevo API → Brevo SMTP → `FakeEmailProvider` (non-prod only) and updates `email_logs` (`sent` with provider + message id, or `failed` with error and attempts + 1). A retried job never re-sends a `sent` email.
+- `EmailTemplates.render(template, data, locale)` → `Rendered(subject, html, text)` — bn + en, identical to the previous API. Money values are paisa (`total`, `amount`).
+- `FakeEmailProvider` (bean, `ResettableFake`): `outbox()`, `last()`.
+- `EmailMessage.EmailAttachment(name, contentBase64)` for invoice PDFs.
+
+### SMS — `com.shikkhasathi.notification.sms`
+- `SmsService.provider()` → `Optional<SmsProvider>`; `send(to, message)` (503 `INTEGRATION_DISABLED` when none); `isFake()`.
+- `HttpSmsProvider` (BulkSMSBD-style GET), `FakeSmsProvider` (bean, `outbox()`, `last()`).
+
+### Push — `com.shikkhasathi.notification.push`
+- `PushService.provider()` → `Optional<PushProvider>`: `FcmProvider` when the service-account JSON is set (it signs an RS256 assertion and caches the access token), else `FakePushProvider` (bean, `sent()`) outside production.
+- `PushProvider.send(List<Target(platform, token)>, PushMessage(title, body, link, data))` → tokens to delete.
+
+### Notifications — `com.shikkhasathi.notification.service`
+- `NotificationService.notify(NotifyInput)` → `true` if new.
+  - Dedupe key is `user:type:ref`.
+  - Channels are `NotificationTypes.DEFAULT_CHANNELS` overridden by the user's preferences. When in-app is off, the row is stored already read.
+  - Push is queued as `notifications.dispatch`. Email is sent when the email channel is on and an email template is given.
+  - Build the input like this: `NotifyInput.of(userId, NotificationTypes.ORDER_PAID, ref, title, body).withLink("/my-courses").withEmail(EmailTemplate.ORDER_PAID, data)`. Add `.withEmailByDefault()` for admin broadcasts.
+- Push dispatch:
+  - Quiet hours are 23:00–07:00 Asia/Dhaka. During them a push is delayed until 07:00, except for `NotificationTypes.URGENT`.
+  - Classroom bursts are batched: more than 3 in 10 minutes become one summary.
+  - Invalid tokens are deleted.
+  - `useClock(Clock)` is a test hook.
+- Other methods: `list`, `markRead`, `unreadCount`, `preferences`, `setPreferences`, `registerPushToken`, `unregisterPushToken`. These back the `notifications` contract group.
+
+### Video — `com.shikkhasathi.course.adapter`
+- `VideoService.provider()` → `BunnyStreamProvider` (when `provider=bunny` and library id + key are set) or `FakeVideoProvider`. In production without config it throws 503 `INTEGRATION_DISABLED`. `webhookSecret()`.
+- `VideoProvider.createUpload(title)` → `UploadSlot(providerVideoId, uploadUrl, headers)` (TUS); `playbackUrl(id, ttlSec)` (Bunny directory token); `status(id)` → `VideoStatus(processing|ready|failed, durationSec)`.
+
+### Search engine — `com.shikkhasathi.search.adapter`
+- `SearchEngine.meili()` → `Optional<MeiliClient>`; `usePostgresFallback()` is true when no host is set.
+- `MeiliClient`: `health()`, `configure()` (uploads `INDEX_SETTINGS`: searchable/filterable attributes, synonyms, typo tolerance), `upsert(docs)`, `remove(id)`, `searchIds(q, filters, limit)`, `MeiliClient.eq(field, value)`. Index `courses`. Building documents and ranking are the search module's job.
+
+### Payment gateways — `com.shikkhasathi.payment.adapter`
+- `PaymentGateways.activeGateway()` (falls back to fake outside production).
+- `gatewayByName(name)` (throws `GatewayNotConfiguredException`).
+- `callbackUrl(gateway, success|fail|cancel)`, `ipnUrl(gateway)`, `fake()`.
+- `PaymentGateway`: `init(InitInput)` → `InitResult(redirectUrl, sessionId)`; `validate(params)` / `query(trxId, sessionId)` → `ValidateResult(ok, status, trxId, amount, gatewayRef, raw)`; `refund(RefundRequest)` → `RefundResult(supported, refundId)`. Amounts are paisa; `PaymentGateway.taka/toPaisa` convert.
+- Implementations: `SslcommerzGateway`, `BkashGateway` (grant token cached), `FakeGateway`.
+  - `FakeGateway` is a bean and a `ResettableFake`.
+  - `sign(trxId, outcome)` = sha256(`JWT_ACCESS_SECRET:trxId:outcome`)[:24], the same as before.
+  - Results are kept in `FakeGateway.RESULTS`.
+  - The fake hosted page route `/payments/fake/:trxId` belongs to the payments module.
+
+### Invoice PDF — `com.shikkhasathi.payment.invoice`
+- `InvoicePdfRenderer.render(InvoiceData)` → PDF bytes (A4, same layout as before).
+- Text is shaped by Java2D (HarfBuzz) and filled as vector outlines through PdfBoxGraphics2D, so Bangla conjuncts render correctly. Bangla runs use Hind Siliguri and Latin text uses Inter.
+- Fonts are in `src/main/resources/fonts/*.ttf`, converted losslessly from the WOFF files in `Web/server/assets/fonts`, because Java AWT cannot load WOFF.
+
+### Settings and health routes
+- `integration.controller.SettingsController`: `GET /admin/integrations`, `PUT /admin/integrations/{provider}`, `POST /admin/integrations/{provider}/test` (10/min), and the public `GET /config`.
+- `health`: `GET /health` and `GET /admin/system-health`. The system check reports, for both DBs, connectivity, latency, the latest Flyway version (for example `V1 initial schema`) and the RLS check. It also reports Redis, `JobQueue.stats()` and each integration's mode.

@@ -1,7 +1,6 @@
 package com.shikkhasathi.common.jobs;
 
 import com.shikkhasathi.config.AppProperties;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.*;
@@ -95,7 +94,8 @@ public class JobQueue {
 
   // ---------------------------------------------------------------- worker
 
-  @PostConstruct
+  /** Started once the context is ready (handlers depend on this bean, so not in @PostConstruct). */
+  @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
   void start() {
     if (inline() || !props.runsWorker()) return;
     index();

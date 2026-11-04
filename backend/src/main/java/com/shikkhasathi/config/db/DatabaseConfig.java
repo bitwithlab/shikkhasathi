@@ -78,7 +78,9 @@ public class DatabaseConfig {
         "hibernate.type.preferred_instant_jdbc_type", "TIMESTAMP_UTC",
         "hibernate.jdbc.batch_size", "50",
         "hibernate.order_inserts", "true",
-        "hibernate.open-in-view", "false"));
+        "hibernate.open-in-view", "false",
+        // entities use Jackson 3 JsonNode; Jackson 2 is also on the classpath (springdoc), so pin the mapper
+        "hibernate.type.json_format_mapper", "org.hibernate.type.format.jackson.Jackson3JsonFormatMapper"));
     return f;
   }
 
