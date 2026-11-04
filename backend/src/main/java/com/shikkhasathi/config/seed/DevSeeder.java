@@ -54,6 +54,10 @@ public class DevSeeder {
   @EventListener(ApplicationReadyEvent.class)
   public void seedIfEmpty() {
     if (!env.getProperty("ss.seed-on-empty", Boolean.class, false)) return;
+    if (props.isProd()) {
+      log.warn("ss.seed-on-empty ignored in production");
+      return;
+    }
     Integer users = coreJdbc.queryForObject("select count(*) from users", Map.of(), Integer.class);
     if (users != null && users > 0) return;
     seed();

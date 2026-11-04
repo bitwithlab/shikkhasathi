@@ -14,6 +14,9 @@ server:
 spring:
   application:
     name: shikkhasathi-api
+  profiles:
+    # `./mvnw spring-boot:run` = local development. Deployments set SPRING_PROFILES_ACTIVE=prod (and NODE_ENV=production).
+    default: dev
   config:
     # backend/.env (KEY=value) is read when present; real environment variables win.
     import: optional:file:.env[.properties]

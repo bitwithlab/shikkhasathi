@@ -2,23 +2,57 @@
 
 | Layer | Tool | Where | Command |
 |---|---|---|---|
-| Shared contracts | Vitest | `Web/shared/test` | `pnpm --filter @shikkhasathi/shared test` |
-| Server (unit + integration over HTTP via `app.inject`) | Vitest + real Postgres (two test DBs) + Redis db 15 | `Web/server/test` | `pnpm --filter @shikkhasathi/server test` |
-| Client components + lib | Vitest + Testing Library (jsdom) | `Web/client/test` | `pnpm --filter @shikkhasathi/client test` |
-| E2E | Playwright | `Web/client/e2e` | `pnpm --filter @shikkhasathi/client e2e` (Phase 12) |
-| Mobile | kotlin.test on JVM (desktop target) | `App/mobile` | `cd App/mobile && ./gradlew desktopTest` |
+| Backend (unit + integration over HTTP with MockMvc) | JUnit 5 + AssertJ, real Postgres (two test DBs) + Redis db 15 | `backend/src/test/java` | `cd backend && ./mvnw test` |
+| API contract | JSON Schema per endpoint (`backend/src/test/resources/contracts/endpoints.json`) | every backend test calls `contract("group.name", resp)` | same |
+| Contract coverage + RBAC sweep | `ContractCoverageTest` | backend | same |
+| Website contracts + OpenAPI drift | Vitest | `website/test/contracts` | `cd website && pnpm test` |
+| Website components + lib | Vitest + Testing Library (jsdom) | `website/test` | `cd website && pnpm test` |
+| E2E | Playwright | `website/e2e` | `cd website && pnpm e2e` |
+| Mobile | kotlin.test on the JVM (desktop target) | `app/shared/src/commonTest`, `desktopTest` | `cd app && ./gradlew :shared:desktopTest` |
 | Everything | | | `bash scripts/check-all.sh` |
 
-Server tests need `shikkhasathi_core_test` and `shikkhasathi_content_test` (override with `TEST_CORE_DATABASE_URL` / `TEST_CONTENT_DATABASE_URL`). Global setup runs migrations (and the RLS check); each test truncates all tables and flushes Redis db 15. Jobs run **inline** in tests (`NODE_ENV=test`), and all external services use Fake adapters (`FakeEmailProvider.outbox`, `FakeSmsProvider.outbox`, …), so no network is needed.
+## Backend
+- **Test databases:** the tests create `ss_test_core` and `ss_test_content` on `localhost:5432` (user and password `postgres`) when they are missing.
+  - On context start, Flyway migrates them and `afterMigrate.sql` turns on RLS.
+  - Every test truncates all tables and flushes Redis db 15.
+- **Environment overrides:**
+  - `TEST_PG_HOST` and `TEST_PG_PASSWORD` change the Postgres connection.
+  - `TEST_DB_PREFIX`, `TEST_REDIS_DB` and `TEST_STORAGE_DIR` let two checkouts run their suites at the same time.
+- **No network needed:**
+  - Jobs run **inline**.
+  - Every external service uses its Fake adapter (`FakeEmailProvider`, `FakeSmsProvider`, `FakeGateway`, `FakeVideoProvider`, the fake Classroom client, …).
+  - Adapters call out through `HttpTransport`, which tests replace.
+- **Special-purpose tests:**
+  - `CompatibilityTest` proves the backend reads what the previous Node API wrote: AES-GCM ciphertexts, refresh-token HMACs, JWT signatures, cursors, argon2id hashes and the seed. It also checks that RLS is on.
+  - `ContractCoverageTest` checks that every contract endpoint exists. Anonymous callers must get 401, and students calling admin or seller routes must get 403 before validation runs.
+  - `OpenApiExportTest` writes `docs/api/openapi.json`. CI fails when the committed copy is stale. The website generates `src/api/openapi.gen.ts` from it (`pnpm gen:api-types`), and `openapi-drift.test.ts` checks that every endpoint the website calls exists in it.
 
-Rules: every route gets an integration test; payments and Classroom sync are tested with fakes; i18n dictionaries are tested for bn/en key + placeholder parity and banned guarantee phrases.
+**Rules:**
+- every route gets an integration test with a contract check;
+- payments and Classroom sync are tested with fakes;
+- i18n dictionaries are tested for bn/en key and placeholder parity, and for banned guarantee phrases.
 
 ## End-to-end (Playwright)
-`Web/client/e2e/*.spec.ts`: guest discovery + SEO, student dashboard, checkout with the dev gateway → unlocked → player → mark complete, Exam Mode + mock test → result, teacher/admin access, and no horizontal scroll at phone width (Pixel 7 project).
-```bash
-cd Web/server && npx tsx src/database/seed/index.ts && npx tsx src/server.ts   # in one terminal (after `pnpm --filter @shikkhasathi/client build`)
-cd Web/client && pnpm e2e                                                       # E2E_BASE_URL defaults to http://localhost:3000
-```
-The specs share one seeded database and run serially. Chromium is taken from `PW_CHROMIUM`, falling back to `/opt/pw-browsers/chromium` when present. Latest run: 17/17 passed.
+`website/e2e/*.spec.ts` covers:
+- guest discovery and SEO;
+- the student dashboard;
+- checkout with the dev gateway, then the unlocked course, the player and "mark complete";
+- Exam Mode and a mock test through to the result;
+- teacher and admin access;
+- no horizontal scroll at phone width (Pixel 7 project).
 
-Also: `Web/server/test/rbac.test.ts` sweeps every contract endpoint (anonymous → 401, student on admin/seller → 403).
+Run it against the Java backend serving a seeded database, with the built website in front of it (`pnpm preview` proxies `/api` to :8080):
+
+```bash
+cd backend && ./mvnw spring-boot:run
+```
+
+```bash
+cd website && pnpm build && pnpm preview
+```
+
+```bash
+cd website && E2E_BASE_URL=http://localhost:4173 pnpm e2e
+```
+
+The specs share one seeded database and run serially. Chromium comes from `PW_CHROMIUM`, falling back to `/opt/pw-browsers/chromium` when present.

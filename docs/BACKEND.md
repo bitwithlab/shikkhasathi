@@ -8,13 +8,13 @@ This replaced the previous Node.js/Fastify API. The API under `/api/v1` is uncha
 
 ```bash
 cd backend
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev     # Windows: .\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev
+./mvnw spring-boot:run                                    # Windows: .\mvnw.cmd spring-boot:run   (profile dev by default)
 ./mvnw test                                                # needs local Postgres 16 + Redis (see docs/RUNBOOK.md)
 ./mvnw -DskipTests package && java -jar target/shikkhasathi-backend-*.jar
 ```
 
 - **Profiles and roles:**
-  - The `dev` profile seeds demo data into empty databases.
+  - The `dev` profile (the default) seeds demo data into empty databases. Deployments set `SPRING_PROFILES_ACTIVE=prod` and `NODE_ENV=production`; the seeder never runs in production.
   - `SS_ROLE` selects what a process runs: `api` (no job workers), `worker`, or `all` (the default).
 - **Endpoints:**
   - OpenAPI: `GET /api/v1/openapi.json`, with Swagger UI at `/api/v1/docs`.
