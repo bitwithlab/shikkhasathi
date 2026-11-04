@@ -1,0 +1,14 @@
+# Static website server (inside the website container). The public reverse proxy is infra/Caddyfile.
+:80 {
+	root * /srv
+	encode zstd gzip
+	respond /healthz 200
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+	header ?Cache-Control "no-cache"
+	# prerendered landing + public pages, then SPA fallback
+	@root path /
+	rewrite @root /index.prerendered.html
+	try_files {path} {path}/index.html /index.html
+	file_server
+}
