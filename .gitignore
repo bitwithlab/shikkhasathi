@@ -22,3 +22,5 @@ dump.rdb
 test-results/
 playwright-report/
 dist-ssr/
+backend/target/
+backend/storage-local/

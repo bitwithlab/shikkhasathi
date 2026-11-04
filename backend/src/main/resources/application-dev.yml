@@ -1,0 +1,6 @@
+# Local development (SPRING_PROFILES_ACTIVE=dev): verbose SQL off, demo seed on empty databases.
+ss:
+  seed-on-empty: true
+logging:
+  level:
+    com.shikkhasathi: DEBUG

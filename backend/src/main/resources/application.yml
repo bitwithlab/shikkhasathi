@@ -1,0 +1,82 @@
+# ShikkhaSathi API — bootstrap configuration from the environment (CLAUDE.md §0B).
+# Same variable names as the previous API, so existing .env files keep working.
+# Every other integration (email, payments, SMS, video, Google, push, search) is configured in
+# Admin → সেটিংস → Integrations, with the env vars in .env.example as fallback.
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+  servlet:
+    context-path: /
+  shutdown: graceful
+
+spring:
+  application:
+    name: shikkhasathi-api
+  threads:
+    virtual:
+      enabled: true
+  jackson:
+    default-property-inclusion: always
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+      repositories:
+        enabled: false
+  flyway:
+    enabled: false   # run explicitly for both databases by DatabaseConfig
+  jpa:
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+
+ss:
+  env: ${NODE_ENV:${SS_ENV:development}}
+  app-url: ${APP_URL:http://localhost:5173}
+  role: ${SS_ROLE:all}
+  encryption-key: ${ENCRYPTION_KEY:dev-only-insecure-key-change-me-0000000000000000}
+  jwt-access-secret: ${JWT_ACCESS_SECRET:dev-access-secret-change-me-please}
+  jwt-refresh-secret: ${JWT_REFRESH_SECRET:dev-refresh-secret-change-me-please}
+  local-storage-dir: ${LOCAL_STORAGE_DIR:./storage-local}
+  inline-jobs: ${INLINE_JOBS:false}
+  website-index-url: ${WEBSITE_INDEX_URL:}
+  supabase-core-url: ${SUPABASE_CORE_URL:}
+  supabase-core-service-role-key: ${SUPABASE_CORE_SERVICE_ROLE_KEY:}
+  supabase-content-url: ${SUPABASE_CONTENT_URL:}
+  supabase-content-service-role-key: ${SUPABASE_CONTENT_SERVICE_ROLE_KEY:}
+  db:
+    core-url: ${CORE_DATABASE_URL:postgres://postgres:postgres@localhost:5432/shikkhasathi_core}
+    core-direct-url: ${CORE_DIRECT_URL:}
+    content-url: ${CONTENT_DATABASE_URL:postgres://postgres:postgres@localhost:5432/shikkhasathi_content}
+    content-direct-url: ${CONTENT_DIRECT_URL:}
+    pooler: ${DB_POOLER:false}
+    pool-max: ${DB_POOL_MAX:10}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /api/v1/openapi.json
+  swagger-ui:
+    path: /api/v1/docs
+  default-produces-media-type: application/json
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    org.hibernate.orm.deprecation: ERROR

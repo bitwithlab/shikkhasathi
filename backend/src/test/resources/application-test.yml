@@ -1,0 +1,17 @@
+ss:
+  env: test
+  inline-jobs: true
+  app-url: http://localhost:5173
+  local-storage-dir: /tmp/ss-java-test-storage
+  db:
+    core-url: postgres://postgres:postgres@localhost:5432/ss_test_core
+    content-url: postgres://postgres:postgres@localhost:5432/ss_test_content
+    pool-max: 5
+spring:
+  data:
+    redis:
+      url: redis://localhost:6379/15
+logging:
+  level:
+    root: WARN
+    com.shikkhasathi: INFO
