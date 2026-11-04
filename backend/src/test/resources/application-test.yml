@@ -2,15 +2,15 @@ ss:
   env: test
   inline-jobs: true
   app-url: http://localhost:5173
-  local-storage-dir: /tmp/ss-java-test-storage
+  local-storage-dir: ${TEST_STORAGE_DIR:/tmp/ss-java-test-storage}
   db:
-    core-url: postgres://postgres:postgres@localhost:5432/ss_test_core
-    content-url: postgres://postgres:postgres@localhost:5432/ss_test_content
+    core-url: postgres://postgres:postgres@localhost:5432/${TEST_DB_PREFIX:ss_test}_core
+    content-url: postgres://postgres:postgres@localhost:5432/${TEST_DB_PREFIX:ss_test}_content
     pool-max: 5
 spring:
   data:
     redis:
-      url: redis://localhost:6379/15
+      url: redis://localhost:6379/${TEST_REDIS_DB:15}
 logging:
   level:
     root: WARN

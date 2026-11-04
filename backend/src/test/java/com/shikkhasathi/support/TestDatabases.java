@@ -10,7 +10,10 @@ final class TestDatabases {
     if (done) return;
     String host = System.getenv().getOrDefault("TEST_PG_HOST", "localhost");
     try (var c = DriverManager.getConnection("jdbc:postgresql://" + host + ":5432/postgres", "postgres", System.getenv().getOrDefault("TEST_PG_PASSWORD", "postgres"))) {
-      for (String db : new String[] {"ss_test_core", "ss_test_content"}) {
+      // TEST_DB_PREFIX lets several checkouts run their suites at the same time (default ss_test).
+      String prefix = System.getenv().getOrDefault("TEST_DB_PREFIX", "ss_test");
+      if (!prefix.matches("[a-z0-9_]+")) throw new IllegalArgumentException("TEST_DB_PREFIX must match [a-z0-9_]+");
+      for (String db : new String[] {prefix + "_core", prefix + "_content"}) {
         var rs = c.createStatement().executeQuery("select 1 from pg_database where datname = '" + db + "'");
         if (!rs.next()) c.createStatement().execute("create database " + db);
       }

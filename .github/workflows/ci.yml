@@ -3,7 +3,16 @@ on:
   push: { branches: [main] }
   pull_request:
 jobs:
-  web:
+  tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Generated design tokens are up to date
+        run: node scripts/gen-tokens.mjs && git diff --exit-code -- website/src/styles/tokens app/shared/src/commonMain/kotlin/com/shikkhasathi/core/designsystem/Tokens.kt
+
+  backend:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -15,29 +24,38 @@ jobs:
       redis:
         image: redis:7-alpine
         ports: ['6379:6379']
+    defaults: { run: { working-directory: backend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21, cache: maven }
+      - run: ./mvnw -B verify
+      - name: OpenAPI (written by OpenApiExportTest) is committed
+        run: git diff --exit-code -- ../docs/api/openapi.json
+
+  website:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: website } }
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+        with: { package_json_file: website/package.json }
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: pnpm }
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: website/pnpm-lock.yaml }
       - run: pnpm install --frozen-lockfile
-      - name: Create test databases
-        run: |
-          for d in shikkhasathi_core_test shikkhasathi_content_test; do
-            PGPASSWORD=postgres psql -h localhost -U postgres -c "create database $d"
-          done
-      - run: node scripts/gen-tokens.mjs && git diff --exit-code -- Web/shared/src/tokens App/mobile/src/core/designsystem
+      - run: pnpm gen:api-types && git diff --exit-code -- src/api/openapi.gen.ts
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm --filter @shikkhasathi/client build
-      - run: node scripts/check-bundle.mjs
+      - run: pnpm build
+      - run: pnpm check:bundle
+
   mobile:
     runs-on: ubuntu-latest
+    defaults: { run: { working-directory: app } }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
       - uses: android-actions/setup-android@v3
-      - working-directory: App/mobile
-        run: ./gradlew --no-daemon check
+      - run: ./gradlew --no-daemon check
