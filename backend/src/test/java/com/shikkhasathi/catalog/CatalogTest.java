@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import tools.jackson.databind.JsonNode;
 
-/** Port of Web/server/test/catalog.test.ts (public catalog, academic profile + onboarding, institution requests, admin catalog). */
+/** Port of the previous Node API test suite: test/catalog.test.ts (public catalog, academic profile + onboarding, institution requests, admin catalog). */
 class CatalogTest extends IntegrationTest {
   @Autowired MeService meService;
 

@@ -20,7 +20,9 @@ public class JobSchedules {
   }
 
   private void tick(String name) {
-    if (!props.runsWorker() || q.inline()) return;
+    // Like the previous worker: a schedule only runs when some module handles that job (ledger.release and
+    // cleanup have no handler yet, so they are skipped instead of piling up in Redis).
+    if (!props.runsWorker() || q.inline() || !q.hasHandler(name)) return;
     q.enqueue(name, Map.of(), EnqueueOptions.jobId("schedule-" + (System.currentTimeMillis() / 60_000)).withDedupeSeconds(120));
   }
 

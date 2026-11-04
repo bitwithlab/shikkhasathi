@@ -12,7 +12,7 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/** Port of Web/server/test/ops.test.ts: payouts, admin users + moderation, broadcasts, logs, analytics, seller insights. */
+/** Port of the previous Node API test suite: test/ops.test.ts: payouts, admin users + moderation, broadcasts, logs, analytics, seller insights. */
 class OpsTest extends IntegrationTest {
   @Autowired LedgerService ledger;
   @Autowired FakeEmailProvider fakeEmail;

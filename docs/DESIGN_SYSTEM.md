@@ -1,7 +1,7 @@
 # Design System — ShikkhaSathi
 
 Source: `CLAUDE.md` §7, spec §13, `Reference/stitch_campuscourse_design_system/academic_calm/DESIGN.md`.
-Tokens live in `Web/shared/src/tokens/tokens.json` and are generated into CSS variables, a Tailwind preset, and a Compose theme (`scripts/gen-tokens.mjs`). **Never hardcode a color, radius or font in components** — use the token.
+Tokens live in `website/src/styles/tokens/tokens.json` and are generated into CSS variables, a Tailwind preset, and a Compose theme (`scripts/gen-tokens.mjs`). **Never hardcode a color, radius or font in components** — use the token.
 
 ## Tokens
 
@@ -46,7 +46,7 @@ Gradient `linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)` — **only** landin
 
 ## Components (identical anatomy on web + mobile)
 
-| Component | Web (`Web/client/src/components`) | Mobile (`App/mobile/src/shared`) | Notes |
+| Component | Web (`website/src/components`) | Mobile (`app/shared/src/commonMain/kotlin/com/shikkhasathi/shared`, `core/designsystem`) | Notes |
 |---|---|---|---|
 | Button (primary/secondary/ghost/danger, sm/md/lg) | `Button` | `SsButton` | 44px min (48 on mobile), pressed scale .98 |
 | Input / Select / Textarea / OTP boxes | `Input`, `Select`, `OtpInput` | `SsTextField`, `OtpField` | 48px, 2px focus ring |

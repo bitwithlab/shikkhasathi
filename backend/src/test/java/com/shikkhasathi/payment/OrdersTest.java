@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 
-/** Port of Web/server/test/orders.test.ts: orders, checkout, fulfilment, coupons, refunds, reconcile, seller money. */
+/** Port of the previous Node API test suite: test/orders.test.ts: orders, checkout, fulfilment, coupons, refunds, reconcile, seller money. */
 class OrdersTest extends IntegrationTest {
   @Autowired FakeGateway fakeGateway;
   @Autowired FakeEmailProvider fakeEmail;

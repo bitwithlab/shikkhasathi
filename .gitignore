@@ -6,7 +6,6 @@ dist/
 coverage/
 .vite/
 .turbo/
-Web/server/storage-local/
 website/stats.html
 playwright-report/
 test-results/

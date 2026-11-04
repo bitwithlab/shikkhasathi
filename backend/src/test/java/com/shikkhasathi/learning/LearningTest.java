@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import tools.jackson.databind.JsonNode;
 
-/** Port of Web/server/test/learning.test.ts. */
+/** Port of the previous Node API test suite: test/learning.test.ts. */
 class LearningTest extends IntegrationTest {
   @Autowired List<DashboardWidgetProvider> widgets;
 

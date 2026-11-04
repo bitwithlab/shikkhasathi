@@ -13,7 +13,7 @@
 | পুরনো ওয়ার্কিং নাম | CampusCourse (আর ব্যবহার হবে না) |
 | ট্যাগলাইন | আপনার ক্লাস, আপনার কোর্স, আপনার পরীক্ষার প্রস্তুতি — এক জায়গায়। |
 | English tagline | Your classes. Your courses. Your exam prep. All in one place. |
-| প্ল্যাটফর্ম | Web: `Web/client` (React + Vite) + `Web/server` (Node.js + TypeScript, Fastify) + `Web/shared` · Mobile: `App/mobile` (Jetpack Compose / Compose Multiplatform — Android আগে, পরে iOS) |
+| প্ল্যাটফর্ম | Website: `website/` (React + Vite) · Backend: `backend/` (Java 21 + Spring Boot) · Mobile: `app/` (Compose Multiplatform — Android আগে, পরে iOS) |
 | Android package | `com.shikkhasathi.app` |
 | রিপো | https://github.com/bitwithlab/shikkhasathi |
 | ডেটাবেস | **Supabase — দুটো**: CORE (ইউজার, কন্টাক্ট, পাসওয়ার্ড হ্যাশ, অর্ডার, ইনভয়েস, পেমেন্ট…) আর CONTENT (কোর্স, ভিডিও লিংক, ডকুমেন্ট/নোট লিংক, ক্যাটালগ…) |

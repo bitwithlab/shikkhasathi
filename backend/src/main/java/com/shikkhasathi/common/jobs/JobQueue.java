@@ -50,6 +50,11 @@ public class JobQueue {
     if (handlers.isEmpty()) for (var h : handlerList) handlers.put(h.name(), h);
   }
 
+  public boolean hasHandler(String name) {
+    index();
+    return handlers.containsKey(name);
+  }
+
   public boolean inline() {
     return props.jobsInline();
   }

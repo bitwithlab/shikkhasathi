@@ -23,7 +23,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 
-/** Port of Web/server/test/seller.test.ts: application & verification, course wizard → review → publish. */
+/** Port of the previous Node API test suite: test/seller.test.ts: application & verification, course wizard → review → publish. */
 @RecordApplicationEvents
 class SellerTest extends IntegrationTest {
   @Autowired FakeEmailProvider fakeEmail;

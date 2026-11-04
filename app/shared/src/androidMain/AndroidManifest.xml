@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Library manifest for :shared's Android target (namespace com.shikkhasathi.shared). Code lives in App/mobile/src. -->
+<!-- Library manifest for :shared's Android target (namespace com.shikkhasathi.shared). Code lives in app/shared/src/<sourceSet>/kotlin. -->
 <manifest />

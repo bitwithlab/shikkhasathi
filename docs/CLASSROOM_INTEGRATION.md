@@ -1,9 +1,17 @@
 # Google Classroom integration (read-only)
 
-Code: `Web/server/src/services/google/classroom.ts` (Real + Fake client), `Web/server/src/modules/classroom/*` (connect, sync, push, reminders, read models), `Web/server/src/modules/notifications/*`, `Web/server/src/modules/dashboard/*`; web UI in `Web/client/src/features/student/{home,classroom}`; mobile in `App/mobile/src/features/{home,classroom}`.
+Code:
+- **Backend:** `backend/src/main/java/com/shikkhasathi/`
+  - `classroom/adapter` (Real + Fake Google client, `ClassroomClients`)
+  - `classroom/service` (connect, sync, push, reminders, jobs)
+  - `assignment/` (assignment list, detail, calendar and due-soon views)
+  - `notification/`
+  - `student/service/DashboardService`
+- **Web UI:** `website/src/features/student/{home,classroom}`
+- **Mobile:** `app/shared/src/commonMain/kotlin/com/shikkhasathi/features/{home,classroom}`
 
 ## Scopes (minimal — CLAUDE.md §0A)
-`openid email profile`, `classroom.courses.readonly`, `classroom.coursework.me.readonly`, `classroom.courseworkmaterials.readonly`, `classroom.announcements.readonly`, `classroom.push-notifications`. Defined once in `Web/shared/src/contracts/classroom.ts` (`CLASSROOM_SCOPES`); a test asserts every scope is read-only or the push scope.
+`openid email profile`, `classroom.courses.readonly`, `classroom.coursework.me.readonly`, `classroom.courseworkmaterials.readonly`, `classroom.announcements.readonly`, `classroom.push-notifications`. Defined once in `backend/…/classroom/adapter/ClassroomMapping.java` (`CLASSROOM_SCOPES`; the website mirror is `website/src/api/contracts/classroom.ts`); `ClassroomTest` asserts every scope is read-only or the push scope.
 - **Not requested:** `classroom.rosters.readonly` → teacher names are empty for real accounts (shown as section/room instead); roster push feeds are not registered (ADR-014).
 
 ## Connect flows
@@ -48,7 +56,7 @@ Each run is recorded in `classroom_sync_runs`. Diffing: new coursework/material/
 ## Google Cloud setup (manual)
 1. Google Cloud project "ShikkhaSathi" → enable **Google Classroom API** and **Cloud Pub/Sub API**.
 2. OAuth consent screen: External, app name **ShikkhaSathi**, logo, support email `support@shikkhasathi.com`, authorized domain `shikkhasathi.com`, privacy `https://shikkhasathi.com/privacy`, terms `https://shikkhasathi.com/terms`, add the scopes above. Testing mode + test users until verified.
-3. Credentials → OAuth client (Web): redirect URI `https://shikkhasathi.com/api/v1/classroom/oauth/callback` (and `http://localhost:3000/...` for dev). Android client (package `com.shikkhasathi.app` + SHA-1) and iOS client.
+3. Credentials → OAuth client (Web): redirect URI `https://shikkhasathi.com/api/v1/classroom/oauth/callback` (and `http://localhost:5173/api/v1/classroom/oauth/callback` for dev — Vite proxies it to the backend). Android client (package `com.shikkhasathi.app` + SHA-1) and iOS client.
 4. Pub/Sub: topic `projects/<id>/topics/classroom`; grant `classroom-notifications@system.gserviceaccount.com` the **Pub/Sub Publisher** role on it; push subscription to `https://shikkhasathi.com/api/v1/webhooks/google-pubsub?token=<random>`.
 5. Admin → সেটিংস → Google OAuth + Classroom: client id/secret, Android/iOS client ids, topic, push verification token → "সংযোগ পরীক্ষা করুন".
 
@@ -56,7 +64,7 @@ Each run is recorded in `classroom_sync_runs`. Diffing: new coursework/material/
 Owner actions (they need the ShikkhaSathi Google Cloud project; they can't be done from the codebase):
 - [ ] `shikkhasathi.com` verified in Google Search Console (DNS TXT record)
 - [x] `/privacy` (with the Google API Services User Data Policy / Limited Use statement) and `/terms`: implemented, and they go live with the first deploy
-- [ ] OAuth consent screen: app name **ShikkhaSathi**, logo (120×120 PNG from `App/mobile/assets`), support email, authorised domain `shikkhasathi.com`, home page `https://shikkhasathi.com`, privacy and terms links
+- [ ] OAuth consent screen: app name **ShikkhaSathi**, logo (120×120 PNG from `app/assets`), support email, authorised domain `shikkhasathi.com`, home page `https://shikkhasathi.com`, privacy and terms links
 - [ ] Scopes added exactly as in §Scopes, with the justification text below
 - [ ] Demo video uploaded (unlisted YouTube), script below
 - [ ] Test users added while in Testing mode, then "Publish app" → submit for verification
