@@ -8,8 +8,8 @@ import com.shikkhasathi.notification.service.NotificationService;
 import com.shikkhasathi.notification.service.NotificationTypes;
 import com.shikkhasathi.notification.service.NotifyInput;
 import com.shikkhasathi.payment.invoice.InvoicePdfRenderer;
-import com.shikkhasathi.payment.repository.CatalogRepository;
-import com.shikkhasathi.payment.repository.CatalogRepository.CourseRow;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository.CourseRow;
 import com.shikkhasathi.payment.repository.CouponRepository;
 import com.shikkhasathi.payment.repository.LedgerRepository.NewEntry;
 import com.shikkhasathi.payment.repository.OrderRepository;
@@ -35,7 +35,7 @@ public class FulfilmentService {
   private static final long DAY_MS = 86_400_000L;
 
   private final OrderRepository orders;
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final CouponRepository coupons;
   private final LedgerService ledger;
   private final IntegrationService integrations;
@@ -45,7 +45,7 @@ public class FulfilmentService {
   private final DashboardCache dashboard;
   private final JsonMapper json;
 
-  public FulfilmentService(OrderRepository orders, CatalogRepository catalog, CouponRepository coupons, LedgerService ledger, IntegrationService integrations,
+  public FulfilmentService(OrderRepository orders, CheckoutContentRepository catalog, CouponRepository coupons, LedgerService ledger, IntegrationService integrations,
                            NotificationService notifications, StorageService storage, InvoicePdfRenderer pdf, DashboardCache dashboard, JsonMapper json) {
     this.orders = orders;
     this.catalog = catalog;

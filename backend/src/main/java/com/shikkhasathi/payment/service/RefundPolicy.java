@@ -1,7 +1,7 @@
 package com.shikkhasathi.payment.service;
 
 import com.shikkhasathi.integration.service.IntegrationService;
-import com.shikkhasathi.payment.repository.CatalogRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
 import com.shikkhasathi.payment.repository.OrderRepository;
 import com.shikkhasathi.payment.repository.OrderRepository.OrderRow;
 import java.time.Instant;
@@ -16,10 +16,10 @@ public class RefundPolicy {
   public record Check(boolean ok, String reason, int pct) {}
 
   private final OrderRepository orders;
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final IntegrationService integrations;
 
-  public RefundPolicy(OrderRepository orders, CatalogRepository catalog, IntegrationService integrations) {
+  public RefundPolicy(OrderRepository orders, CheckoutContentRepository catalog, IntegrationService integrations) {
     this.orders = orders;
     this.catalog = catalog;
     this.integrations = integrations;

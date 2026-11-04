@@ -3,7 +3,7 @@ package com.shikkhasathi.payment.service;
 import com.shikkhasathi.common.ApiException;
 import com.shikkhasathi.common.audit.service.AuditService;
 import com.shikkhasathi.payment.dto.CommerceDtos.*;
-import com.shikkhasathi.payment.repository.CatalogRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
 import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.util.*;
@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BundleService {
   private static final SecureRandom RND = new SecureRandom();
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final AuditService audit;
   private final BundleWriter writer;
 
-  public BundleService(CatalogRepository catalog, AuditService audit, BundleWriter writer) {
+  public BundleService(CheckoutContentRepository catalog, AuditService audit, BundleWriter writer) {
     this.catalog = catalog;
     this.audit = audit;
     this.writer = writer;
@@ -42,7 +42,7 @@ public class BundleService {
     var cs = catalog.liveCourses(ids);
     if (cs.size() != ids.size() || cs.stream().anyMatch(c -> !c.sellerId().equals(sellerId))) throw ApiException.forbidden("শুধু নিজের কোর্স দিয়ে বান্ডেল বানানো যায়।");
     if (cs.stream().anyMatch(c -> !"published".equals(c.status()))) throw ApiException.badRequest("বান্ডেলের সব কোর্স প্রকাশিত হতে হবে।");
-    long compare = cs.stream().mapToLong(CatalogRepository.CourseRow::price).sum();
+    long compare = cs.stream().mapToLong(CheckoutContentRepository.CourseRow::price).sum();
     if (d.price() >= compare) throw ApiException.badRequest("বান্ডেলের দাম আলাদা কোর্সের মোট দামের চেয়ে কম হতে হবে।");
     String base = slugify(d.title());
     String slug = (base.isEmpty() ? "bundle" : base) + "-" + suffix();
@@ -56,7 +56,7 @@ public class BundleService {
 
   public SellerBundles list(UUID sellerId) {
     var bs = catalog.sellerBundles(sellerId);
-    var counts = catalog.bundleItemCounts(bs.stream().map(CatalogRepository.BundleRow::id).toList());
+    var counts = catalog.bundleItemCounts(bs.stream().map(CheckoutContentRepository.BundleRow::id).toList());
     return new SellerBundles(bs.stream().map(b -> new SellerBundle(b.id(), b.slug(), b.title(), b.price(), b.compareAtPrice(), counts.getOrDefault(b.id(), 0))).toList());
   }
 
@@ -69,9 +69,9 @@ public class BundleService {
   /** Bundle + items in one CONTENT transaction. */
   @org.springframework.stereotype.Component
   public static class BundleWriter {
-    private final CatalogRepository catalog;
+    private final CheckoutContentRepository catalog;
 
-    public BundleWriter(CatalogRepository catalog) {
+    public BundleWriter(CheckoutContentRepository catalog) {
       this.catalog = catalog;
     }
 

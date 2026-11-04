@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 /** CONTENT reads/writes for checkout: courses, bundles + bundle items, lessons. */
 @Repository
-public class CatalogRepository {
+public class CheckoutContentRepository {
   public record CourseRow(UUID id, UUID sellerId, String title, String slug, String status, long price, String coverColor, String accessType, Integer accessDays,
                           Instant accessUntil, int totalDurationSec, Instant deletedAt) {}
 
@@ -25,7 +25,7 @@ public class CatalogRepository {
 
   private final NamedParameterJdbcTemplate db;
 
-  public CatalogRepository(@Qualifier("contentJdbc") NamedParameterJdbcTemplate db) {
+  public CheckoutContentRepository(@Qualifier("contentJdbc") NamedParameterJdbcTemplate db) {
     this.db = db;
   }
 

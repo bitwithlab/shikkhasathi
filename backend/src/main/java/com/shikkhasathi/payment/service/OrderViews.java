@@ -4,7 +4,7 @@ import com.shikkhasathi.config.JsonConfig;
 import com.shikkhasathi.payment.dto.CommerceDtos.Order;
 import com.shikkhasathi.payment.dto.CommerceDtos.OrderItem;
 import com.shikkhasathi.payment.dto.CommerceDtos.RefundInfo;
-import com.shikkhasathi.payment.repository.CatalogRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
 import com.shikkhasathi.payment.repository.OrderRepository;
 import com.shikkhasathi.payment.repository.OrderRepository.ItemRow;
 import com.shikkhasathi.payment.repository.OrderRepository.OrderRow;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderViews {
   private final OrderRepository orders;
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final RefundPolicy refunds;
 
-  public OrderViews(OrderRepository orders, CatalogRepository catalog, RefundPolicy refunds) {
+  public OrderViews(OrderRepository orders, CheckoutContentRepository catalog, RefundPolicy refunds) {
     this.orders = orders;
     this.catalog = catalog;
     this.refunds = refunds;
@@ -42,7 +42,7 @@ public class OrderViews {
       for (var it : l) if (it.courseId() != null) courseIds.add(it.courseId());
       if (!l.isEmpty() && l.get(0).courseId() != null) firstCourseIds.add(l.get(0).courseId());
     }
-    Map<UUID, CatalogRepository.CourseRow> courses = new HashMap<>();
+    Map<UUID, CheckoutContentRepository.CourseRow> courses = new HashMap<>();
     for (var c : catalog.courses(courseIds)) courses.put(c.id(), c);
     var firstLessons = catalog.firstLessons(firstCourseIds);
     var candidates = rows.stream().filter(o -> "paid".equals(o.status()) && o.total() > 0 && !refundRows.containsKey(o.id()) && o.paidAt() != null).toList();

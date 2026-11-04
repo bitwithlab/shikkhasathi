@@ -14,7 +14,7 @@ import com.shikkhasathi.payment.dto.CommerceDtos.AdminRefund;
 import com.shikkhasathi.payment.dto.CommerceDtos.DecideRefundBody;
 import com.shikkhasathi.payment.dto.CommerceDtos.Order;
 import com.shikkhasathi.payment.dto.CommerceDtos.Page;
-import com.shikkhasathi.payment.repository.CatalogRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
 import com.shikkhasathi.payment.repository.LedgerRepository;
 import com.shikkhasathi.payment.repository.LedgerRepository.NewEntry;
 import com.shikkhasathi.payment.repository.OrderRepository;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RefundService {
   private final OrderRepository orders;
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final LedgerRepository ledgerRepo;
   private final LedgerService ledger;
   private final OrderService orderService;
@@ -40,7 +40,7 @@ public class RefundService {
   private final NotificationService notifications;
   private final DashboardCache dashboard;
 
-  public RefundService(OrderRepository orders, CatalogRepository catalog, LedgerRepository ledgerRepo, LedgerService ledger, OrderService orderService, OrderViews views,
+  public RefundService(OrderRepository orders, CheckoutContentRepository catalog, LedgerRepository ledgerRepo, LedgerService ledger, OrderService orderService, OrderViews views,
                        RefundPolicy policy, PaymentGateways gateways, AuditService audit, NotificationService notifications, DashboardCache dashboard) {
     this.orders = orders;
     this.catalog = catalog;

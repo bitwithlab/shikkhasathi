@@ -8,7 +8,7 @@ import com.shikkhasathi.payment.dto.CommerceDtos.CouponCreate;
 import com.shikkhasathi.payment.dto.CommerceDtos.CouponPatch;
 import com.shikkhasathi.payment.dto.CommerceDtos.CouponValidateResponse;
 import com.shikkhasathi.payment.dto.CommerceDtos.Coupons;
-import com.shikkhasathi.payment.repository.CatalogRepository;
+import com.shikkhasathi.payment.repository.CheckoutContentRepository;
 import com.shikkhasathi.payment.repository.CouponRepository;
 import com.shikkhasathi.payment.repository.CouponRepository.CouponRow;
 import com.shikkhasathi.payment.repository.CouponRepository.CouponValues;
@@ -26,10 +26,10 @@ public class CouponService {
   public record Applied(CouponRow coupon, long discount) {}
 
   private final CouponRepository coupons;
-  private final CatalogRepository catalog;
+  private final CheckoutContentRepository catalog;
   private final AuditService audit;
 
-  public CouponService(CouponRepository coupons, CatalogRepository catalog, AuditService audit) {
+  public CouponService(CouponRepository coupons, CheckoutContentRepository catalog, AuditService audit) {
     this.coupons = coupons;
     this.catalog = catalog;
     this.audit = audit;

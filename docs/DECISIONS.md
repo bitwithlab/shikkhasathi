@@ -97,3 +97,29 @@ zod 4 still applies `.default()` inside `.partial()`, so a PATCH with one field 
 - **Broadcasts:** delivered through `notify` (dedupe key per broadcast). Email is on by default for that broadcast unless the user has explicitly switched broadcast email off. History is kept in `audit_logs` (`broadcast.send`).
 - **Audit log API** redacts keys that look like secrets (`*key*`, `*secret*`, `*token*`, `*password*`, `*otp*`).
 - Seed creates real review rows from 16 demo reviewer accounts (4–14 per course), and course rating totals are computed from those rows. No fake aggregates (CLAUDE.md §7: realistic numbers, no fake stats).
+
+### ADR-025 · 2026-11-04 · Monorepo refactor: Spring Boot backend, standalone website, KMP app
+Decided by the project owner: replace the Node/Fastify API with **Java 21 + Spring Boot**, split the repository into `backend/`, `website/`, `app/`, `infra/`, `scripts/` and `docs/`, and keep `/api/v1` and its contracts.
+
+- **One API, unchanged on the wire.**
+  - Same paths, status codes, JSON field names (camelCase), nullable fields present as `null`, ISO-8601 UTC timestamps with milliseconds, Bangla error messages, cursor format, cookies (`ss_rt`, `ss_csrf`), rate limits and cache headers.
+  - The previous Zod contracts were exported as JSON Schemas (`backend/src/test/resources/contracts/endpoints.json`, 179 endpoints). Every backend test checks responses against them, and `ContractCoverageTest` checks every endpoint exists and enforces its auth level.
+- **The backend is the contract source.**
+  - The backend publishes OpenAPI (`/api/v1/openapi.json`); `OpenApiExportTest` commits it to `docs/api/openapi.json`.
+  - The website generates `src/api/openapi.gen.ts` from it and has a drift test that fails when an endpoint it calls is missing from the backend.
+  - The website keeps its Zod schemas only for form validation and response parsing.
+- **Data kept.**
+  - Flyway `V1__initial_schema.sql` for each database is the previous Drizzle migration, verified identical to the live schema with a `pg_dump` diff.
+  - Existing databases are baselined at V1, with no change to their data. Docker volumes keep their names.
+  - Entities are generated from the schema (`scripts/gen-entities.py`) and Hibernate validates them on startup.
+- **Compatible secrets and tokens.**
+  - AES-256-GCM `v1:` ciphertexts, HMAC refresh-token hashes, HS256 JWTs, argon2id hashes and cursors written by the Node API are read unchanged. `CompatibilityTest` proves this, so users stay signed in and integrations keep their saved secrets.
+- **Jobs.**
+  - BullMQ is replaced by a small Redis-backed queue (`common/jobs`) with the same job names, retries, delays and dedupe.
+  - Schedules use `@Scheduled`. One image runs as `SS_ROLE=api` or `SS_ROLE=worker`.
+- **Serving.**
+  - The website is a static build served by Caddy in its own container.
+  - The backend serves `/api`, the live `sitemap.xml`, and server-rendered `<head>` for `/c /u /s /t` pages, which wrap the website's `index.html` (`WEBSITE_INDEX_URL`).
+  - The previous single-process "server serves the client" setup is gone. Prerendered static pages win for every route except those four detail patterns, which are always rendered fresh by the backend.
+- **Mobile.** `App/mobile` → `app/`, with the standard KMP source sets (`shared/src/<sourceSet>/kotlin/…`). Packages are unchanged. `app/ios/ShikkhaSathi.xcodeproj` is committed.
+- **CLAUDE.md** §0–§6 updated to the new layout and stack. This deviation from the spec (§16: Next.js + FastAPI) is now: React + Vite website + Spring Boot backend.
