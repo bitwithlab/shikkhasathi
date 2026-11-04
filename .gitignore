@@ -7,14 +7,14 @@ coverage/
 .vite/
 .turbo/
 Web/server/storage-local/
-Web/client/stats.html
+website/stats.html
 playwright-report/
 test-results/
 # mobile
-App/mobile/.gradle/
-App/mobile/**/build/
-App/mobile/local.properties
-App/mobile/.kotlin/
+app/.gradle/
+app/**/build/
+app/local.properties
+app/.kotlin/
 *.iml
 .idea/
 .DS_Store

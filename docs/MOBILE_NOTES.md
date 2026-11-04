@@ -1,4 +1,4 @@
-# Mobile notes (`App/mobile`)
+# Mobile notes (`app/`)
 
 Working notes for the Compose Multiplatform app. Structure and build commands are in `App/README.md`.
 
@@ -25,19 +25,22 @@ was written against CMP 1.9.3 / material3 1.9.0 / navigation 2.9.1 / lifecycle 2
 
 ## iOS host setup (one time, on macOS)
 
-1. Xcode → New Project → iOS App "iosApp", SwiftUI, saved in `App/mobile/ios/`. Delete the
-   generated Swift files and add `iosApp/iOSApp.swift`, `ContentView.swift`, `Info.plist`, and
-   `iosApp.entitlements` from this repo.
-2. Build Phases → New Run Script (before *Compile Sources*):
+The Xcode project is committed: `app/ios/ShikkhaSathi.xcodeproj` (target **ShikkhaSathi**, bundle id
+`com.shikkhasathi.app`, iOS 16+, sources in `app/ios/Sources/`). It already contains:
+
+1. A **Compile Kotlin Framework** run-script phase before *Compile Sources*:
    `cd "$SRCROOT/.." && ./gradlew :shared:embedAndSignAppleFrameworkForXcode`.
-3. Build Settings: `FRAMEWORK_SEARCH_PATHS += $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)`,
-   `OTHER_LDFLAGS += -framework Shared`, `ENABLE_USER_SCRIPT_SANDBOXING = NO`, and a user-defined
-   `SS_API_BASE_URL` (Debug: your LAN server, e.g. `http://192.168.0.10:3000/api/v1`; Release:
-   `https://shikkhasathi.com/api/v1`).
+2. `FRAMEWORK_SEARCH_PATHS = $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)`,
+   `OTHER_LDFLAGS = -framework Shared`, `ENABLE_USER_SCRIPT_SANDBOXING = NO`, and a user-defined
+   `SS_API_BASE_URL` (Debug: `http://localhost:8080/api/v1` — change to your LAN IP for a device;
+   Release: `https://shikkhasathi.com/api/v1`).
+3. You still set: your signing team (*Signing & Capabilities*) and an app icon asset catalog. The project
+   file was written without Xcode (no macOS in the build container); open it once in Xcode 16 and let it
+   upgrade/save if it offers.
 4. Capabilities: Push Notifications, Associated Domains (already in the entitlements).
 5. GoogleSignIn SDK (Swift Package `GoogleSignIn-iOS`) for Classroom connect: add `GIDClientID` (iOS client) and
    `GIDServerClientID` (the server's Web client id) to Info.plist, implement `IosServerAuthCodeProvider` in Swift
-   (sample in `src/features/iosMain/classroom/GoogleAuthorization.ios.kt`) and call
+   (sample in `app/shared/src/iosMain/kotlin/com/shikkhasathi/features/classroom/GoogleAuthorization.ios.kt`) and call
    `installGoogleCodeProvider(...)` at launch. Until then Classroom connect shows "unavailable" on iOS.
 
 ## Implementation notes
@@ -54,14 +57,14 @@ was written against CMP 1.9.3 / material3 1.9.0 / navigation 2.9.1 / lifecycle 2
 - **ViewModels** extend a framework-free `SsViewModel` so they test on the JVM. The UI holds each one
   in an androidx `ViewModel` (`rememberSsViewModel`), so it survives configuration changes and is
   scoped to its NavBackStackEntry.
-- **Fonts:** the platform default stands in until the TTFs are added (`App/mobile/assets/fonts/README.md`).
+- **Fonts:** the platform default stands in until the TTFs are added (`app/assets/fonts/README.md`).
 - **Google sign-in:** the button calls `GoogleAuth`. Every platform currently binds
   `UnavailableGoogleAuth`, which shows a Bangla message.
 - **Baseline profile:** `android/src/main/baseline-prof.txt` is a hand-written, wildcard
   placeholder that covers the app's own packages. Replace it with a generated profile from a
   `:baselineprofile` Macrobenchmark module once the startup journey is stable.
 - **App Links / Universal Links** need `/.well-known/assetlinks.json` (release-key SHA-256) and
-  `/.well-known/apple-app-site-association` served by `Web/server`.
+  `/.well-known/apple-app-site-association` served by the backend.
 
 ## Home dashboard + Google Classroom (Phase: dashboard)
 
@@ -187,12 +190,12 @@ All copy is in `Str` (bn + en, keys follow the web catalogue: `mock.*`, `checkou
    runs if release signing comes only from CI. The old hand-written `android/src/main/baseline-prof.txt` stays as a
    fallback until the generated profile is committed.
 7. **App Links**: `assetlinks.json` / `apple-app-site-association` must list the release key / team id, and the server's
-   checkout return URL must be `https://shikkhasathi.com/checkout/result?...` (it is: `orders.service.ts`).
+   checkout return URL must be `https://shikkhasathi.com/checkout/result?...` (it is: backend `payment` module).
 
 ### How to run (cloud container)
 
 ```bash
-cd App/mobile
+cd app
 ./gradlew --offline :shared:desktopTest                                   # 129 JVM tests (was 68)
 ./gradlew --offline :shared:ktlintCheck :shared:detekt                   # headless sources
 ./gradlew --offline :shared:ktlintCheck :shared:detekt -Pss.compose=true # + Compose UI sources (lint only)
