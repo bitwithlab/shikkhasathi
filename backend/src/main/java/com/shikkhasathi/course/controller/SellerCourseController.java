@@ -2,7 +2,7 @@ package com.shikkhasathi.course.controller;
 
 import com.shikkhasathi.course.dto.CourseDtos.*;
 import com.shikkhasathi.course.service.CourseAuthoringService;
-import com.shikkhasathi.course.service.RequestBodies;
+import com.shikkhasathi.common.web.RequestBodies;
 import com.shikkhasathi.security.Auth;
 import com.shikkhasathi.security.AuthUser;
 import com.shikkhasathi.security.RateLimit;

@@ -1,6 +1,7 @@
 package com.shikkhasathi.catalog.controller;
 
-import com.shikkhasathi.catalog.controller.RequestBodies.Spec;
+import com.shikkhasathi.common.web.RequestBodies;
+import com.shikkhasathi.common.web.RequestBodies.Spec;
 import com.shikkhasathi.catalog.dto.CatalogDtos;
 import com.shikkhasathi.catalog.dto.CatalogDtos.*;
 import com.shikkhasathi.catalog.service.CatalogService;

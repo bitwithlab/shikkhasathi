@@ -1,8 +1,9 @@
-package com.shikkhasathi.catalog.controller;
+package com.shikkhasathi.common.web;
 
 import com.shikkhasathi.common.ApiException;
 import jakarta.validation.Validator;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,7 +19,11 @@ import tools.jackson.databind.node.StringNode;
 /**
  * Parses a JSON body the way the previous API's Zod schemas did: {@code .trim()} on the listed string fields before
  * validation, required keys (even when nullable), "optional but not nullable" keys, and a record of which keys were
- * sent (PATCH bodies only change those). Failures are 422 with {@code [{path:"body.x", message}]}.
+ * sent (PATCH bodies only change those: an absent key is left alone, an explicit {@code null} clears a nullable
+ * field). Failures are 422 with {@code [{path:"body.x", message}]}, like Spring's own @Valid handling.
+ *
+ * <p>Two entry points over the same rules: {@link #parse} with a {@link Spec}, or {@link #read} for record bodies
+ * where every component except the listed nullable ones must not be {@code null}.
  */
 @Component
 public class RequestBodies {
@@ -97,6 +102,37 @@ public class RequestBodies {
     Set<String> present = new LinkedHashSet<>();
     node.propertyNames().forEach(present::add);
     return new Parsed<>(value, present);
+  }
+
+  /**
+   * Record body: an object is required; {@code nullable} components may be sent as {@code null}, every other
+   * component sent as {@code null} is rejected; {@code required} keys must be present (even when nullable).
+   */
+  public <T> T read(JsonNode raw, Class<T> type, Collection<String> nullable, Collection<String> required) {
+    if (raw == null || !raw.isObject()) throw fail(List.of(Map.of("path", "body", "message", "Invalid input: expected object")));
+    Set<String> notNull = new LinkedHashSet<>();
+    if (type.isRecord()) for (var c : type.getRecordComponents()) if (!nullable.contains(c.getName())) notNull.add(c.getName());
+    else raw.propertyNames().forEach(k -> { if (!nullable.contains(k)) notNull.add(k); });
+    return parse(raw, type, new Spec(Set.of(), Set.copyOf(required), notNull)).value();
+  }
+
+  public <T> T read(JsonNode raw, Class<T> type, Collection<String> nullable) {
+    return read(raw, type, nullable, Set.of());
+  }
+
+  /** Bean Validation of an already-built value, with the same 422 envelope. */
+  public void validate(Object v) {
+    var violations = validator.validate(v);
+    if (violations.isEmpty()) return;
+    throw fail(violations.stream()
+        .sorted(Comparator.comparing(c -> String.valueOf(c.getPropertyPath())))
+        .map(c -> Map.of("path", "body." + c.getPropertyPath(), "message", c.getMessage()))
+        .toList());
+  }
+
+  /** True when the key was sent (with any value, null included). */
+  public static boolean has(JsonNode raw, String key) {
+    return raw != null && raw.has(key);
   }
 
   private static ApiException fail(List<Map<String, String>> details) {

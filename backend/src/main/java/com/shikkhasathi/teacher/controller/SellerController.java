@@ -1,6 +1,6 @@
 package com.shikkhasathi.teacher.controller;
 
-import com.shikkhasathi.course.service.RequestBodies;
+import com.shikkhasathi.common.web.RequestBodies;
 import com.shikkhasathi.security.Auth;
 import com.shikkhasathi.security.AuthUser;
 import com.shikkhasathi.security.RateLimit;
