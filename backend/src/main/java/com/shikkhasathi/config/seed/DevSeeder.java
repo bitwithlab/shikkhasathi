@@ -54,6 +54,8 @@ public class DevSeeder {
   @EventListener(ApplicationReadyEvent.class)
   public void seedIfEmpty() {
     if (!env.getProperty("ss.seed-on-empty", Boolean.class, false)) return;
+    // The worker shares the databases with the API process; only one of them may seed (no race on empty DBs).
+    if ("worker".equals(props.role())) return;
     if (props.isProd()) {
       log.warn("ss.seed-on-empty ignored in production");
       return;

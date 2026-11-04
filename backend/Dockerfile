@@ -9,7 +9,8 @@ COPY src src
 RUN ./mvnw -B -q -DskipTests package && cp target/shikkhasathi-backend-*.jar /app.jar
 
 FROM eclipse-temurin:21-jre-alpine
-RUN addgroup -S app && adduser -S app -G app && apk add --no-cache wget fontconfig
+# fontconfig + DejaVu (Java2D text for invoice PDFs) and wget (health check) ship with the base image.
+RUN addgroup -S app && adduser -S app -G app
 WORKDIR /app
 COPY --from=build /app.jar app.jar
 RUN mkdir -p /app/storage-local && chown app:app /app/storage-local

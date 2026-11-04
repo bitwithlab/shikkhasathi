@@ -33,7 +33,7 @@
 - i18n dictionaries are tested for bn/en key and placeholder parity, and for banned guarantee phrases.
 
 ## End-to-end (Playwright)
-`website/e2e/*.spec.ts` covers:
+`website/e2e/*.spec.ts` (latest run 2026-11-04: 17/17 against the Spring Boot backend + worker through Caddy in docker compose) covers:
 - guest discovery and SEO;
 - the student dashboard;
 - checkout with the dev gateway, then the unlocked course, the player and "mark complete";

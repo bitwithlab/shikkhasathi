@@ -145,3 +145,28 @@ Plan: catalog contracts → service (batched cross-DB counts, alias search incl.
 - SMS sender ID.
 - Deploy with `infra/` (Docker + Caddy).
 - Build and sign the Android/iOS apps.
+
+## Refactor: monorepo + Spring Boot backend (2026-11-04) ✅
+See ADR-025, `docs/BACKEND.md`, `docs/RUNBOOK.md`.
+
+**Layout:** `backend/` (Java 21 + Spring Boot 4, Maven Wrapper) · `website/` (React + Vite, pnpm) · `app/` (KMP: android, ios with Xcode project, shared) · `infra/` · `scripts/` · `docs/`. The old Node server (`Web/`) is removed.
+
+**API:** all 179 contract endpoints are ported with the same paths, JSON, errors, cookies, rate limits and cache headers. The non-contract routes are ported too: payment callbacks and webhooks, the fake payment page, file routes, the Classroom OAuth callback, the sitemap and the SEO heads.
+
+**Data:** Flyway V1 is identical to the Drizzle 0000 migration. Existing databases are baselined and their data kept (dev DB: 29 users and 21 courses before and after). Docker volume names are unchanged.
+
+**Verified (2026-11-04)**
+
+| Area | Result |
+|---|---|
+| Backend (`./mvnw verify`) | 187/187 tests, 0 failures, incl. `ContractCoverageTest` and `CompatibilityTest` |
+| Website (`pnpm lint`, `typecheck`, `test`, `build`, `check:bundle`) | 111/111 tests; landing 148.4 KB, home 171.0 KB gzip |
+| Mobile (`./gradlew :shared:desktopTest ktlintCheck detekt`) | 129/129 tests, lint clean |
+| Docker stack (db-core, db-content, redis, meilisearch, backend, worker, website, caddy) | all healthy |
+| Playwright E2E through Caddy at :8000 | 17/17 |
+
+**Not verified here**
+- The Docker *build* stages: the sandbox proxy blocks Maven/Alpine downloads inside build containers. The runtime stages were built from the locally built jar and dist and tested in compose.
+- The Android/iOS compile (no SDK or Xcode in the cloud container).
+
+**Next step:** run `docker compose -f infra/docker-compose.yml --profile app up -d --build` on a machine with normal internet, and open `app/ios/ShikkhaSathi.xcodeproj` in Xcode once to set the signing team.
