@@ -24,3 +24,4 @@ playwright-report/
 dist-ssr/
 backend/target/
 backend/storage-local/
+.claude/worktrees/
